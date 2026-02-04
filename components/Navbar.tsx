@@ -14,8 +14,11 @@ export default function Navbar() {
   const navLinks = [
     { name: t("nav.manifesto"), href: "#manifesto" },
     { name: t("nav.liveFeed"), href: "#live-feed" },
+    { name: "Rewards", href: "#rewards" },
     { name: t("nav.roadmap"), href: "#roadmap" },
     { name: t("nav.tokenomics"), href: "#tokenomics" },
+    { name: "Community", href: "#community" },
+    { name: "FAQ", href: "#faq" },
   ];
 
   useEffect(() => {
