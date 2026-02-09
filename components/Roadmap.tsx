@@ -1,28 +1,27 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { 
-  Zap, 
-  Layers, 
-  Building, 
-  Crown, 
+import {
+  Zap,
+  Layers,
+  Building,
+  Crown,
   Rocket,
   Users,
   Radio,
-  Coins,
-  Globe,
-  Shield,
-  Vote,
+  ShieldCheck,
+  Handshake,
   Store,
+  Landmark,
+  Flame,
+  BarChart3,
+  Vote,
+  Globe,
   Sparkles,
-  TrendingUp,
-  Lock,
-  Gift,
   CheckCircle2,
   Circle,
-  Timer
+  Timer,
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 
@@ -67,61 +66,61 @@ export default function Roadmap() {
       milestones: [
         { icon: Rocket, text: "Fair launch on Pump.fun — no presale, no insiders", status: "completed" },
         { icon: Radio, text: "24/7 livestream begins — watch the starter breathe", status: "completed" },
-        { icon: Users, text: "Community gathering — first 1000 Founding Bakers", status: "in-progress" },
+        { icon: Users, text: "Community gathering — first 1,000 Founding Bakers", status: "in-progress" },
         { icon: Sparkles, text: "Founding Baker NFT badges for early supporters", status: "in-progress" },
-        { icon: TrendingUp, text: "Viral fermentation — organic growth campaign", status: "pending" },
+        { icon: ShieldCheck, text: "Multisig treasury via Squads Protocol", status: "pending" },
       ],
       highlight: "🚀 Launch Platform: Pump.fun (Solana)",
       stats: [
         { label: "Target Holders", value: "1,000+" },
         { label: "Community Goal", value: "5K" },
-      ]
+      ],
     },
     {
       phase: "PHASE II",
       title: t("roadmap.phase2.title"),
-      subtitle: "Q2-Q3 2026",
+      subtitle: "Q2–Q3 2026",
       icon: Layers,
       status: "upcoming" as const,
       color: "from-blue-500 to-cyan-600",
       glowColor: "shadow-blue-500/50",
       description: t("roadmap.phase2.desc"),
       milestones: [
-        { icon: Globe, text: "Multichain expansion — Ethereum, Base, Arbitrum", status: "pending" },
-        { icon: Coins, text: "Raydium LP migration + LP staking rewards", status: "pending" },
-        { icon: Lock, text: "Liquidity locked for 1 year minimum", status: "pending" },
-        { icon: Gift, text: "Baker Rewards Program — tier-based benefits", status: "pending" },
-        { icon: Users, text: "Referral system — spread the starter, earn rewards", status: "pending" },
-        { icon: Shield, text: "Security audit by top-tier firm", status: "pending" },
+        { icon: Handshake, text: "Escrow marketplace MVP — P2P service trading", status: "pending" },
+        { icon: ShieldCheck, text: "On-chain escrow contracts audited & deployed", status: "pending" },
+        { icon: Store, text: "Proof-of-Value Bonds — prepaid work vouchers", status: "pending" },
+        { icon: Vote, text: "Snapshot.org governance — community decides", status: "pending" },
+        { icon: BarChart3, text: "1-3% escrow fee engine — real protocol revenue", status: "pending" },
+        { icon: Flame, text: "First buyback & burn from marketplace revenue", status: "pending" },
       ],
-      highlight: "🌐 Multichain: SOL → ETH → Base → Arbitrum",
+      highlight: "🤝 Solidarity Marketplace: Escrow-secured P2P",
       stats: [
-        { label: "Target Chains", value: "4+" },
-        { label: "LP Lock", value: "1 Year" },
-      ]
+        { label: "Escrow Fee", value: "1-3%" },
+        { label: "Burn Share", value: "20%" },
+      ],
     },
     {
       phase: "PHASE III",
       title: t("roadmap.phase3.title"),
-      subtitle: "Q4 2026 - Q1 2027",
+      subtitle: "Q4 2026 – Q1 2027",
       icon: Building,
       status: "upcoming" as const,
       color: "from-purple-500 to-violet-600",
       glowColor: "shadow-purple-500/50",
       description: t("roadmap.phase3.desc"),
       milestones: [
-        { icon: Building, text: "MAYA Chain launch — purpose-built L1/L2", status: "pending" },
-        { icon: Store, text: "Real-world payments — spend MAYA at partner bakeries", status: "pending" },
-        { icon: Vote, text: "DAO governance activation — bakers decide the recipe", status: "pending" },
-        { icon: Coins, text: "Staking v2 — enhanced rewards for long-term holders", status: "pending" },
+        { icon: Landmark, text: "Commons Treasury — opt-in community savings pool", status: "pending" },
+        { icon: BarChart3, text: "Revenue-Based Financing — micro-loans from real revenue", status: "pending" },
+        { icon: Vote, text: "Quadratic voting for treasury allocation", status: "pending" },
+        { icon: ShieldCheck, text: "Full security audit by top-tier firm", status: "pending" },
         { icon: Users, text: "Ambassador program — global baker network", status: "pending" },
-        { icon: Gift, text: "Exclusive NFT collection — The Bakery Collection", status: "pending" },
+        { icon: Sparkles, text: "Reputation system — on-chain trust scores", status: "pending" },
       ],
-      highlight: "⛓️ Native Chain: MAYA Network",
+      highlight: "🏛️ Commons Layer: Community-owned treasury",
       stats: [
-        { label: "Partner Stores", value: "100+" },
-        { label: "Countries", value: "10+" },
-      ]
+        { label: "Revenue → Commons", value: "30%" },
+        { label: "Revenue → Ops", value: "50%" },
+      ],
     },
     {
       phase: "PHASE IV",
@@ -133,17 +132,17 @@ export default function Roadmap() {
       glowColor: "shadow-gold/50",
       description: t("roadmap.phase4.desc"),
       milestones: [
-        { icon: Globe, text: "Global baker network — millions strong", status: "pending" },
-        { icon: Building, text: "Traditional finance integration — banks adopt our rails", status: "pending" },
-        { icon: Crown, text: "The MAYA Foundation — charitable arm", status: "pending" },
-        { icon: Sparkles, text: "Generational wealth — starter passed down", status: "pending" },
-        { icon: Shield, text: "Fully decentralized — no single point of failure", status: "pending" },
+        { icon: Globe, text: "Multi-language marketplace — global solidarity network", status: "pending" },
+        { icon: Store, text: "Industry-specific bazaars — specialized trade verticals", status: "pending" },
+        { icon: Landmark, text: "Cross-community lending — inter-DAO credit lines", status: "pending" },
+        { icon: Crown, text: "The MAYA Foundation — charitable arm for artisan education", status: "pending" },
+        { icon: ShieldCheck, text: "Fully decentralized — no single point of failure", status: "pending" },
       ],
       highlight: "👑 Vision: The Organic Finance Empire",
       stats: [
         { label: "Global Bakers", value: "1M+" },
-        { label: "Daily Txns", value: "10M+" },
-      ]
+        { label: "Marketplace Vol", value: "∞" },
+      ],
     },
   ];
 
@@ -219,8 +218,8 @@ export default function Roadmap() {
           </h2>
           
           <p className="font-inter text-cream/60 max-w-3xl mx-auto text-lg">
-            From a single jar to a global movement. Every great empire starts with patience, 
-            time, and the right culture. Here&apos;s our journey.
+            From a single jar to a solidarity marketplace. Every great empire starts with patience,
+            trust, and the right culture. Here&apos;s our journey.
           </p>
         </motion.div>
 

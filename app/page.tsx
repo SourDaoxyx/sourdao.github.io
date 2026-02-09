@@ -9,6 +9,7 @@ import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 import ParticleField from "@/components/ParticleField";
 import Navbar from "@/components/Navbar";
+import Whitepaper from "@/components/Whitepaper";
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
       <section id="roadmap">
         <Roadmap />
       </section>
+      <Whitepaper />
       <section id="tokenomics">
         <Tokenomics />
       </section>
