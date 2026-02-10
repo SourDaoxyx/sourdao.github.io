@@ -9,7 +9,8 @@ import {
   Store,
   Landmark,
   Flame,
-  BarChart3,
+  Fingerprint,
+  Users,
   Lock,
   Download,
   ExternalLink,
@@ -77,44 +78,68 @@ export default function Whitepaper() {
     },
     {
       icon: ShieldCheck,
-      title: "Escrow Protocol",
-      description: "Every trade is secured by on-chain escrow. Funds release only when both parties confirm completion.",
+      title: "AI-Verified Escrow",
+      description: "Both parties sign crypto contracts with measurable terms. AI agent validates completion — no subjective disputes.",
       details: [
-        "Buyer deposits → escrow holds → seller delivers",
-        "Milestone-based partial releases",
-        "3-of-5 arbiter DAO for disputes",
+        "Buyer deposits \u2192 escrow holds \u2192 seller delivers",
+        "Crypto-signed contracts with specific deliverables",
+        "AI agent checks: files delivered? formats correct? revisions used?",
         "1-3% fee funds the entire ecosystem",
       ],
       color: "from-blue-500 to-cyan-500",
     },
     {
       icon: Store,
-      title: "Proof-of-Value Bonds",
-      description: "Prepaid work vouchers that let skilled workers sell future capacity at a discount — forward contracts for labor.",
+      title: "Production Bonds",
+      description: "Forward contracts for future work. Sell your production capacity at a discount. Get capital without debt.",
       details: [
-        "Worker mints bond → buyer purchases at discount",
-        "Redeemable for specific services",
+        "Worker mints bond \u2192 buyer purchases at discount",
+        "Staged escrow releases as delivery progresses",
         "Tradeable on secondary market",
-        "Builds verifiable reputation on-chain",
+        "Zero interest, zero debt \u2014 just pre-orders",
       ],
       color: "from-purple-500 to-violet-500",
     },
     {
+      icon: Fingerprint,
+      title: "Reputation NFT",
+      description: "Soulbound dynamic NFT that evolves with every trade. More valuable than any airdrop \u2014 it\u2019s your on-chain identity.",
+      details: [
+        "Cannot be sold \u2014 only earned through contribution",
+        "Dynamic visuals change as your tier grows",
+        "Unlocks: higher bond limits, lower fees, guild leadership",
+        "Portable across Web3 \u2014 your reputation travels",
+      ],
+      color: "from-gold to-amber-500",
+    },
+    {
+      icon: Users,
+      title: "Guilds & Launchpad",
+      description: "Self-organized skill guilds. Community-funded project launchpad. The culture grows itself \u2014 no central authority.",
+      details: [
+        "Community creates guilds organically",
+        "Collective bonds \u2014 guilds take on larger projects",
+        "Launchpad: propose, vote, fund from Commons",
+        "15% of project revenue flows back to Commons",
+      ],
+      color: "from-green-500 to-emerald-500",
+    },
+    {
       icon: Landmark,
       title: "Commons Treasury",
-      description: "An opt-in community savings pool governed by quadratic voting. Real solidarity, not forced taxation.",
+      description: "Opt-in community savings pool. Quadratic voting governance. Fund projects, micro-loans, and community grants.",
       details: [
-        "30% of protocol revenue → Commons",
+        "30% of protocol revenue \u2192 Commons",
         "Quadratic voting prevents whale dominance",
         "Revenue-Based Financing for micro-loans",
-        "Repayment as % of future earnings",
+        "Community Launchpad for new projects",
       ],
       color: "from-amber-500 to-yellow-500",
     },
     {
       icon: Flame,
       title: "Revenue & Burn",
-      description: "Sustainable deflationary model powered by real marketplace activity — not empty promises.",
+      description: "Sustainable deflationary model. No token rewards. No inflation. Real marketplace revenue funds buyback & permanent burn.",
       details: [
         "1-3% escrow fee on every trade",
         "50% → Operations & development",
@@ -124,24 +149,13 @@ export default function Whitepaper() {
       color: "from-orange-500 to-red-500",
     },
     {
-      icon: BarChart3,
-      title: "Token Utility",
-      description: "MAYA isn't just a token — it's the key to a solidarity economy. Real utility, real governance, real value.",
-      details: [
-        "Access key to marketplace features",
-        "Governance voting weight",
-        "Reputation anchor for trust scores",
-        "Bond collateral & staking for arbiters",
-      ],
-      color: "from-cyan-500 to-blue-500",
-    },
-    {
+
       icon: Lock,
       title: "Security Architecture",
-      description: "Multi-layered security with no single point of failure. Your funds are always in your control.",
+      description: "Multi-layered security. No single point of failure. Your funds and reputation are always yours.",
       details: [
         "Squads Protocol multisig treasury",
-        "Time-locked smart contract upgrades",
+        "AI contract verification layer",
         "Third-party audited escrow contracts",
         "Progressive decentralization roadmap",
       ],
@@ -180,8 +194,9 @@ export default function Whitepaper() {
           </h2>
 
           <p className="font-inter text-cream/60 max-w-3xl mx-auto text-lg mb-10">
-            MAYA is not a memecoin. It&apos;s a solidarity marketplace protocol — escrow-secured P2P trading,
-            community treasury, and deflationary tokenomics powered by real revenue.
+            MAYA is not a memecoin. It&apos;s a solidarity marketplace protocol — AI-verified escrow,
+            production bonds, soulbound reputation NFTs, and deflationary tokenomics. No token rewards.
+            No fake promises. Just a self-sustaining culture that grows stronger with every trade.
           </p>
 
           {/* Download Button */}

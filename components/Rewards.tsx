@@ -3,17 +3,19 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { 
-  Timer, 
-  Coins,
-  Crown,
-  Star,
-  Sparkles,
-  TrendingUp,
-  Vote,
-  Flame,
+import {
+  Fingerprint,
+  ShieldCheck,
+  Handshake,
+  Store,
   Users,
-  Shield
+  Sparkles,
+  Crown,
+  Flame,
+  Target,
+  Layers,
+  Award,
+  Rocket,
 } from 'lucide-react';
 
 const containerVariants = {
@@ -38,129 +40,104 @@ const itemVariants = {
   },
 };
 
-interface BakerTier {
-  tier: string;
-  icon: React.ComponentType<{ className?: string }>;
-  holdTime: string;
-  minHolding: string;
-  color: string;
-  benefits: string[];
-  gradient: string;
-}
-
-interface UtilityFeature {
+interface EcosystemLayer {
   icon: React.ComponentType<{ className?: string }>;
   title: string;
+  subtitle: string;
   description: string;
-  details: string[];
-  status: string;
+  features: string[];
   color: string;
+  gradient: string;
 }
 
 export default function Rewards() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
-  const bakerTiers: BakerTier[] = [
+  const ecosystemLayers: EcosystemLayer[] = [
     {
-      tier: "Fresh Dough",
-      icon: Coins,
-      holdTime: "Any holder",
-      minHolding: "1+ MAYA",
-      color: "from-gray-400 to-gray-500",
-      benefits: ["Public Telegram access", "Basic announcements"],
-      gradient: "bg-gradient-to-br from-gray-500/20 to-gray-600/10",
+      icon: Handshake,
+      title: "Escrow Marketplace",
+      subtitle: "Trade with Trust",
+      description: "Every trade is secured by smart contracts and AI-verified agreements. No middlemen. No disputes. Just code and trust.",
+      features: [
+        "AI-verified smart contracts — both sides sign crypto agreements with measurable terms",
+        "Milestone-based escrow releases — pay as work progresses",
+        "AI agent validates completion — no subjective disputes",
+        "1-3% fee funds the entire ecosystem",
+      ],
+      color: "from-blue-500 to-cyan-500",
+      gradient: "bg-gradient-to-br from-blue-500/10 to-cyan-500/5",
     },
     {
-      tier: "Rising",
-      icon: TrendingUp,
-      holdTime: "7+ days",
-      minHolding: "10K+ MAYA",
-      color: "from-green-400 to-emerald-500",
-      benefits: ["Holder-gated Discord", "Early alpha access", "Meme contests"],
-      gradient: "bg-gradient-to-br from-green-500/20 to-emerald-600/10",
+      icon: Store,
+      title: "Production Bonds",
+      subtitle: "Fund the Future",
+      description: "Sell your future production at a discount. Get capital today. Deliver tomorrow. Not debt — pre-orders secured by blockchain.",
+      features: [
+        "Mint bonds for future work or products — like Kickstarter on Solana",
+        "Staged releases protect both sides — escrow unlocks as you deliver",
+        "Tradeable on secondary market — your reputation has market value",
+        "Zero interest, zero debt — just forward contracts for value",
+      ],
+      color: "from-purple-500 to-violet-500",
+      gradient: "bg-gradient-to-br from-purple-500/10 to-violet-500/5",
     },
     {
-      tier: "Proofing",
-      icon: Timer,
-      holdTime: "30+ days",
-      minHolding: "100K+ MAYA",
-      color: "from-blue-400 to-cyan-500",
-      benefits: ["Governance voting power", "Exclusive AMAs", "NFT mint access"],
-      gradient: "bg-gradient-to-br from-blue-500/20 to-cyan-600/10",
-    },
-    {
-      tier: "Fermented",
-      icon: Star,
-      holdTime: "90+ days",
-      minHolding: "500K+ MAYA",
-      color: "from-purple-400 to-violet-500",
-      benefits: ["VIP Discord channel", "Ambassador eligibility", "DAO proposal rights"],
-      gradient: "bg-gradient-to-br from-purple-500/20 to-violet-600/10",
-    },
-    {
-      tier: "Aged Starter",
-      icon: Crown,
-      holdTime: "365+ days",
-      minHolding: "1M+ MAYA",
+      icon: Fingerprint,
+      title: "Reputation NFT",
+      subtitle: "Your On-Chain Identity",
+      description: "A dynamic soulbound NFT that evolves with every trade, bond, and contribution. More valuable than any token reward.",
+      features: [
+        "Soulbound — cannot be sold, only earned through action",
+        "Dynamically updates — visuals change as your tier grows",
+        "Portable across Web3 — your reputation travels with you",
+        "Unlocks higher bond limits, lower fees, arbiter eligibility",
+      ],
       color: "from-gold to-amber-500",
-      benefits: ["Founding Baker status", "DAO council seat", "IRL events", "Partner discounts"],
-      gradient: "bg-gradient-to-br from-gold/20 to-amber-600/10",
+      gradient: "bg-gradient-to-br from-gold/10 to-amber-500/5",
     },
-  ];
-
-  const utilityFeatures: UtilityFeature[] = [
     {
       icon: Users,
-      title: "Holder-Gated Access",
-      description: "Verify your tokens to unlock exclusive community spaces. No cost, just hold.",
-      details: [
-        "Token-gated Telegram groups",
-        "Exclusive Discord channels",
-        "Private alpha announcements",
-        "Direct team communication",
+      title: "Skill Guilds",
+      subtitle: "Self-Organized Tribes",
+      description: "Community-created guilds for every skill. No central authority assigns you — you find your tribe, prove your craft, build your name.",
+      features: [
+        "Community creates and governs guilds organically",
+        "Guild-level reputation — your guild's success is yours",
+        "Collective bonds — guilds can take on larger projects together",
+        "On-chain portfolio — verified work history for every member",
       ],
-      status: "Phase II",
-      color: "from-cyan-500 to-blue-500",
-    },
-    {
-      icon: Vote,
-      title: "Governance via Snapshot",
-      description: "Your tokens = your voice. Vote on proposals without gas fees using Snapshot.org.",
-      details: [
-        "Gasless off-chain voting",
-        "Voting power based on holdings",
-        "Community-driven decisions",
-        "Transparent proposal system",
-      ],
-      status: "Phase II",
-      color: "from-purple-500 to-violet-500",
-    },
-    {
-      icon: Flame,
-      title: "NFT Burn-to-Mint",
-      description: "Burn your MAYA tokens to mint exclusive NFTs. Deflationary by design.",
-      details: [
-        "Burn MAYA → Mint exclusive NFT",
-        "Limited edition collections",
-        "Reduces circulating supply",
-        "Community burns own tokens",
-      ],
-      status: "Phase III",
-      color: "from-orange-500 to-red-500",
-    },
-    {
-      icon: Coins,
-      title: "LP Fee Redistribution",
-      description: "After Raydium migration, LP trading fees flow back to the community.",
-      details: [
-        "Real yield from trading activity",
-        "No promises, just mechanics",
-        "LP fee collection post-migration",
-        "Transparent on-chain distribution",
-      ],
-      status: "Phase III",
       color: "from-green-500 to-emerald-500",
+      gradient: "bg-gradient-to-br from-green-500/10 to-emerald-500/5",
+    },
+    {
+      icon: Target,
+      title: "Community Challenges",
+      subtitle: "The Culture Grows Itself",
+      description: "No rewards from us. No tokens distributed. The community self-organizes challenges. Your reputation is the prize.",
+      features: [
+        "Weekly bake-offs — community votes on best work",
+        "Collab sprints — random teams, real deadlines, shipped products",
+        "Seasonal leaderboards — Hall of Fame on-chain forever",
+        "Reputation gains unlock real benefits: better bond terms, lower fees",
+      ],
+      color: "from-orange-500 to-red-500",
+      gradient: "bg-gradient-to-br from-orange-500/10 to-red-500/5",
+    },
+    {
+      icon: Rocket,
+      title: "Community Launchpad",
+      subtitle: "From Ideas to Empires",
+      description: "Got a project? The community funds it, staffs it, and shares in the returns. Commons Treasury backs real builders.",
+      features: [
+        "Submit your idea — community reviews and votes",
+        "Funded by Commons Treasury — no VCs, no gatekeepers",
+        "Guild members staff the team — talent from within",
+        "Revenue flows back — 15% to Commons, growing the fund",
+      ],
+      color: "from-cyan-500 to-blue-500",
+      gradient: "bg-gradient-to-br from-cyan-500/10 to-blue-500/5",
     },
   ];
 
@@ -181,161 +158,143 @@ export default function Rewards() {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <motion.span 
+          <motion.span
             className="inline-block px-4 py-2 rounded-full glass-gold text-gold text-sm font-medium tracking-wider mb-6"
             whileHover={{ scale: 1.05 }}
           >
-            🔐 TOKEN UTILITY
+            🧬 THE LIVING ECOSYSTEM
           </motion.span>
-          
+
           <h2 className="font-cinzel text-4xl md:text-6xl font-bold mb-6">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cream via-gold to-cream">
-              HOLD FOR ACCESS
+              THE CULTURE GROWS ITSELF
             </span>
           </h2>
-          
+
           <p className="font-inter text-cream/60 max-w-3xl mx-auto text-lg">
-            No fake reward promises. Real utility based on holding. Access exclusive communities, 
-            vote on decisions, and unlock features — all powered by your tokens.
+            Like sourdough starter that transforms flour and water into living bread,
+            MAYA transforms holders into a self-sustaining economy. No handouts. No fake rewards.
+            Your reputation is the real currency. Your contribution is the real yield.
           </p>
         </motion.div>
 
-        {/* Baker Tiers */}
+        {/* Evolution Metaphor Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mb-16 p-8 rounded-2xl glass-gold border border-gold/20 text-center"
+        >
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10">
+            <div className="flex flex-col items-center">
+              <span className="text-3xl mb-2">🌾</span>
+              <p className="text-cream/40 text-xs uppercase tracking-wider">10,000 BC</p>
+              <p className="text-cream/70 text-sm font-medium">Grain Fermentation</p>
+              <p className="text-cream/40 text-xs">Invented bread &amp; beer</p>
+            </div>
+            <Flame className="w-5 h-5 text-gold/40 rotate-90 md:rotate-0" />
+            <div className="flex flex-col items-center">
+              <span className="text-3xl mb-2">🏺</span>
+              <p className="text-cream/40 text-xs uppercase tracking-wider">3,000 BC</p>
+              <p className="text-cream/70 text-sm font-medium">Trade &amp; Currency</p>
+              <p className="text-cream/40 text-xs">Grain became money</p>
+            </div>
+            <Flame className="w-5 h-5 text-gold/40 rotate-90 md:rotate-0" />
+            <div className="flex flex-col items-center">
+              <span className="text-3xl mb-2">🏦</span>
+              <p className="text-cream/40 text-xs uppercase tracking-wider">1400 AD</p>
+              <p className="text-cream/70 text-sm font-medium">Banking System</p>
+              <p className="text-cream/40 text-xs">Trust centralized</p>
+            </div>
+            <Flame className="w-5 h-5 text-gold/40 rotate-90 md:rotate-0" />
+            <div className="flex flex-col items-center">
+              <span className="text-3xl mb-2">🍞</span>
+              <p className="text-cream/40 text-xs uppercase tracking-wider">2026</p>
+              <p className="text-gold text-sm font-bold">MAYA</p>
+              <p className="text-cream/40 text-xs">Trust decentralized</p>
+            </div>
+          </div>
+          <p className="text-cream/50 text-sm mt-6 max-w-2xl mx-auto italic">
+            &ldquo;Sourdough starter didn&apos;t just make bread — it made civilization.
+            MAYA doesn&apos;t just make trades — it makes trust obsolete.&rdquo;
+          </p>
+        </motion.div>
+
+        {/* Ecosystem Layers Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="mb-24"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16"
         >
-          <motion.h3 
-            variants={itemVariants}
-            className="font-cinzel text-2xl md:text-3xl text-center text-cream mb-4"
-          >
-            🎂 Baker Tiers — Your Status Level
-          </motion.h3>
-          <motion.p 
-            variants={itemVariants}
-            className="text-cream/50 text-center mb-12 max-w-2xl mx-auto"
-          >
-            Your holding amount and duration determine your tier. Higher tiers unlock more access.
-          </motion.p>
+          {ecosystemLayers.map((layer, index) => (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              whileHover={{ y: -8 }}
+              className={`relative p-8 rounded-2xl ${layer.gradient} border border-gold/10 hover:border-gold/30 transition-all duration-500`}
+            >
+              {/* Icon */}
+              <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${layer.color} flex items-center justify-center mb-5`}>
+                <layer.icon className="w-7 h-7 text-white" />
+              </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {bakerTiers.map((tier, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className={`relative p-6 rounded-2xl ${tier.gradient} border border-gold/20 hover:border-gold/40 transition-all duration-500`}
-              >
-                {/* Tier Icon */}
-                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${tier.color} flex items-center justify-center mb-4 mx-auto`}>
-                  <tier.icon className="w-7 h-7 text-white" />
-                </div>
+              {/* Header */}
+              <p className={`text-xs font-bold tracking-wider uppercase bg-gradient-to-r ${layer.color} bg-clip-text text-transparent mb-1`}>
+                {layer.subtitle}
+              </p>
+              <h3 className="font-cinzel text-xl font-bold text-cream mb-3">{layer.title}</h3>
+              <p className="text-cream/60 text-sm mb-5 leading-relaxed">{layer.description}</p>
 
-                {/* Tier Info */}
-                <div className="text-center mb-4">
-                  <h4 className="font-cinzel text-lg font-bold text-cream mb-1">{tier.tier}</h4>
-                  <p className="text-cream/50 text-sm">{tier.holdTime}</p>
-                  <p className={`text-lg font-bold bg-gradient-to-r ${tier.color} bg-clip-text text-transparent mt-2`}>
-                    {tier.minHolding}
-                  </p>
-                  <p className="text-cream/40 text-xs">minimum balance</p>
-                </div>
-
-                {/* Benefits */}
-                <ul className="space-y-2">
-                  {tier.benefits.map((benefit, bIndex) => (
-                    <li key={bIndex} className="flex items-center gap-2 text-sm text-cream/60">
-                      <Sparkles className="w-3 h-3 text-gold/60 flex-shrink-0" />
-                      {benefit}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
-          </div>
+              {/* Features */}
+              <ul className="space-y-3">
+                {layer.features.map((feature, fIndex) => (
+                  <li key={fIndex} className="flex items-start gap-2 text-sm text-cream/50">
+                    <Sparkles className="w-3 h-3 text-gold/50 mt-1 flex-shrink-0" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
         </motion.div>
 
-        {/* Utility Features */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
-          <motion.h3 
-            variants={itemVariants}
-            className="font-cinzel text-2xl md:text-3xl text-center text-cream mb-4"
-          >
-            ⚡ Real Utility — No Empty Promises
-          </motion.h3>
-          <motion.p 
-            variants={itemVariants}
-            className="text-cream/50 text-center mb-12 max-w-2xl mx-auto"
-          >
-            Every feature here works without us distributing tokens. You hold, you gain access.
-          </motion.p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {utilityFeatures.map((feature, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{ y: -5 }}
-                className="relative p-8 rounded-2xl glass-gold border border-gold/20 hover:border-gold/40 transition-all duration-500"
-              >
-                {/* Status Badge */}
-                <div className="absolute top-4 right-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r ${feature.color} bg-opacity-20 text-cream/80 border border-white/10`}>
-                    {feature.status}
-                  </span>
-                </div>
-
-                {/* Feature Header */}
-                <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-6`}>
-                  <feature.icon className="w-8 h-8 text-white" />
-                </div>
-
-                <h4 className="font-cinzel text-xl font-bold text-cream mb-3">
-                  {feature.title}
-                </h4>
-                <p className="text-cream/60 text-sm mb-6">
-                  {feature.description}
-                </p>
-
-                {/* Details */}
-                <ul className="space-y-3">
-                  {feature.details.map((detail, dIndex) => (
-                    <li key={dIndex} className="flex items-center gap-3 text-sm text-cream/70">
-                      <Shield className="w-4 h-4 text-gold/60 flex-shrink-0" />
-                      {detail}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* CTA */}
+        {/* Philosophy Banner */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.8, duration: 0.8 }}
-          className="text-center mt-16"
+          transition={{ delay: 0.6, duration: 0.8 }}
+          className="relative p-10 rounded-2xl glass-gold border border-gold/20 text-center"
         >
-          <p className="text-cream/60 mb-6">Join the community, hold the token, unlock access.</p>
-          <motion.a
-            href="https://t.me/mayastarter"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-gold to-amber-500 text-black font-cinzel font-bold rounded-lg"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Users className="w-5 h-5" />
-            JOIN THE BAKERY
-          </motion.a>
+          <div className="flex justify-center mb-6">
+            <div className="flex items-center gap-3">
+              <Award className="w-8 h-8 text-gold" />
+              <Layers className="w-8 h-8 text-gold/60" />
+              <Crown className="w-8 h-8 text-gold/40" />
+            </div>
+          </div>
+          <h3 className="font-cinzel text-2xl md:text-3xl font-bold text-cream mb-4">
+            Why We Don&apos;t Give Away Tokens
+          </h3>
+          <p className="text-cream/60 max-w-3xl mx-auto text-lg leading-relaxed mb-6">
+            Most projects bribe you with airdrops and &ldquo;staking rewards&rdquo; funded by diluting your holdings.
+            We don&apos;t. You buy MAYA because you believe. You build reputation because you contribute.
+            Your Reputation NFT — earned through real work — is worth more than any airdrop ever could be.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-sm">
+            <div className="flex items-center gap-2 text-cream/50">
+              <ShieldCheck className="w-4 h-4 text-green-400" />
+              <span>No token inflation</span>
+            </div>
+            <div className="flex items-center gap-2 text-cream/50">
+              <Flame className="w-4 h-4 text-orange-400" />
+              <span>Only burns, never mints</span>
+            </div>
+            <div className="flex items-center gap-2 text-cream/50">
+              <Fingerprint className="w-4 h-4 text-gold" />
+              <span>Reputation &gt; Rewards</span>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
