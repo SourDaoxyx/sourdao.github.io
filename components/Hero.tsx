@@ -55,12 +55,12 @@ export default function Hero() {
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         >
           <div className="absolute inset-0 blur-3xl rounded-full scale-90" style={{ background: 'radial-gradient(circle, rgba(0, 212, 255, 0.3) 0%, rgba(139, 92, 246, 0.2) 40%, rgba(212, 175, 55, 0.15) 70%, transparent 100%)' }} />
-          <div className="relative w-[240px] h-[240px] md:w-[320px] md:h-[320px] lg:w-[360px] lg:h-[360px]">
+          <div className="relative w-[240px] h-[240px] md:w-[320px] md:h-[320px] lg:w-[360px] lg:h-[360px] rounded-full overflow-hidden ring-2 ring-gold/20 shadow-[0_0_60px_rgba(0,212,255,0.3),0_0_120px_rgba(139,92,246,0.15)]">
             <Image
               src="/logo.png"
-              alt="MAYA Protocol - The Civilization Coin"
+              alt="MAYA Coin"
               fill
-              className="object-contain drop-shadow-[0_0_40px_rgba(0,212,255,0.4)] drop-shadow-[0_0_80px_rgba(139,92,246,0.2)]"
+              className="object-cover scale-110"
               priority
             />
           </div>
