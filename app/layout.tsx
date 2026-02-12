@@ -47,10 +47,10 @@ export const metadata: Metadata = {
     siteName: "MAYA Genesis",
     images: [
       {
-        url: "/logo.svg",
-        width: 512,
-        height: 512,
-        alt: "MAYA Coin",
+        url: "/logo.png",
+        width: 1200,
+        height: 1200,
+        alt: "MAYA Protocol - The Civilization Coin",
       },
     ],
   },
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "MAYA: The Genesis Starter",
     description: "Modern finance went stale. We came to ferment.",
-    images: ["/logo.svg"],
+    images: ["/logo.png"],
   },
   robots: {
     index: true,

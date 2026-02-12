@@ -50,7 +50,7 @@ export default function Navbar() {
           >
             <div className="relative w-9 h-9 rounded-full overflow-hidden">
               <Image
-                src="/logo.svg"
+                src="/logo.png"
                 alt="MAYA"
                 fill
                 className="object-cover"

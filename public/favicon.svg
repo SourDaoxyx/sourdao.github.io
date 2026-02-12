@@ -1,41 +1,114 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="coin-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#C9A14E"/>
-      <stop offset="40%" style="stop-color:#D4AF37"/>
-      <stop offset="70%" style="stop-color:#B8922E"/>
-      <stop offset="100%" style="stop-color:#8B7025"/>
-    </linearGradient>
-    <linearGradient id="glow-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <!-- Neon ring gradient: cyan → purple → cyan -->
+    <linearGradient id="neon-ring" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#00D4FF"/>
+      <stop offset="35%" style="stop-color:#00D4FF"/>
       <stop offset="50%" style="stop-color:#8B5CF6"/>
+      <stop offset="75%" style="stop-color:#A855F7"/>
       <stop offset="100%" style="stop-color:#00D4FF"/>
     </linearGradient>
-    <radialGradient id="inner-glow" cx="50%" cy="40%" r="50%">
+    <!-- Gold coin body -->
+    <radialGradient id="coin-body" cx="45%" cy="38%" r="55%">
       <stop offset="0%" style="stop-color:#D4AF37;stop-opacity:1"/>
-      <stop offset="70%" style="stop-color:#A38526;stop-opacity:0.9"/>
-      <stop offset="100%" style="stop-color:#7A6320;stop-opacity:0.8"/>
+      <stop offset="40%" style="stop-color:#B8922E;stop-opacity:1"/>
+      <stop offset="75%" style="stop-color:#8B6914;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#6B5010;stop-opacity:1"/>
     </radialGradient>
-    <filter id="neon-glow">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+    <!-- Inner ring highlight -->
+    <linearGradient id="rim-highlight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8C84A"/>
+      <stop offset="50%" style="stop-color:#A38526"/>
+      <stop offset="100%" style="stop-color:#E8C84A"/>
+    </linearGradient>
+    <!-- Neon outer glow filter -->
+    <filter id="neon-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="blur2"/>
       <feMerge>
-        <feMergeNode in="blur"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Subtle inner shadow -->
+    <filter id="inner-shadow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1.5" result="shadow"/>
+      <feOffset dx="0" dy="1"/>
+      <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1"/>
+      <feMerge>
+        <feMergeNode/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
   </defs>
-  <!-- Outer neon ring -->
-  <circle cx="32" cy="32" r="30" fill="none" stroke="url(#glow-grad)" stroke-width="2" opacity="0.7" filter="url(#neon-glow)"/>
+
+  <!-- Outer neon electric ring -->
+  <circle cx="32" cy="32" r="30" fill="none" stroke="url(#neon-ring)" stroke-width="2.5" opacity="0.85" filter="url(#neon-glow)"/>
+  <!-- Secondary thin glow ring -->
+  <circle cx="32" cy="32" r="28.5" fill="none" stroke="#00D4FF" stroke-width="0.5" opacity="0.3"/>
+
   <!-- Coin body -->
-  <circle cx="32" cy="32" r="26" fill="url(#inner-glow)"/>
-  <!-- Coin rim -->
-  <circle cx="32" cy="32" r="26" fill="none" stroke="#8B7025" stroke-width="1.5" opacity="0.6"/>
-  <circle cx="32" cy="32" r="22" fill="none" stroke="#B8922E" stroke-width="0.5" opacity="0.4"/>
-  <!-- M Letter -->
-  <path d="M20 44 L20 24 L26 34 L32 22 L38 34 L44 24 L44 44" fill="none" stroke="#1a1000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
-  <path d="M20 44 L20 24 L26 34 L32 22 L38 34 L44 24 L44 44" fill="none" stroke="#FFEDD5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
-  <!-- Sprout at top of M -->
-  <path d="M32 22 C32 18 28 16 26 18 C28 17 30 18 32 22 Z" fill="#6B8E23" opacity="0.8"/>
-  <path d="M32 22 C32 18 36 16 38 18 C36 17 34 18 32 22 Z" fill="#8FBC8F" opacity="0.7"/>
-  <circle cx="32" cy="22" r="1.5" fill="#D4AF37" opacity="0.8"/>
+  <circle cx="32" cy="32" r="26" fill="url(#coin-body)" filter="url(#inner-shadow)"/>
+
+  <!-- Outer coin rim -->
+  <circle cx="32" cy="32" r="26" fill="none" stroke="url(#rim-highlight)" stroke-width="1.2" opacity="0.7"/>
+  <!-- Inner decorative ring -->
+  <circle cx="32" cy="32" r="22.5" fill="none" stroke="#C9A14E" stroke-width="0.8" opacity="0.5"/>
+  <!-- Inner border ring -->
+  <circle cx="32" cy="32" r="20" fill="none" stroke="#A38526" stroke-width="0.5" opacity="0.4"/>
+
+  <!-- Mayan glyphs around the border (simplified squares/symbols) -->
+  <g opacity="0.35" fill="none" stroke="#5C4010" stroke-width="0.6">
+    <!-- Top glyphs -->
+    <rect x="28" y="8.5" width="3" height="2.5" rx="0.3"/>
+    <rect x="33" y="8.5" width="3" height="2.5" rx="0.3"/>
+    <!-- Right glyphs -->
+    <rect x="53" y="29" width="2.5" height="3" rx="0.3"/>
+    <rect x="53" y="33.5" width="2.5" height="3" rx="0.3"/>
+    <!-- Bottom glyphs -->
+    <rect x="28" y="53" width="3" height="2.5" rx="0.3"/>
+    <rect x="33" y="53" width="3" height="2.5" rx="0.3"/>
+    <!-- Left glyphs -->
+    <rect x="8.5" y="29" width="2.5" height="3" rx="0.3"/>
+    <rect x="8.5" y="33.5" width="2.5" height="3" rx="0.3"/>
+    <!-- Diagonal glyphs -->
+    <rect x="14" y="13" width="2.5" height="2.5" rx="0.3" transform="rotate(45 15.25 14.25)"/>
+    <rect x="47.5" y="13" width="2.5" height="2.5" rx="0.3" transform="rotate(45 48.75 14.25)"/>
+    <rect x="14" y="48" width="2.5" height="2.5" rx="0.3" transform="rotate(45 15.25 49.25)"/>
+    <rect x="47.5" y="48" width="2.5" height="2.5" rx="0.3" transform="rotate(45 48.75 49.25)"/>
+  </g>
+
+  <!-- Central M letter — bold, Mayan style -->
+  <path d="M21 43 L21 25 L27 35 L32 23 L37 35 L43 25 L43 43" 
+        fill="none" stroke="#2a1800" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M21 43 L21 25 L27 35 L32 23 L37 35 L43 25 L43 43" 
+        fill="none" stroke="#E8C84A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+  <!-- M highlight -->
+  <path d="M21.5 42 L21.5 26 L27 35 L32 24 L37 35 L42.5 26 L42.5 42" 
+        fill="none" stroke="#FFF8DC" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.25"/>
+
+  <!-- Sprout/plant at top of M -->
+  <path d="M32 23 C31 19 27.5 17 25.5 18.5 C27.5 17.5 29.5 18 32 23 Z" fill="#5B7A1A" opacity="0.85"/>
+  <path d="M32 23 C33 19 36.5 17 38.5 18.5 C36.5 17.5 34.5 18 32 23 Z" fill="#7BA830" opacity="0.75"/>
+  <path d="M32 23 C32 20 32 18 32 16" fill="none" stroke="#6B8E23" stroke-width="0.8" opacity="0.6"/>
+  <!-- Seed dot -->
+  <circle cx="32" cy="23" r="1.8" fill="#D4AF37" opacity="0.9"/>
+  <circle cx="32" cy="23" r="0.8" fill="#FFF8DC" opacity="0.4"/>
+
+  <!-- Spiral motif below M (Mayan wind/life symbol) -->
+  <path d="M32 44 C30 44 29 43 29 41.5 C29 40 30.5 39.5 31.5 40 C32.5 40.5 32 41 32 41.5" 
+        fill="none" stroke="#A38526" stroke-width="0.7" opacity="0.5"/>
+
+  <!-- Corner accent triangles (Mayan style) -->
+  <polygon points="17,17 20,17 17,20" fill="#8B6914" opacity="0.25"/>
+  <polygon points="47,17 44,17 47,20" fill="#8B6914" opacity="0.25"/>
+  <polygon points="17,47 20,47 17,44" fill="#8B6914" opacity="0.25"/>
+  <polygon points="47,47 44,47 47,44" fill="#8B6914" opacity="0.25"/>
+
+  <!-- Electric spark accents on the neon ring -->
+  <line x1="32" y1="1" x2="32" y2="3" stroke="#00D4FF" stroke-width="0.5" opacity="0.6"/>
+  <line x1="32" y1="61" x2="32" y2="63" stroke="#8B5CF6" stroke-width="0.5" opacity="0.6"/>
+  <line x1="1" y1="32" x2="3" y2="32" stroke="#00D4FF" stroke-width="0.5" opacity="0.6"/>
+  <line x1="61" y1="32" x2="63" y2="32" stroke="#8B5CF6" stroke-width="0.5" opacity="0.6"/>
 </svg>
