@@ -117,7 +117,7 @@ export default function Hero() {
         transition={{ duration: 1, delay: 0.5 }}
         className="text-sm md:text-base tracking-[0.3em] uppercase text-gold/60 font-inter mb-6"
       >
-        The Civilization Protocol
+        {t("hero.tagline")}
       </motion.p>
 
       {/* Trust Signal Pills */}
@@ -128,10 +128,10 @@ export default function Hero() {
         className="flex flex-wrap items-center justify-center gap-2.5 mb-6"
       >
         {[
-          { icon: Coins, label: "100% Community" },
-          { icon: Shield, label: "0% Tax" },
-          { icon: Flame, label: "LP Burned" },
-          { icon: Zap, label: "Fair Launch" },
+          { icon: Coins, label: t("hero.pill.community") },
+          { icon: Shield, label: t("hero.pill.tax") },
+          { icon: Flame, label: t("hero.pill.lp") },
+          { icon: Zap, label: t("hero.pill.fairLaunch") },
         ].map((item, i) => (
           <div key={i} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gold/10 border border-gold/20">
             <item.icon className="w-3 h-3 text-gold" />
@@ -160,8 +160,7 @@ export default function Hero() {
         transition={{ duration: 1.5, delay: 0.8 }}
         className="text-cream/40 text-sm md:text-base text-center max-w-xl mb-10 font-inter leading-relaxed"
       >
-        AI-verified marketplace. Soulbound reputation. Real revenue share.
-        15 protocols. One decentralized civilization.
+        {t("hero.vision")}
       </motion.p>
 
       {/* CTA Buttons */}
@@ -203,7 +202,7 @@ export default function Hero() {
           <div className="absolute inset-[1px] bg-black/80 rounded-xl backdrop-blur-sm" />
           <span className="relative text-gold flex items-center gap-2 group-hover:text-amber transition-colors">
             <Flame className="w-5 h-5" />
-            Explore the Protocol
+            {t("hero.cta.protocol")}
           </span>
         </motion.a>
       </motion.div>
@@ -220,7 +219,7 @@ export default function Hero() {
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           className="flex flex-col items-center gap-2"
         >
-          <span className="text-cream/30 text-xs tracking-wider uppercase">Scroll to explore</span>
+          <span className="text-cream/30 text-xs tracking-wider uppercase">{t("hero.scrollHint")}</span>
           <ArrowDown className="w-4 h-4 text-gold/40" />
         </motion.div>
       </motion.div>

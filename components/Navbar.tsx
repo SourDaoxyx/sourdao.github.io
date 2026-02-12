@@ -14,10 +14,10 @@ export default function Navbar() {
 
   const navLinks = [
     { name: t("nav.manifesto"), href: "#manifesto" },
-    { name: "Protocol", href: "#protocol" },
-    { name: "Value", href: "#value" },
+    { name: t("nav.protocol"), href: "#protocol" },
+    { name: t("nav.value"), href: "#value" },
     { name: t("nav.roadmap"), href: "#roadmap" },
-    { name: "Community", href: "#community" },
+    { name: t("nav.community"), href: "#community" },
   ];
 
   useEffect(() => {

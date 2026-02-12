@@ -12,6 +12,7 @@ import {
   Heart,
   Globe
 } from 'lucide-react';
+import { useLanguage } from '@/lib/LanguageContext';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -38,45 +39,46 @@ const itemVariants = {
 export default function Community() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const { t } = useLanguage();
 
   const communityLinks = [
     {
-      platform: "Telegram",
+      platform: t("community.telegram.name"),
       handle: "@mayastarter",
-      description: "Join 24/7 discussions, alpha, and community events",
+      description: t("community.telegram.desc"),
       icon: MessageCircle,
       url: "https://t.me/mayastarter",
       color: "from-blue-400 to-cyan-500",
-      members: "Growing",
-      cta: "Join Chat",
+      members: t("community.growing"),
+      cta: t("community.telegram.cta"),
     },
     {
-      platform: "X (Twitter)",
+      platform: t("community.twitter.name"),
       handle: "@mayastarter",
-      description: "Latest updates, memes, and announcements",
+      description: t("community.twitter.desc"),
       icon: "twitter" as const,
       url: "https://x.com/mayastarter",
       color: "from-gray-600 to-gray-800",
-      members: "Growing",
-      cta: "Follow",
+      members: t("community.growing"),
+      cta: t("community.twitter.cta"),
     },
     {
-      platform: "Live Stream",
-      handle: "24/7 Fermentation",
-      description: "Watch the Genesis Starter live — proof of authenticity",
+      platform: t("community.stream.name"),
+      handle: t("community.stream.handle"),
+      description: t("community.stream.desc"),
       icon: Radio,
       url: "#live-feed",
       color: "from-red-500 to-pink-500",
-      members: "Always On",
-      cta: "Watch Now",
+      members: t("community.alwaysOn"),
+      cta: t("community.stream.cta"),
     },
   ];
 
   const stats = [
-    { label: "Community Members", value: "Growing", icon: Users },
-    { label: "Countries", value: "Worldwide", icon: Globe },
-    { label: "Daily Active", value: "24/7", icon: Sparkles },
-    { label: "Passion Level", value: "∞", icon: Heart },
+    { label: t("community.stat.members"), value: t("community.growing"), icon: Users },
+    { label: t("community.stat.countries"), value: t("community.stat.worldwide"), icon: Globe },
+    { label: t("community.stat.daily"), value: "24/7", icon: Sparkles },
+    { label: t("community.stat.passion"), value: "∞", icon: Heart },
   ];
 
   const TwitterIcon = () => (
@@ -105,18 +107,17 @@ export default function Community() {
             className="inline-block px-4 py-2 rounded-full glass-gold text-gold text-sm font-medium tracking-wider mb-6"
             whileHover={{ scale: 1.05 }}
           >
-            🍞 THE BAKERY
+            {t("community.badge")}
           </motion.span>
           
           <h2 className="font-cinzel text-4xl md:text-6xl font-bold mb-6">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cream via-gold to-cream">
-              JOIN THE COMMUNITY
+              {t("community.title")}
             </span>
           </h2>
           
           <p className="font-inter text-cream/60 max-w-2xl mx-auto text-lg">
-            The best starters are shared. Join thousands of bakers worldwide who believe 
-            in organic finance and the power of patience.
+            {t("community.description")}
           </p>
         </motion.div>
 
@@ -199,9 +200,9 @@ export default function Community() {
         >
           <div className="inline-block p-8 rounded-2xl bg-gradient-to-r from-gold/10 via-amber-500/5 to-gold/10 border border-gold/20">
             <p className="font-playfair text-xl md:text-2xl text-cream/90 italic mb-4">
-              &ldquo;A single jar can start a revolution. A community can change the world.&rdquo;
+              &ldquo;{t("community.quote")}&rdquo;
             </p>
-            <p className="text-gold/60 text-sm">— The Genesis Manifesto</p>
+            <p className="text-gold/60 text-sm">{t("community.quoteAttribution")}</p>
           </div>
         </motion.div>
       </div>

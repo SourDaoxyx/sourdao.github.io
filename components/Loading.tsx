@@ -2,8 +2,11 @@
 
 import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function Loading() {
+  const { t } = useLanguage();
+
   return (
     <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center">
       {/* Background Glow */}
@@ -60,7 +63,7 @@ export default function Loading() {
           transition={{ delay: 0.5 }}
           className="mt-8 font-cinzel text-gold text-xl"
         >
-          Fermenting...
+          {t("loading.text")}
         </motion.p>
 
         {/* Progress Dots */}

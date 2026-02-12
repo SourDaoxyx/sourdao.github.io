@@ -3,10 +3,12 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Download, ExternalLink, FileText } from "lucide-react";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function WhitepaperCTA() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const { t } = useLanguage();
 
   return (
     <section ref={ref} className="relative py-16 px-4" id="whitepaper">
@@ -20,12 +22,11 @@ export default function WhitepaperCTA() {
           <FileText className="w-10 h-10 text-gold mx-auto mb-4" />
 
           <h3 className="font-cinzel text-2xl md:text-3xl font-bold text-cream mb-3">
-            Read the Whitepaper
+            {t("whitepaper.title")}
           </h3>
 
           <p className="text-cream/50 text-sm mb-6 max-w-lg mx-auto">
-            17 protocols explained step-by-step. Architecture diagrams. Revenue mechanics.
-            Everything you need to understand the complete civilization protocol.
+            {t("whitepaper.description")}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -36,7 +37,7 @@ export default function WhitepaperCTA() {
               className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-gold to-amber text-black font-bold text-sm shadow-lg shadow-gold/20"
             >
               <Download className="w-5 h-5" />
-              Full Whitepaper
+              {t("whitepaper.cta")}
             </motion.a>
             <motion.a
               href="https://github.com/mayastarter"
@@ -47,7 +48,7 @@ export default function WhitepaperCTA() {
               className="inline-flex items-center gap-3 px-8 py-4 rounded-xl border border-gold/30 text-gold font-bold text-sm hover:bg-gold/5 transition-colors"
             >
               <ExternalLink className="w-5 h-5" />
-              GitHub
+              {t("whitepaper.github")}
             </motion.a>
           </div>
         </motion.div>

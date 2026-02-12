@@ -3,51 +3,53 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Wheat, Sparkles, Infinity, Fingerprint, Sprout } from "lucide-react";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function Manifesto() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const { t } = useLanguage();
 
   const doctrines = [
     {
       number: "I",
-      title: "Dough is Not Dust",
-      subtitle: "Hamur Toz Değildir",
+      title: t("manifesto.doctrine1.title"),
+      subtitle: t("manifesto.doctrine1.subtitle"),
       icon: Wheat,
       color: "from-amber-500 to-yellow-600",
-      text: "Value rises through labor and time. We don't worship speculation — we worship production.",
+      text: t("manifesto.doctrine1.text"),
     },
     {
       number: "II",
-      title: "The Symbiotic Sovereign",
-      subtitle: "Simbiyotik Egemenlik",
+      title: t("manifesto.doctrine2.title"),
+      subtitle: t("manifesto.doctrine2.subtitle"),
       icon: Sparkles,
       color: "from-purple-500 to-violet-600",
-      text: "When you earn, the protocol burns. When the protocol grows, your reputation rises. Symbiosis, not zero-sum.",
+      text: t("manifesto.doctrine2.text"),
     },
     {
       number: "III",
-      title: "Circular Time, Infinite Value",
-      subtitle: "Döngüsel Zaman, Sonsuz Değer",
+      title: t("manifesto.doctrine3.title"),
+      subtitle: t("manifesto.doctrine3.subtitle"),
       icon: Infinity,
       color: "from-cyan-500 to-teal-500",
-      text: "Earnings → Treasury → Buyback → New Work → Earnings. Value ferments within, growing richer cycle by cycle.",
+      text: t("manifesto.doctrine3.text"),
     },
     {
       number: "IV",
-      title: "Reputation is Soul",
-      subtitle: "İtibar Ruhtur",
+      title: t("manifesto.doctrine4.title"),
+      subtitle: t("manifesto.doctrine4.subtitle"),
       icon: Fingerprint,
       color: "from-gold to-amber-500",
-      text: "Tokens fly from wallet to wallet. Your Soulbound Reputation is yours alone. Trust is proven, not assumed.",
+      text: t("manifesto.doctrine4.text"),
     },
     {
       number: "V",
-      title: "The Eternal Starter",
-      subtitle: "Ebedi Başlangıç",
+      title: t("manifesto.doctrine5.title"),
+      subtitle: t("manifesto.doctrine5.subtitle"),
       icon: Sprout,
       color: "from-emerald-500 to-green-600",
-      text: "Civilization is not a destination — it's a beginning renewed every day. Every new member brings fresh culture to the colony.",
+      text: t("manifesto.doctrine5.text"),
     },
   ];
 
@@ -66,17 +68,17 @@ export default function Manifesto() {
           className="text-center mb-14"
         >
           <motion.span className="inline-block px-4 py-2 rounded-full glass-gold text-gold text-sm font-medium tracking-wider mb-6">
-            🏛️ FERMENTALIST MANIFESTO
+            {t("manifesto.badge")}
           </motion.span>
 
           <h2 className="font-cinzel text-3xl md:text-5xl font-bold mb-4">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cream via-gold to-cream">
-              Five Doctrines of the New Age
+              {t("manifesto.doctrines.title")}
             </span>
           </h2>
 
           <p className="font-inter text-cream/50 max-w-2xl mx-auto text-base">
-            Not a whitepaper — a belief system. Not a token — a civilization.
+            {t("manifesto.doctrines.subtitle")}
           </p>
         </motion.div>
 
@@ -96,7 +98,7 @@ export default function Manifesto() {
                 </div>
                 <div>
                   <span className={`font-cinzel text-xs font-bold bg-gradient-to-r ${d.color} bg-clip-text text-transparent`}>
-                    DOCTRINE {d.number}
+                    {t("manifesto.doctrineLabel")} {d.number}
                   </span>
                   <h3 className="font-cinzel text-base font-bold text-cream leading-tight">{d.title}</h3>
                 </div>
@@ -114,9 +116,9 @@ export default function Manifesto() {
             className="p-6 rounded-xl border border-gold/20 bg-gradient-to-br from-gold/5 to-amber-500/5 flex flex-col justify-center text-center"
           >
             <p className="font-cinzel text-lg text-gold/80 italic mb-2">
-              &ldquo;Keeper of the Starter.<br />Baker of the New Age.&rdquo;
+              &ldquo;{t("manifesto.oath.quote")}&rdquo;
             </p>
-            <p className="text-cream/30 text-xs">The Founding Oath</p>
+            <p className="text-cream/30 text-xs">{t("manifesto.oath.label")}</p>
           </motion.div>
         </div>
       </div>

@@ -34,17 +34,17 @@ export default function Footer() {
       icon: FileText,
       name: "Whitepaper",
       url: "/whitepaper",
-      handle: "Full Protocol Documentation",
+      handle: t("footer.whitepaperHandle"),
       color: "from-gold to-amber"
     }
   ];
 
   const constitutionArticles = [
-    "I produce before I speculate.",
-    "I honor my commitments.",
-    "I build reputation through action.",
-    "I contribute to the commons.",
-    "I welcome all bakers.",
+    t("footer.constitution.a1"),
+    t("footer.constitution.a2"),
+    t("footer.constitution.a3"),
+    t("footer.constitution.a4"),
+    t("footer.constitution.a5"),
   ];
 
   return (
@@ -67,7 +67,7 @@ export default function Footer() {
           <div className="flex items-center justify-center gap-3 mb-6">
             <ScrollText className="w-5 h-5 text-gold" />
             <h3 className="font-cinzel text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gold via-amber to-gold">
-              The Sourdough Constitution
+              {t("footer.constitution.title")}
             </h3>
             <ScrollText className="w-5 h-5 text-gold" />
           </div>
@@ -80,7 +80,7 @@ export default function Footer() {
             ))}
           </div>
           <p className="text-center text-cream/30 text-xs italic">
-            Every wallet that connects accepts these articles — a civilization&apos;s founding oath.
+            {t("footer.constitution.note")}
           </p>
         </motion.div>
 
@@ -178,7 +178,7 @@ export default function Footer() {
             </div>
             
             <p className="text-cream/50 font-inter text-sm text-center">
-              © 2026 MAYA: The Genesis Starter | Decentralized & Community-Owned
+              {t("footer.copyright")}
             </p>
             
             <div className="flex items-center gap-2 text-cream/40 text-sm">

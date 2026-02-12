@@ -33,59 +33,59 @@ export default function Roadmap() {
 
   const phases = [
     {
-      phase: "NOW",
+      phase: t("roadmap.label.now"),
       title: t("roadmap.phase1.title"),
-      subtitle: "Q1 2026",
+      subtitle: t("roadmap.phase1.period"),
       icon: Zap,
       status: "active" as const,
       color: "from-green-500 to-emerald-600",
       glowColor: "shadow-green-500/50",
       description: t("roadmap.phase1.desc"),
       milestones: [
-        { icon: Rocket, text: "Fair launch on Pump.fun — no presale, no insiders", status: "completed" },
-        { icon: Users, text: "First 1,000 Founding Bakers community", status: "in-progress" },
-        { icon: Sparkles, text: "Founding Baker NFT badges", status: "in-progress" },
-        { icon: ShieldCheck, text: "Squads multisig treasury", status: "pending" },
-        { icon: Handshake, text: "AI-verified escrow MVP", status: "pending" },
+        { icon: Rocket, text: t("roadmap.m1.1"), status: "completed" },
+        { icon: Users, text: t("roadmap.m1.2"), status: "in-progress" },
+        { icon: Sparkles, text: t("roadmap.m1.3"), status: "in-progress" },
+        { icon: ShieldCheck, text: t("roadmap.m1.4"), status: "pending" },
+        { icon: Handshake, text: t("roadmap.m1.5"), status: "pending" },
       ],
-      highlight: "🚀 Fair Launch",
+      highlight: t("roadmap.highlight1"),
     },
     {
-      phase: "NEXT",
+      phase: t("roadmap.label.next"),
       title: t("roadmap.phase2.title") + " → " + t("roadmap.phase3.title"),
-      subtitle: "2026 – 2027",
+      subtitle: t("roadmap.phase2.period"),
       icon: Layers,
       status: "upcoming" as const,
       color: "from-blue-500 to-purple-600",
       glowColor: "shadow-blue-500/50",
-      description: "Full marketplace with escrow, bonds, and revenue engine. Reputation Protocol, Proof-of-Skill, AI Agents. Guild Enterprise for $50K+ contracts. Solidarity Insurance. Community Launchpad.",
+      description: t("roadmap.phaseNext.desc"),
       milestones: [
-        { icon: Store, text: "Production Bonds + revenue engine (burn + holders)", status: "pending" },
-        { icon: Fingerprint, text: "Reputation Protocol (RaaS) — Web3 trust API", status: "pending" },
-        { icon: Bot, text: "AI Agent Marketplace — agents that earn 24/7", status: "pending" },
-        { icon: Building2, text: "Guild Enterprise — decentralized teams", status: "pending" },
-        { icon: HeartHandshake, text: "Solidarity Insurance — community safety net", status: "pending" },
-        { icon: Flame, text: "First buyback & burn from real revenue", status: "pending" },
+        { icon: Store, text: t("roadmap.m2.1"), status: "pending" },
+        { icon: Fingerprint, text: t("roadmap.m2.2"), status: "pending" },
+        { icon: Bot, text: t("roadmap.m2.3"), status: "pending" },
+        { icon: Building2, text: t("roadmap.m2.4"), status: "pending" },
+        { icon: HeartHandshake, text: t("roadmap.m2.5"), status: "pending" },
+        { icon: Flame, text: t("roadmap.m2.6"), status: "pending" },
       ],
-      highlight: "🏗️ Marketplace + Intelligence + Community",
+      highlight: t("roadmap.highlight2"),
     },
     {
-      phase: "FUTURE",
+      phase: t("roadmap.label.future"),
       title: t("roadmap.phase5.title") + " → " + t("roadmap.phase6.title"),
-      subtitle: "2028 & Beyond",
+      subtitle: t("roadmap.phase3.period"),
       icon: Globe,
       status: "future" as const,
       color: "from-rose-500 to-indigo-600",
       glowColor: "shadow-rose-500/50",
-      description: "Maya Agora social network. Maya Vault distributed storage. Maya Daemon local AI. Full decentralization. Cross-chain reputation. Network State — digital citizenship and economic sovereignty.",
+      description: t("roadmap.phaseFuture.desc"),
       milestones: [
-        { icon: MessageCircle, text: "Maya Agora — wallet-based social network", status: "pending" },
-        { icon: Server, text: "Maya Vault Network — distributed storage", status: "pending" },
-        { icon: Bot, text: "Maya Daemon — local AI agents", status: "pending" },
-        { icon: Globe, text: "Network State — digital citizenship", status: "pending" },
-        { icon: Crown, text: "Full DAO — self-sovereign governance", status: "pending" },
+        { icon: MessageCircle, text: t("roadmap.m3.1"), status: "pending" },
+        { icon: Server, text: t("roadmap.m3.2"), status: "pending" },
+        { icon: Bot, text: t("roadmap.m3.3"), status: "pending" },
+        { icon: Globe, text: t("roadmap.m3.4"), status: "pending" },
+        { icon: Crown, text: t("roadmap.m3.5"), status: "pending" },
       ],
-      highlight: "🌍 Infrastructure + Civilization",
+      highlight: t("roadmap.highlight3"),
     },
   ];
 
@@ -106,21 +106,21 @@ export default function Roadmap() {
         return (
           <span className="flex items-center gap-2 text-green-400 text-xs font-medium">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-            ACTIVE
+            {t("roadmap.status.active")}
           </span>
         );
       case "upcoming":
         return (
           <span className="flex items-center gap-2 text-blue-400 text-xs font-medium">
             <span className="w-2 h-2 bg-blue-400 rounded-full" />
-            UPCOMING
+            {t("roadmap.status.upcoming")}
           </span>
         );
       default:
         return (
           <span className="flex items-center gap-2 text-gold/50 text-xs font-medium">
             <span className="w-2 h-2 bg-gold/50 rounded-full" />
-            FUTURE
+            {t("roadmap.status.future")}
           </span>
         );
     }
@@ -152,7 +152,7 @@ export default function Roadmap() {
           </h2>
 
           <p className="font-inter text-cream/50 max-w-xl mx-auto text-base">
-            Three horizons. From genesis to civilization.
+            {t("roadmap.description")}
           </p>
         </motion.div>
 

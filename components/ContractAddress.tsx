@@ -3,14 +3,16 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Copy, Check, ExternalLink } from "lucide-react";
+import { useLanguage } from "@/lib/LanguageContext";
 
 interface ContractAddressProps {
   address: string;
   label?: string;
 }
 
-export default function ContractAddress({ address, label = "Contract Address" }: ContractAddressProps) {
+export default function ContractAddress({ address, label }: ContractAddressProps) {
   const [copied, setCopied] = useState(false);
+  const { t } = useLanguage();
 
   const handleCopy = async () => {
     try {
@@ -34,7 +36,7 @@ export default function ContractAddress({ address, label = "Contract Address" }:
       transition={{ duration: 0.8 }}
       className="w-full"
     >
-      <p className="text-cream/60 text-sm mb-2 text-center">{label}</p>
+      <p className="text-cream/60 text-sm mb-2 text-center">{label || t("contract.label")}</p>
       <div className="flex items-center justify-center gap-2 p-3 rounded-xl glass-gold">
         {/* Address */}
         <code className="text-gold font-mono text-sm md:text-base">
@@ -77,7 +79,7 @@ export default function ContractAddress({ address, label = "Contract Address" }:
         animate={{ opacity: copied ? 1 : 0, y: copied ? 0 : -10 }}
         className="text-green-400 text-sm text-center mt-2"
       >
-        Copied to clipboard!
+        {t("contract.copied")}
       </motion.p>
     </motion.div>
   );

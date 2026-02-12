@@ -28,17 +28,17 @@ export default function Value() {
   ];
 
   const tiers = [
-    { name: "Fresh Dough", emoji: "🫓", req: "Hold any amount", time: "Day 1", color: "text-stone-400", border: "border-stone-500/30", bg: "from-stone-500/10 to-stone-600/5", benefits: ["Marketplace access", "Community channels", "Reputation NFT"] },
-    { name: "Rising Baker", emoji: "🍞", req: "30 days + $100", time: "30 Days", color: "text-amber-600", border: "border-amber-600/30", bg: "from-amber-600/10 to-amber-700/5", benefits: ["Beta access", "Escrow fee: 2.5%", "Bond creation"] },
-    { name: "Master Baker", emoji: "👨‍🍳", req: "90 days + $500 + 20 trades", time: "90 Days", color: "text-amber-400", border: "border-amber-400/30", bg: "from-amber-400/10 to-amber-500/5", benefits: ["Fee: 2%", "Revenue share", "DAO voting", "Insurance eligible"] },
-    { name: "Genesis Baker", emoji: "👑", req: "Since launch", time: "Genesis", color: "text-gold", border: "border-gold/40", bg: "from-gold/15 to-amber-500/5", benefits: ["Fee: 1.5%", "Launchpad rights", "Governance veto", "Reputation lending"] },
+    { name: t("value.tier1.name"), emoji: "🫓", req: t("value.tier1.req"), time: t("value.tier1.time"), color: "text-stone-400", border: "border-stone-500/30", bg: "from-stone-500/10 to-stone-600/5", benefits: [t("value.tier1.b1"), t("value.tier1.b2"), t("value.tier1.b3")] },
+    { name: t("value.tier2.name"), emoji: "🍞", req: t("value.tier2.req"), time: t("value.tier2.time"), color: "text-amber-600", border: "border-amber-600/30", bg: "from-amber-600/10 to-amber-700/5", benefits: [t("value.tier2.b1"), t("value.tier2.b2"), t("value.tier2.b3")] },
+    { name: t("value.tier3.name"), emoji: "👨‍🍳", req: t("value.tier3.req"), time: t("value.tier3.time"), color: "text-amber-400", border: "border-amber-400/30", bg: "from-amber-400/10 to-amber-500/5", benefits: [t("value.tier3.b1"), t("value.tier3.b2"), t("value.tier3.b3"), t("value.tier3.b4")] },
+    { name: t("value.tier4.name"), emoji: "👑", req: t("value.tier4.req"), time: t("value.tier4.time"), color: "text-gold", border: "border-gold/40", bg: "from-gold/15 to-amber-500/5", benefits: [t("value.tier4.b1"), t("value.tier4.b2"), t("value.tier4.b3"), t("value.tier4.b4")] },
   ];
 
   const revenue = [
-    { label: "Operations", value: "50%", color: "bg-green-500", width: "w-[50%]" },
-    { label: "Holders", value: "15%", color: "bg-gold", width: "w-[15%]" },
-    { label: "Commons", value: "15%", color: "bg-purple-500", width: "w-[15%]" },
-    { label: "Burn", value: "20%", color: "bg-orange-500", width: "w-[20%]" },
+    { label: t("value.revenue.operations"), value: "50%", color: "bg-green-500", width: "w-[50%]" },
+    { label: t("value.revenue.holders"), value: "15%", color: "bg-gold", width: "w-[15%]" },
+    { label: t("value.revenue.commons"), value: "15%", color: "bg-purple-500", width: "w-[15%]" },
+    { label: t("value.revenue.burn"), value: "20%", color: "bg-orange-500", width: "w-[20%]" },
   ];
 
   return (
@@ -59,7 +59,7 @@ export default function Value() {
             className="inline-block px-4 py-2 rounded-full glass-gold text-gold text-sm font-medium tracking-wider mb-6"
             whileHover={{ scale: 1.05 }}
           >
-            💎 TOKEN & VALUE
+            {t("value.badge")}
           </motion.span>
 
           <h2 className="font-cinzel text-3xl md:text-5xl font-bold mb-4">
@@ -119,10 +119,10 @@ export default function Value() {
         >
           <div className="flex items-center gap-3 mb-4">
             <DollarSign className="w-5 h-5 text-gold" />
-            <h3 className="font-cinzel text-xl font-bold text-cream">Revenue Share</h3>
+            <h3 className="font-cinzel text-xl font-bold text-cream">{t("value.revenue.title")}</h3>
           </div>
           <p className="text-cream/40 text-sm mb-6">
-            Every trade: 1-3% fee. Real income. <span className="text-gold">No tokens minted — ever.</span>
+            {t("value.revenue.desc")} <span className="text-gold">{t("value.revenue.highlight")}</span>
           </p>
 
           <div className="flex w-full h-7 rounded-full overflow-hidden mb-4">
@@ -145,16 +145,16 @@ export default function Value() {
           {/* Revenue Example */}
           <div className="grid grid-cols-3 gap-3 p-4 rounded-xl bg-gold/5 border border-gold/10">
             <div>
-              <p className="text-cream/30 text-[11px] mb-0.5">Early ($10K/mo)</p>
-              <p className="text-cream/60 text-sm font-medium">~$15/mo pool</p>
+              <p className="text-cream/30 text-[11px] mb-0.5">{t("value.revenue.early.label")}</p>
+              <p className="text-cream/60 text-sm font-medium">{t("value.revenue.early.value")}</p>
             </div>
             <div>
-              <p className="text-cream/30 text-[11px] mb-0.5">Growth ($1M/mo)</p>
-              <p className="text-cream/60 text-sm font-medium">~$3K/mo pool</p>
+              <p className="text-cream/30 text-[11px] mb-0.5">{t("value.revenue.growth.label")}</p>
+              <p className="text-cream/60 text-sm font-medium">{t("value.revenue.growth.value")}</p>
             </div>
             <div>
-              <p className="text-cream/30 text-[11px] mb-0.5">Scale ($100M/mo)</p>
-              <p className="text-cream/60 text-sm font-medium">~$180K/mo pool</p>
+              <p className="text-cream/30 text-[11px] mb-0.5">{t("value.revenue.scale.label")}</p>
+              <p className="text-cream/60 text-sm font-medium">{t("value.revenue.scale.value")}</p>
             </div>
           </div>
         </motion.div>
@@ -205,15 +205,15 @@ export default function Value() {
         >
           <div className="flex items-center gap-3 mb-4">
             <Flame className="w-5 h-5 text-orange-400" />
-            <h3 className="font-cinzel text-xl font-bold text-cream">Deflationary Burn</h3>
+            <h3 className="font-cinzel text-xl font-bold text-cream">{t("value.burn.title")}</h3>
           </div>
 
           <div className="grid grid-cols-4 gap-3 mb-4">
             {[
-              { year: "Launch", supply: "1B", your: "0.10%" },
-              { year: "Year 1", supply: "~998M", your: "0.10%" },
-              { year: "Year 3", supply: "~760M", your: "0.13%" },
-              { year: "Year 5", supply: "~600M", your: "0.17%" },
+              { year: t("value.burn.launch"), supply: "1B", your: "0.10%" },
+              { year: t("value.burn.year1"), supply: "~998M", your: "0.10%" },
+              { year: t("value.burn.year3"), supply: "~760M", your: "0.13%" },
+              { year: t("value.burn.year5"), supply: "~600M", your: "0.17%" },
             ].map((item, i) => (
               <div key={i} className="text-center p-3 rounded-xl bg-black/30 border border-cream/5">
                 <p className="text-cream/30 text-[11px] mb-1">{item.year}</p>
@@ -226,7 +226,7 @@ export default function Value() {
           <div className="flex items-center gap-3 p-3 rounded-xl bg-green-500/5 border border-green-500/10">
             <TrendingUp className="w-4 h-4 text-green-400 flex-shrink-0" />
             <p className="text-cream/50 text-sm">
-              Hold 1M MAYA: ownership grows <span className="text-green-400 font-semibold">67%</span> in 5 years. No staking. Just math.
+              {t("value.burn.desc")}
             </p>
           </div>
         </motion.div>
@@ -240,9 +240,9 @@ export default function Value() {
         >
           <Lock className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
           <div>
-            <h4 className="text-red-400 font-bold text-sm mb-0.5">Sell = Reset</h4>
+            <h4 className="text-red-400 font-bold text-sm mb-0.5">{t("value.sellReset.title")}</h4>
             <p className="text-cream/40 text-sm">
-              Sell → tier resets, revenue stops, insurance revoked, Genesis Badge gone forever.
+              {t("value.sellReset.desc")}
             </p>
           </div>
         </motion.div>

@@ -18,65 +18,67 @@ import {
   HardDrive,
   ArrowRight,
 } from "lucide-react";
-
-const layers = [
-  {
-    icon: Handshake,
-    title: "Core Engine",
-    subtitle: "Trade with trust, not faith",
-    color: "from-blue-500 to-cyan-500",
-    bg: "bg-blue-500/8",
-    border: "border-blue-500/20",
-    protocols: [
-      { icon: Handshake, name: "AI-Verified Escrow", desc: "Crypto-signed contracts, AI validates, 1-3% fee" },
-      { icon: Store, name: "Production Bonds", desc: "Sell future work at discount, zero debt" },
-      { icon: Fingerprint, name: "Reputation (RaaS)", desc: "Soulbound NFT, open API, permanent demand" },
-    ],
-  },
-  {
-    icon: Bot,
-    title: "Intelligence Layer",
-    subtitle: "AI agents, skills, and mentorship",
-    color: "from-cyan-500 to-teal-500",
-    bg: "bg-cyan-500/8",
-    border: "border-cyan-500/20",
-    protocols: [
-      { icon: Bot, name: "AI Agent Marketplace", desc: "Your AI works 24/7, passive income verified" },
-      { icon: GraduationCap, name: "Proof-of-Skill", desc: "Completed trades → on-chain credentials" },
-      { icon: Users, name: "Reputation Lending", desc: "Elders vouch for newcomers, both earn or lose" },
-    ],
-  },
-  {
-    icon: Users,
-    title: "Community Layer",
-    subtitle: "Guilds, insurance, and solidarity",
-    color: "from-emerald-500 to-green-500",
-    bg: "bg-emerald-500/8",
-    border: "border-emerald-500/20",
-    protocols: [
-      { icon: Building2, name: "Guild Enterprise", desc: "10 freelancers → $50K+ contracts, auto-split" },
-      { icon: HeartHandshake, name: "Solidarity Insurance", desc: "İmece on-chain — community safety net" },
-      { icon: Globe, name: "Cross-Border Network", desc: "1-2% vs 7-10%, reputation crosses borders" },
-    ],
-  },
-  {
-    icon: Server,
-    title: "Infrastructure",
-    subtitle: "Your network, your servers, your AI",
-    color: "from-rose-500 to-pink-500",
-    bg: "bg-rose-500/8",
-    border: "border-rose-500/20",
-    protocols: [
-      { icon: MessageCircle, name: "Maya Agora", desc: "Wallet-based social, reputation IS your profile" },
-      { icon: HardDrive, name: "Vault Network", desc: "Community-owned storage, encrypted & sharded" },
-      { icon: Server, name: "Maya Daemon", desc: "Local AI, federated learning, your data stays" },
-    ],
-  },
-];
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function Protocol() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const { t } = useLanguage();
+
+  const layers = [
+    {
+      icon: Handshake,
+      title: t("protocol.layer1.title"),
+      subtitle: t("protocol.layer1.subtitle"),
+      color: "from-blue-500 to-cyan-500",
+      bg: "bg-blue-500/8",
+      border: "border-blue-500/20",
+      protocols: [
+        { icon: Handshake, name: t("protocol.layer1.p1.name"), desc: t("protocol.layer1.p1.desc") },
+        { icon: Store, name: t("protocol.layer1.p2.name"), desc: t("protocol.layer1.p2.desc") },
+        { icon: Fingerprint, name: t("protocol.layer1.p3.name"), desc: t("protocol.layer1.p3.desc") },
+      ],
+    },
+    {
+      icon: Bot,
+      title: t("protocol.layer2.title"),
+      subtitle: t("protocol.layer2.subtitle"),
+      color: "from-cyan-500 to-teal-500",
+      bg: "bg-cyan-500/8",
+      border: "border-cyan-500/20",
+      protocols: [
+        { icon: Bot, name: t("protocol.layer2.p1.name"), desc: t("protocol.layer2.p1.desc") },
+        { icon: GraduationCap, name: t("protocol.layer2.p2.name"), desc: t("protocol.layer2.p2.desc") },
+        { icon: Users, name: t("protocol.layer2.p3.name"), desc: t("protocol.layer2.p3.desc") },
+      ],
+    },
+    {
+      icon: Users,
+      title: t("protocol.layer3.title"),
+      subtitle: t("protocol.layer3.subtitle"),
+      color: "from-emerald-500 to-green-500",
+      bg: "bg-emerald-500/8",
+      border: "border-emerald-500/20",
+      protocols: [
+        { icon: Building2, name: t("protocol.layer3.p1.name"), desc: t("protocol.layer3.p1.desc") },
+        { icon: HeartHandshake, name: t("protocol.layer3.p2.name"), desc: t("protocol.layer3.p2.desc") },
+        { icon: Globe, name: t("protocol.layer3.p3.name"), desc: t("protocol.layer3.p3.desc") },
+      ],
+    },
+    {
+      icon: Server,
+      title: t("protocol.layer4.title"),
+      subtitle: t("protocol.layer4.subtitle"),
+      color: "from-rose-500 to-pink-500",
+      bg: "bg-rose-500/8",
+      border: "border-rose-500/20",
+      protocols: [
+        { icon: MessageCircle, name: t("protocol.layer4.p1.name"), desc: t("protocol.layer4.p1.desc") },
+        { icon: HardDrive, name: t("protocol.layer4.p2.name"), desc: t("protocol.layer4.p2.desc") },
+        { icon: Server, name: t("protocol.layer4.p3.name"), desc: t("protocol.layer4.p3.desc") },
+      ],
+    },
+  ];
 
   return (
     <section className="relative py-24 px-4 overflow-hidden" id="protocol">
@@ -97,17 +99,17 @@ export default function Protocol() {
             className="inline-block px-4 py-2 rounded-full glass-gold text-gold text-sm font-medium tracking-wider mb-6"
             whileHover={{ scale: 1.05 }}
           >
-            🧬 THE CIVILIZATION PROTOCOL
+            {t("protocol.badge")}
           </motion.span>
 
           <h2 className="font-cinzel text-3xl md:text-5xl font-bold mb-4">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cream via-gold to-cream">
-              15 Protocols. 4 Layers. 1 Civilization.
+              {t("protocol.title")}
             </span>
           </h2>
 
           <p className="font-inter text-cream/50 max-w-2xl mx-auto text-base">
-            Marketplace, intelligence, community, and infrastructure — each layer feeds the next.
+            {t("protocol.subtitle")}
           </p>
         </motion.div>
 
@@ -153,17 +155,17 @@ export default function Protocol() {
           transition={{ delay: 0.5, duration: 0.8 }}
           className="p-6 md:p-8 rounded-2xl glass-gold border border-gold/20 text-center"
         >
-          <h3 className="font-cinzel text-xl font-bold text-cream mb-4">The Civilizational Flywheel</h3>
+          <h3 className="font-cinzel text-xl font-bold text-cream mb-4">{t("protocol.flywheel.title")}</h3>
 
           <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 text-sm mb-4">
             {[
-              { label: "Trades", cls: "bg-blue-500/10 border-blue-500/20 text-blue-400" },
-              { label: "Revenue", cls: "bg-green-500/10 border-green-500/20 text-green-400" },
-              { label: "Burns + Rewards", cls: "bg-orange-500/10 border-orange-500/20 text-orange-400" },
-              { label: "Reputation", cls: "bg-purple-500/10 border-purple-500/20 text-purple-400" },
-              { label: "Guilds", cls: "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" },
-              { label: "Infrastructure", cls: "bg-rose-500/10 border-rose-500/20 text-rose-400" },
-              { label: "More Users", cls: "bg-amber-500/10 border-amber-500/20 text-amber-400" },
+              { label: t("protocol.flywheel.step1"), cls: "bg-blue-500/10 border-blue-500/20 text-blue-400" },
+              { label: t("protocol.flywheel.step2"), cls: "bg-green-500/10 border-green-500/20 text-green-400" },
+              { label: t("protocol.flywheel.step3"), cls: "bg-orange-500/10 border-orange-500/20 text-orange-400" },
+              { label: t("protocol.flywheel.step4"), cls: "bg-purple-500/10 border-purple-500/20 text-purple-400" },
+              { label: t("protocol.flywheel.step5"), cls: "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" },
+              { label: t("protocol.flywheel.step6"), cls: "bg-rose-500/10 border-rose-500/20 text-rose-400" },
+              { label: t("protocol.flywheel.step7"), cls: "bg-amber-500/10 border-amber-500/20 text-amber-400" },
             ].map((step, i) => (
               <div key={i} className="flex items-center gap-2">
                 <span className={`px-3 py-1.5 rounded-lg border text-xs font-medium ${step.cls}`}>
@@ -175,20 +177,20 @@ export default function Protocol() {
           </div>
 
           <p className="text-cream/35 text-sm max-w-xl mx-auto">
-            Each protocol feeds the next. The civilization grows itself.
+            {t("protocol.flywheel.desc")}
           </p>
 
           {/* Revenue Split */}
           <div className="flex items-center justify-center gap-2.5 mt-5 text-cream/30 text-xs flex-wrap">
-            <span>1-3% fee</span>
+            <span>{t("protocol.revenue.fee")}</span>
             <Sparkles className="w-3 h-3 text-gold/30" />
-            <span className="text-green-400">50% Ops</span>
+            <span className="text-green-400">{t("protocol.revenue.ops")}</span>
             <span>·</span>
-            <span className="text-amber-400">15% Holders</span>
+            <span className="text-amber-400">{t("protocol.revenue.holders")}</span>
             <span>·</span>
-            <span className="text-purple-400">15% Commons</span>
+            <span className="text-purple-400">{t("protocol.revenue.commons")}</span>
             <span>·</span>
-            <span className="text-orange-400">20% Burn</span>
+            <span className="text-orange-400">{t("protocol.revenue.burn")}</span>
           </div>
         </motion.div>
       </div>
