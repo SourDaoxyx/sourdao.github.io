@@ -36,9 +36,9 @@ export const metadata: Metadata = {
   keywords: ["MAYA", "Genesis Starter", "Organic Finance", "Web3", "DeFi", "Cryptocurrency", "Pump.fun", "Sourdough"],
   manifest: "/manifest.json",
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
   },
   openGraph: {
     title: "MAYA: The Genesis Starter",
