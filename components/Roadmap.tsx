@@ -52,7 +52,7 @@ export default function Roadmap() {
     },
     {
       phase: t("roadmap.label.next"),
-      title: t("roadmap.phase2.title") + " → " + t("roadmap.phase3.title"),
+      title: t("roadmap.phase2.title"),
       subtitle: t("roadmap.phase2.period"),
       icon: Layers,
       status: "upcoming" as const,
@@ -71,7 +71,7 @@ export default function Roadmap() {
     },
     {
       phase: t("roadmap.label.future"),
-      title: t("roadmap.phase5.title") + " → " + t("roadmap.phase6.title"),
+      title: t("roadmap.phase3.title"),
       subtitle: t("roadmap.phase3.period"),
       icon: Globe,
       status: "future" as const,

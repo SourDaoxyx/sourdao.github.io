@@ -246,27 +246,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "roadmap.highlight2": "🔥 First Bakes, First Burns",
     "roadmap.highlight3": "🌍 Every Oven, Every Flame",
 
-    // Roadmap (legacy keys for compatibility)
-    "roadmap.phase1.subtitle": "Phase 1",
-    "roadmap.phase1.status": "Live Now",
-    "roadmap.phase2.subtitle": "Phase 2",
-    "roadmap.phase2.desc": "Protocol smart contracts. The Crust identity system. Handshake engine.",
-    "roadmap.phase2.status": "Coming Soon",
-    "roadmap.phase3.subtitle": "Phase 3",
-    "roadmap.phase3.desc": "Multichain deployment. No-code builder. DAO governance.",
-    "roadmap.phase3.status": "Future",
-    "roadmap.phase4.title": "The Bakery",
-    "roadmap.phase4.subtitle": "Phase 4",
-    "roadmap.phase4.desc": "Full DAO governance and community-owned protocol.",
-    "roadmap.phase4.status": "The Future",
-    "roadmap.phase5.title": "The Network",
-    "roadmap.phase5.subtitle": "Phase 5",
-    "roadmap.phase5.desc": "Global Baker network and sovereign chain.",
-    "roadmap.phase5.status": "2028",
-    "roadmap.phase6.title": "The Civilization",
-    "roadmap.phase6.subtitle": "Phase 6",
-    "roadmap.phase6.desc": "Full economic sovereignty and digital civilization.",
-    "roadmap.phase6.status": "2029+",
+
 
     // Live Feed
     "live.title": "The Observation Deck",

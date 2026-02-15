@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Cinzel, Noto_Sans_JP, Noto_Sans_SC } from "next/font/google";
+import { Inter, Playfair_Display, Cinzel } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/lib/LanguageContext";
 
@@ -16,18 +16,6 @@ const playfair = Playfair_Display({
 const cinzel = Cinzel({ 
   subsets: ["latin"],
   variable: "--font-cinzel",
-});
-
-const notoJP = Noto_Sans_JP({
-  subsets: ["latin"],
-  variable: "--font-noto-jp",
-  weight: ["400", "500", "700"],
-});
-
-const notoSC = Noto_Sans_SC({
-  subsets: ["latin"],
-  variable: "--font-noto-sc",
-  weight: ["400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -74,7 +62,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${playfair.variable} ${cinzel.variable} ${notoJP.variable} ${notoSC.variable} font-inter antialiased`}
+        className={`${inter.variable} ${playfair.variable} ${cinzel.variable} font-inter antialiased`}
       >
         <LanguageProvider>
           {children}

@@ -3,35 +3,27 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import {
-  FileText,
-  Handshake,
-  Store,
-  Landmark,
-  Flame,
   Fingerprint,
-  Lock,
+  Handshake,
+  Flame,
   Download,
   ExternalLink,
-  Bot,
-  Globe,
-  GraduationCap,
-  Building2,
-  Gem,
   ChevronDown,
   ArrowRight,
   Zap,
-  HeartHandshake,
+  Shield,
+  Globe,
   Users,
-  MessageCircle,
-  HardDrive,
-  Server,
+  Landmark,
+  TrendingDown,
+  Crown,
+  Timer,
 } from "lucide-react";
-
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.06, delayChildren: 0.2 },
+    transition: { staggerChildren: 0.08, delayChildren: 0.2 },
   },
 } as const;
 
@@ -107,260 +99,159 @@ export default function Whitepaper() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const sections: Section[] = [
-    {
-      icon: FileText,
-      title: "The Problem",
-      description: "Freelance platforms take 20-30%. Reputation is locked. Cross-border payments cost 7-10%. Workers own nothing. The system extracts from creators.",
-      howItWorks: [
-        "Platforms capture 20-30% of creator earnings",
-        "Leave the platform → lose all reputation",
-        "Disputes are opaque, biased toward the platform",
-        "Cross-border workers pay 7-10% in bank/conversion fees",
-        "No ownership, no governance — you're a product, not a partner",
-      ],
-      color: "from-red-500 to-orange-500",
-      borderColor: "border-red-500/10",
-      phase: "THE PROBLEM",
-    },
-    {
-      icon: Handshake,
-      title: "AI-Verified Escrow",
-      description: "Crypto-signed contracts with measurable terms. AI validates completion. Milestone-based releases. 90% of disputes eliminated before they happen.",
-      howItWorks: [
-        "Define deliverables: format, count, deadline, revisions",
-        "Both sign with wallets — immutable on-chain agreement",
-        "Buyer deposits USDC into escrow contract",
-        "AI checks: files uploaded? formats correct? deadline met?",
-        "All met → auto-release. Dispute → $50 arbiter (loser pays)",
-      ],
-      color: "from-blue-500 to-cyan-500",
-      borderColor: "border-blue-500/10",
-      phase: "CORE ENGINE",
-    },
-    {
-      icon: Store,
-      title: "Production Bonds",
-      description: "Forward contracts for future work. Mint bonds, sell at discount, deliver in stages. Tradeable on secondary market. Zero debt.",
-      howItWorks: [
-        "Mint bond: '40 kits, $35 each, 6 months'",
-        "Sells at discount: 10 buyers × $100 = $1,000 escrow",
-        "Staged releases per batch delivery",
-        "Bonds = tradeable SPL tokens on secondary market",
-        "Default → auto-refund + permanent reputation loss",
-      ],
-      color: "from-purple-500 to-violet-500",
-      borderColor: "border-purple-500/10",
-      phase: "CORE ENGINE",
-    },
+    // THE THREE PILLARS
     {
       icon: Fingerprint,
-      title: "Reputation Protocol (RaaS)",
-      description: "Soulbound reputation NFT. Open API for Web3. External protocols pay MAYA tokens per query = permanent demand.",
+      title: "The Crust — Own Your Reputation",
+      description: "Your reputation is yours. Not on a platform — on the chain. Portable, undeletable, unsellable. Every successful Bake thickens your Crust.",
       howItWorks: [
-        "Every trade updates on-chain reputation score",
-        "Soulbound NFT — can't sell, visually evolves",
-        "API/SDK for DAOs, DeFi, NFT marketplaces",
-        "External query = MAYA token fee = perpetual demand",
-        "Score = Σ(value × completion × time × bond)",
+        "Soulbound identity created on-chain — cannot be sold or transferred",
+        "Every completed Bake (trade/agreement) strengthens your Crust score",
+        "Portable across every Oven (chain) MAYA deploys to",
+        "Other protocols can query your Crust via API — composable trust",
+        "No platform can erase your economic history — it's yours forever",
       ],
       color: "from-gold to-amber-500",
       borderColor: "border-gold/10",
-      phase: "INTELLIGENCE",
+      phase: "PILLAR I",
     },
     {
-      icon: GraduationCap,
-      title: "Proof-of-Skill",
-      description: "10 logos = Verified Designer. On-chain, permanent, tamper-proof. Replaces CVs, LinkedIn, and diplomas with proof.",
+      icon: Handshake,
+      title: "The Handshake — Trade Without Walls",
+      description: "Two people, one Recipe. No middleman, no borders, no waiting. Code guards the deal, the Starter carries the payment.",
       howItWorks: [
-        "Auto-generated from completed escrow trades",
-        "Credentials accumulate by category",
-        "Tiers: Beginner (5) → Expert (100) → Master (500)",
-        "Employers filter by verified proof, not promises",
-        "Portable across platforms — follows your wallet",
+        "Smart contract (Recipe) defines terms — deliverables, deadlines, payment",
+        "Both parties sign with wallets — immutable on-chain agreement",
+        "Borderless instant settlement — seconds, not days",
+        "1-3% Pinch vs 15-20% traditional platform fees",
+        "Community-set fee rates — the Bakers decide, not a corporation",
       ],
-      color: "from-rose-500 to-pink-500",
-      borderColor: "border-rose-500/10",
-      phase: "INTELLIGENCE",
-    },
-    {
-      icon: Bot,
-      title: "AI Agent Marketplace",
-      description: "Create AI agents that trade 24/7. Same escrow, same reputation. Passive income verified. Bad agents lose reputation.",
-      howItWorks: [
-        "Build agent (designer, translator, code reviewer)",
-        "Register on marketplace — accepts orders like a human",
-        "Same escrow applies — must meet contract terms",
-        "Agent builds reputation score independently",
-        "You earn while sleeping across all time zones",
-      ],
-      color: "from-cyan-500 to-teal-500",
-      borderColor: "border-cyan-500/10",
-      phase: "INTELLIGENCE",
-    },
-    {
-      icon: Users,
-      title: "Reputation Lending",
-      description: "Elders vouch for talented newcomers. Temporary tier boost. If mentee fails, mentor loses reputation too.",
-      howItWorks: [
-        "Tier 3+ member vouches for a newcomer",
-        "Newcomer gets temporary Tier 2 access (30 days)",
-        "If newcomer delivers well, both gain",
-        "If newcomer fails, mentor's score drops",
-        "Real-world referral system, coded on-chain",
-      ],
-      color: "from-amber-500 to-orange-500",
-      borderColor: "border-amber-500/10",
-      phase: "INTELLIGENCE",
-    },
-    {
-      icon: Building2,
-      title: "Guild Enterprise",
-      description: "10 freelancers form a guild. Take on $50K contracts. Smart contract auto-splits revenue. Decentralized agency.",
-      howItWorks: [
-        "Members with complementary skills form guild",
-        "Guild bids on enterprise contracts",
-        "Smart contract defines roles + payment splits",
-        "Guild reputation = weighted member average",
-        "Fair rates, no agency markup",
-      ],
-      color: "from-emerald-500 to-green-500",
-      borderColor: "border-emerald-500/10",
-      phase: "COMMUNITY",
-    },
-    {
-      icon: HeartHandshake,
-      title: "Solidarity Insurance",
-      description: "Community safety net for Tier 3+ members. Illness, disaster, hardship. Funded from Commons. Voted by community. İmece — coded on-chain.",
-      howItWorks: [
-        "Funded from Commons Treasury",
-        "Tier 3+ eligible (90 days, 20+ trades)",
-        "Submit hardship claim with evidence",
-        "Community votes on each case — no central authority",
-        "Range: $500-$2,000, faizsiz, repayable or grant",
-      ],
-      color: "from-pink-500 to-rose-500",
-      borderColor: "border-pink-500/10",
-      phase: "COMMUNITY",
-    },
-    {
-      icon: Globe,
-      title: "Cross-Border Network",
-      description: "Turkish designer, US client. USDC escrow on Solana. 1-2% total vs 7-10% via banks. Reputation crosses borders.",
-      howItWorks: [
-        "Client posts job → talent from any country applies",
-        "USDC escrow — stable, instant, no conversion",
-        "Settles in seconds, not days",
-        "Total cost: 1-2% vs 7-10% traditional",
-        "Reputation universal — skills speak every language",
-      ],
-      color: "from-indigo-500 to-blue-500",
-      borderColor: "border-indigo-500/10",
-      phase: "COMMUNITY",
-    },
-    {
-      icon: MessageCircle,
-      title: "Maya Agora",
-      description: "Wallet-based social network. Your profile IS your reputation. No bans, no ads, no data extraction. Guild channels auto-created.",
-      howItWorks: [
-        "Login with wallet — no email, no password",
-        "Profile = Reputation NFT + skill badges",
-        "Guild & marketplace channels built-in",
-        "Encrypted messaging — E2E by default",
-        "Data is yours — stored on MAYA Vault Network",
-      ],
-      color: "from-violet-500 to-purple-500",
-      borderColor: "border-violet-500/10",
-      phase: "INFRASTRUCTURE",
-    },
-    {
-      icon: HardDrive,
-      title: "Maya Vault Network",
-      description: "Members donate 10-100GB. Combined: decentralized storage. Encrypted, sharded, redundant. Provide space = earn USDC. No AWS.",
-      howItWorks: [
-        "Install Maya Vault node — allocate storage",
-        "Data encrypted + split into shards",
-        "No single node sees full data",
-        "3x redundancy — node dies, data survives",
-        "Storage providers earn proportional USDC",
-      ],
-      color: "from-teal-500 to-cyan-600",
-      borderColor: "border-teal-500/10",
-      phase: "INFRASTRUCTURE",
-    },
-    {
-      icon: Server,
-      title: "Maya Daemon",
-      description: "Your own local AI. Learns your style. Works while you sleep. Federated learning: collective intelligence, individual privacy.",
-      howItWorks: [
-        "Run 'maya-daemon start' on your machine",
-        "Local models (Llama/Mistral) learn your work style",
-        "Agent takes simple marketplace orders",
-        "Federated learning: models improve together",
-        "Your data never leaves your machine",
-      ],
-      color: "from-orange-500 to-red-500",
-      borderColor: "border-orange-500/10",
-      phase: "INFRASTRUCTURE",
-    },
-    {
-      icon: Gem,
-      title: "Holder Benefits",
-      description: "4 tiers. Real USDC revenue share. Solidarity Insurance. Seasonal economy. Lower fees. Sell = reset everything.",
-      howItWorks: [
-        "15% of all revenue distributed to holders in USDC",
-        "Tiers: Fresh Dough → Rising → Master → Genesis Baker",
-        "Higher tier = lower fees (3% → 1.5%), higher limits",
-        "Seasonal economy: quarterly harvest distribution",
-        "Sell = tier reset. Hold time restarts. Revenue stops.",
-      ],
-      color: "from-amber-400 to-yellow-500",
-      borderColor: "border-amber-400/10",
-      phase: "TOKEN VALUE",
+      color: "from-blue-500 to-cyan-500",
+      borderColor: "border-blue-500/10",
+      phase: "PILLAR II",
     },
     {
       icon: Flame,
-      title: "Deflationary Burn",
-      description: "20% of revenue buys & burns permanently. Fixed supply. No minting. Your ownership grows automatically.",
+      title: "The Harvest — Grow Together",
+      description: "Every Bake returns a Pinch to the Oven. 50% burns forever. 30% flows to Keepers. 20% to Commons. The network grows, everyone grows.",
       howItWorks: [
-        "Every trade → 1-3% fee → 20% to buyback & burn",
-        "MAYA bought from market → burn address → gone forever",
-        "Total supply: 1B. Burns only reduce — nothing mints",
-        "Year 5: 600M supply → your 0.10% becomes 0.167%",
-        "67% ownership increase — zero effort, just hold",
+        "Every Bake generates a Pinch (1-3% fee)",
+        "50% of the Pinch is burned — permanent supply reduction",
+        "30% distributed to Keepers — tier-weighted, in $MAYA",
+        "20% flows to Commons Bakery — community treasury for growth",
+        "No inflation mechanics — real revenue from real protocol activity",
       ],
       color: "from-orange-500 to-red-500",
       borderColor: "border-orange-500/10",
-      phase: "TOKEN VALUE",
+      phase: "PILLAR III",
+    },
+    // ECONOMICS
+    {
+      icon: TrendingDown,
+      title: "Deflationary Burns",
+      description: "50% of all protocol fees buy $MAYA from market and burn it. Fixed supply. No minting. Your share grows automatically over time.",
+      howItWorks: [
+        "Every Bake → 1-3% Pinch → 50% directed to burn",
+        "$MAYA bought from open market → sent to burn address → gone forever",
+        "Total supply: 1B. Burns only reduce — nothing mints",
+        "Year 5 projection: ~600M supply → 0.10% holding becomes 0.167%",
+        "67% ownership increase — zero effort, just hold",
+      ],
+      color: "from-red-500 to-orange-500",
+      borderColor: "border-red-500/10",
+      phase: "ECONOMICS",
     },
     {
-      icon: Landmark,
-      title: "Commons Treasury",
-      description: "15% of revenue auto-fills community treasury. Quadratic voting. Fund loans, grants, launchpad. Reputation-gated.",
+      icon: Crown,
+      title: "Keeper Tiers",
+      description: "Hold longer, earn more. Four tiers based on hold duration. Higher tier = more Harvest weight + governance power. Sell = reset everything.",
       howItWorks: [
-        "15% of revenue flows automatically",
-        "Spending: quadratic voting — Power = √(tokens)",
-        "Revenue-Based Financing: micro-loans, no interest",
-        "Launchpad: propose → vote → fund → 15% revenue return",
-        "Sybil-resistant: only completed trades = voting rights",
+        "Fresh Dough (Day 1): Community access, Baker identity",
+        "Rising Dough (30 days): Harvest eligibility, reduced Pinch, DAO voting",
+        "Golden Crust (90 days): 1.5x Harvest weight, Recipe proposals",
+        "Eternal Starter (365 days): 2x Harvest weight, governance veto, Elder status",
+        "Sell even once → tier resets to Fresh Dough, hold timer restarts from zero",
       ],
-      color: "from-violet-500 to-purple-500",
-      borderColor: "border-violet-500/10",
+      color: "from-amber-400 to-yellow-500",
+      borderColor: "border-amber-400/10",
+      phase: "ECONOMICS",
+    },
+    {
+      icon: Timer,
+      title: "Sell = Reset",
+      description: "The core loyalty mechanic. Sell your Starter → tier resets, Harvest stops, Crust thins. Diamond hands aren't a meme — they're the economic model.",
+      howItWorks: [
+        "Any sell transaction triggers a full tier reset",
+        "Hold timer restarts from zero — no shortcuts",
+        "Harvest distribution stops immediately",
+        "Crust score receives a penalty",
+        "Reduces sell pressure → creates economic stability",
+      ],
+      color: "from-rose-500 to-pink-500",
+      borderColor: "border-rose-500/10",
+      phase: "ECONOMICS",
+    },
+    // GOVERNANCE
+    {
+      icon: Landmark,
+      title: "Commons Bakery",
+      description: "20% of all protocol revenue flows to the community treasury. Quadratic voting ensures democracy. Reputation-gated proposals.",
+      howItWorks: [
+        "20% of every Pinch auto-fills the Commons — no vote needed to fund",
+        "Spending decisions via quadratic voting: Power = √(tokens committed)",
+        "Whale with 10,000 tokens gets 100 votes, not 10,000 — democracy first",
+        "Only Keepers with active tier can vote — no sybil attacks",
+        "Golden Crust+ can submit Recipe proposals for ecosystem grants",
+      ],
+      color: "from-purple-500 to-violet-500",
+      borderColor: "border-purple-500/10",
       phase: "GOVERNANCE",
     },
     {
-      icon: Lock,
-      title: "Security",
-      description: "Squads multisig. Isolated escrow contracts. AI verification. 48h timelock. Progressive decentralization to full DAO.",
+      icon: Users,
+      title: "The Bakery DAO",
+      description: "Progressive decentralization toward full community governance. From multisig to DAO — the Bakers take control.",
       howItWorks: [
-        "Squads Protocol 3-of-5 multisig for treasury",
-        "Each escrow = isolated smart contract",
-        "AI verification before release",
-        "48h timelock on transactions > $10,000",
-        "Roadmap: multisig → governance → full DAO",
+        "Phase 1: Squads Protocol 3-of-5 multisig for treasury",
+        "Phase 2: Community proposals + voting on spending",
+        "Phase 3: Full on-chain governance — Bakery DAO",
+        "Tier-gated participation prevents governance attacks",
+        "Transparent — all movements visible on-chain, always",
       ],
-      color: "from-emerald-500 to-green-600",
+      color: "from-indigo-500 to-blue-500",
+      borderColor: "border-indigo-500/10",
+      phase: "GOVERNANCE",
+    },
+    // INFRASTRUCTURE
+    {
+      icon: Shield,
+      title: "Security Architecture",
+      description: "Isolated contracts per Handshake. Multisig treasury. 48h timelock. Open source. Non-custodial. No backdoors.",
+      howItWorks: [
+        "Each Handshake = isolated smart contract — no shared pool risk",
+        "Squads Protocol multisig with 48h timelock on large transactions",
+        "Mint authority revoked — no one can create new tokens",
+        "Freeze authority revoked — no one can freeze your tokens",
+        "Open source codebase — publicly auditable by anyone",
+      ],
+      color: "from-emerald-500 to-green-500",
       borderColor: "border-emerald-500/10",
       phase: "SECURITY",
+    },
+    {
+      icon: Globe,
+      title: "Every Oven, Every Flame",
+      description: "MAYA starts on Solana but is designed for every chain. Wherever the flame burns, the Starter rises. Multichain is the endgame.",
+      howItWorks: [
+        "Genesis on Solana — fast, cheap, battle-tested",
+        "Architecture designed for multichain from day one",
+        "Your Crust (reputation) travels across every Oven",
+        "Same protocol, same Harvest — chain-agnostic value",
+        "The Civilization doesn't depend on one chain's survival",
+      ],
+      color: "from-cyan-500 to-teal-500",
+      borderColor: "border-cyan-500/10",
+      phase: "VISION",
     },
   ];
 
@@ -385,19 +276,18 @@ export default function Whitepaper() {
             className="inline-block px-4 py-2 rounded-full glass-gold text-gold text-sm font-medium tracking-wider mb-6"
             whileHover={{ scale: 1.05 }}
           >
-            📜 WHITEPAPER v3.0
+            📜 WHITEPAPER v4.0
           </motion.span>
 
           <h2 className="font-cinzel text-4xl md:text-6xl font-bold mb-6">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cream via-gold to-cream">
-              The Complete Blueprint
+              The Civilization Protocol
             </span>
           </h2>
 
           <p className="font-inter text-cream/50 max-w-3xl mx-auto text-base mb-4">
-            Fifteen protocols across four layers. Marketplace, intelligence, community,
-            and infrastructure — plus social network, distributed storage, and local AI.
-            The complete civilization protocol.
+            Three pillars. One civilization. The Crust protects your identity.
+            The Handshake enables trustless trade. The Harvest rewards everyone who builds.
           </p>
           <p className="font-inter text-gold/50 max-w-xl mx-auto text-sm italic">
             Click &ldquo;How it works&rdquo; on any card for step-by-step mechanics.
@@ -430,7 +320,7 @@ export default function Whitepaper() {
           </div>
         </motion.div>
 
-        {/* Architecture Diagram */}
+        {/* Architecture Diagram — 3 Pillars */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -441,11 +331,10 @@ export default function Whitepaper() {
 
           <div className="space-y-2.5">
             {[
-              { label: "INFRASTRUCTURE", bgOuter: "bg-rose-500/5 border-rose-500/15", textLabel: "text-rose-400", bgTag: "bg-rose-500/10 text-rose-300", items: ["Maya Agora", "Vault Network", "Maya Daemon", "Federated AI"] },
-              { label: "COMMUNITY", bgOuter: "bg-emerald-500/5 border-emerald-500/15", textLabel: "text-emerald-400", bgTag: "bg-emerald-500/10 text-emerald-300", items: ["Guild Enterprise", "Solidarity Insurance", "Cross-Border", "Seasonal Economy"] },
-              { label: "INTELLIGENCE", bgOuter: "bg-cyan-500/5 border-cyan-500/15", textLabel: "text-cyan-400", bgTag: "bg-cyan-500/10 text-cyan-300", items: ["Reputation (RaaS)", "Proof-of-Skill", "AI Agents", "Reputation Lending"] },
-              { label: "CORE ENGINE", bgOuter: "bg-blue-500/5 border-blue-500/15", textLabel: "text-blue-400", bgTag: "bg-blue-500/10 text-blue-300", items: ["AI Escrow", "Production Bonds", "Holder Tiers", "Revenue Share"] },
-              { label: "FOUNDATION", bgOuter: "bg-amber-500/5 border-amber-500/15", textLabel: "text-amber-400", bgTag: "bg-amber-500/10 text-amber-300", items: ["Buyback & Burn", "Commons Treasury", "Squads Security", "Fermentalist Manifesto"] },
+              { label: "PILLAR III — THE HARVEST", bgOuter: "bg-orange-500/5 border-orange-500/15", textLabel: "text-orange-400", bgTag: "bg-orange-500/10 text-orange-300", items: ["50% Burn 🔥", "30% Keepers 🌾", "20% Commons 🏛️"] },
+              { label: "PILLAR II — THE HANDSHAKE", bgOuter: "bg-blue-500/5 border-blue-500/15", textLabel: "text-blue-400", bgTag: "bg-blue-500/10 text-blue-300", items: ["Smart Contracts", "Borderless Settlement", "1-3% Pinch"] },
+              { label: "PILLAR I — THE CRUST", bgOuter: "bg-amber-500/5 border-amber-500/15", textLabel: "text-amber-400", bgTag: "bg-amber-500/10 text-amber-300", items: ["Soulbound Identity", "Portable Reputation", "On-Chain Crust"] },
+              { label: "FOUNDATION", bgOuter: "bg-emerald-500/5 border-emerald-500/15", textLabel: "text-emerald-400", bgTag: "bg-emerald-500/10 text-emerald-300", items: ["$MAYA Token", "Community Owned", "LP Burned", "Mint Revoked"] },
             ].map((layer, i) => (
               <div key={i} className={`p-3.5 rounded-xl border ${layer.bgOuter}`}>
                 <span className={`text-[10px] font-bold tracking-wider ${layer.textLabel}`}>{layer.label}</span>
@@ -461,17 +350,15 @@ export default function Whitepaper() {
           </div>
 
           <div className="flex items-center justify-center gap-2.5 mt-5 text-cream/25 text-xs flex-wrap">
-            <span>Trades</span>
+            <span>Bake</span>
             <ArrowRight className="w-3 h-3" />
-            <span>Fees (1-3%)</span>
+            <span>Pinch (1-3%)</span>
             <ArrowRight className="w-3 h-3" />
-            <span className="text-green-400">50% Ops</span>
+            <span className="text-orange-400">50% Burn</span>
             <span>+</span>
-            <span className="text-amber-400">15% Holders</span>
+            <span className="text-amber-400">30% Keepers</span>
             <span>+</span>
-            <span className="text-purple-400">15% Commons</span>
-            <span>+</span>
-            <span className="text-orange-400">20% Burn</span>
+            <span className="text-purple-400">20% Commons</span>
           </div>
         </motion.div>
 
@@ -495,24 +382,23 @@ export default function Whitepaper() {
           className="mt-14 p-8 rounded-2xl glass-gold border border-gold/20"
         >
           <h3 className="font-cinzel text-xl font-bold text-cream text-center mb-6">
-            Revenue Flow — Every Trade Powers the Civilization
+            The Harvest — Every Bake Powers the Civilization
           </h3>
 
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
             <div className="text-center px-6 py-4 rounded-xl bg-blue-500/10 border border-blue-500/20">
               <Zap className="w-5 h-5 text-blue-400 mx-auto mb-1" />
-              <p className="text-blue-400 font-bold text-sm">MARKETPLACE</p>
-              <p className="text-cream/40 text-xs mt-1">1-3% per trade</p>
+              <p className="text-blue-400 font-bold text-sm">HANDSHAKE</p>
+              <p className="text-cream/40 text-xs mt-1">1-3% Pinch per Bake</p>
             </div>
 
             <ArrowRight className="w-5 h-5 text-gold/30 rotate-90 md:rotate-0" />
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               {[
-                { label: "Operations", pct: "50%", colorBg: "bg-green-500/10", colorBorder: "border-green-500/20", colorText: "text-green-400" },
-                { label: "Holders", pct: "15%", colorBg: "bg-amber-500/10", colorBorder: "border-amber-500/20", colorText: "text-amber-400" },
-                { label: "Commons", pct: "15%", colorBg: "bg-purple-500/10", colorBorder: "border-purple-500/20", colorText: "text-purple-400" },
-                { label: "Burn", pct: "20%", colorBg: "bg-orange-500/10", colorBorder: "border-orange-500/20", colorText: "text-orange-400" },
+                { label: "Burn", pct: "50%", colorBg: "bg-orange-500/10", colorBorder: "border-orange-500/20", colorText: "text-orange-400" },
+                { label: "Keepers", pct: "30%", colorBg: "bg-amber-500/10", colorBorder: "border-amber-500/20", colorText: "text-amber-400" },
+                { label: "Commons", pct: "20%", colorBg: "bg-purple-500/10", colorBorder: "border-purple-500/20", colorText: "text-purple-400" },
               ].map((item, i) => (
                 <div key={i} className={`text-center px-4 py-3 rounded-xl ${item.colorBg} border ${item.colorBorder}`}>
                   <p className={`${item.colorText} font-bold text-lg`}>{item.pct}</p>
@@ -523,7 +409,7 @@ export default function Whitepaper() {
           </div>
 
           <p className="text-center text-cream/35 text-sm mt-6">
-            No tokens minted. No staking inflation. Real revenue from real trades.
+            No tokens minted. No staking inflation. All rewards in $MAYA. Real revenue from real Bakes.
           </p>
         </motion.div>
       </div>
