@@ -22,6 +22,7 @@ export default function Navbar() {
   ];
 
   const crustLink = { name: t("nav.crust"), href: "/crust" };
+  const aboutLink = { name: t("nav.about"), href: "/about" };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -82,8 +83,14 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Right Side - Crust + Buy Button */}
+          {/* Right Side - Crust + About + Buy Button */}
           <div className="hidden md:flex items-center gap-4">
+            <Link
+              href={aboutLink.href}
+              className="relative text-cream/60 hover:text-cream transition-colors font-medium text-sm"
+            >
+              {aboutLink.name}
+            </Link>
             <Link
               href={crustLink.href}
               className="relative text-gold/80 hover:text-gold transition-colors font-medium text-sm border border-gold/30 rounded-lg px-4 py-2 hover:border-gold/60"
@@ -144,6 +151,14 @@ export default function Navbar() {
                 </motion.a>
               ))}
               
+              <Link
+                href={aboutLink.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-2xl font-cinzel text-cream/60 hover:text-cream transition-colors"
+              >
+                {aboutLink.name}
+              </Link>
+
               <Link
                 href={crustLink.href}
                 onClick={() => setIsMobileMenuOpen(false)}

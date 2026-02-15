@@ -16,6 +16,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "nav.value": "Value",
     "nav.community": "Community",
     "nav.crust": "My Crust",
+    "nav.about": "About",
     "nav.buy": "Buy $MAYA",
 
     // Hero
