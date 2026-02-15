@@ -15,6 +15,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "nav.tokenomics": "Tokenomics",
     "nav.value": "Value",
     "nav.community": "Community",
+    "nav.crust": "My Crust",
     "nav.buy": "Buy $MAYA",
 
     // Hero

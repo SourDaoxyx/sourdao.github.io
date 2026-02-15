@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -19,6 +20,8 @@ export default function Navbar() {
     { name: t("nav.roadmap"), href: "#roadmap" },
     { name: t("nav.community"), href: "#community" },
   ];
+
+  const crustLink = { name: t("nav.crust"), href: "/crust" };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -79,8 +82,14 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Right Side - Buy Button */}
+          {/* Right Side - Crust + Buy Button */}
           <div className="hidden md:flex items-center gap-4">
+            <Link
+              href={crustLink.href}
+              className="relative text-gold/80 hover:text-gold transition-colors font-medium text-sm border border-gold/30 rounded-lg px-4 py-2 hover:border-gold/60"
+            >
+              {crustLink.name}
+            </Link>
             <motion.a
               href="https://t.me/mayastarter"
               target="_blank"
@@ -135,6 +144,14 @@ export default function Navbar() {
                 </motion.a>
               ))}
               
+              <Link
+                href={crustLink.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-2xl font-cinzel text-gold hover:text-amber transition-colors"
+              >
+                {crustLink.name}
+              </Link>
+
               <motion.a
                 href="https://pump.fun"
                 target="_blank"
