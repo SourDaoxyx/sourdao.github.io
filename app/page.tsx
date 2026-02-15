@@ -1,4 +1,5 @@
 import Hero from "@/components/Hero";
+import Problem from "@/components/Problem";
 import Manifesto from "@/components/Manifesto";
 import Protocol from "@/components/Protocol";
 import Value from "@/components/Value";
@@ -18,6 +19,7 @@ export default function Home() {
       <Navbar />
       <ParticleField />
       <Hero />
+      <Problem />
       <Manifesto />
       <Protocol />
       <Value />

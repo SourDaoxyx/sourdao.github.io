@@ -3,20 +3,16 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import {
-  Handshake,
-  Bot,
-  Users,
-  Server,
-  Sparkles,
-  Store,
   Fingerprint,
-  GraduationCap,
-  Building2,
-  HeartHandshake,
-  Globe,
-  MessageCircle,
-  HardDrive,
+  Handshake,
+  Wheat,
   ArrowRight,
+  Sparkles,
+  ShieldCheck,
+  Globe,
+  Coins,
+  Flame,
+  Users,
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 
@@ -25,57 +21,50 @@ export default function Protocol() {
   const isInView = useInView(ref, { once: true, margin: "-50px" });
   const { t } = useLanguage();
 
-  const layers = [
+  const pillars = [
+    {
+      icon: Fingerprint,
+      title: t("protocol.pillar1.title"),
+      subtitle: t("protocol.pillar1.subtitle"),
+      desc: t("protocol.pillar1.desc"),
+      highlight: t("protocol.pillar1.highlight"),
+      color: "from-cyan-500 to-blue-500",
+      bg: "bg-cyan-500/5",
+      border: "border-cyan-500/20",
+      features: [
+        { icon: ShieldCheck, text: t("protocol.pillar1.f1") },
+        { icon: Sparkles, text: t("protocol.pillar1.f2") },
+        { icon: Globe, text: t("protocol.pillar1.f3") },
+      ],
+    },
     {
       icon: Handshake,
-      title: t("protocol.layer1.title"),
-      subtitle: t("protocol.layer1.subtitle"),
-      color: "from-blue-500 to-cyan-500",
-      bg: "bg-blue-500/8",
-      border: "border-blue-500/20",
-      protocols: [
-        { icon: Handshake, name: t("protocol.layer1.p1.name"), desc: t("protocol.layer1.p1.desc") },
-        { icon: Store, name: t("protocol.layer1.p2.name"), desc: t("protocol.layer1.p2.desc") },
-        { icon: Fingerprint, name: t("protocol.layer1.p3.name"), desc: t("protocol.layer1.p3.desc") },
-      ],
-    },
-    {
-      icon: Bot,
-      title: t("protocol.layer2.title"),
-      subtitle: t("protocol.layer2.subtitle"),
-      color: "from-cyan-500 to-teal-500",
-      bg: "bg-cyan-500/8",
-      border: "border-cyan-500/20",
-      protocols: [
-        { icon: Bot, name: t("protocol.layer2.p1.name"), desc: t("protocol.layer2.p1.desc") },
-        { icon: GraduationCap, name: t("protocol.layer2.p2.name"), desc: t("protocol.layer2.p2.desc") },
-        { icon: Users, name: t("protocol.layer2.p3.name"), desc: t("protocol.layer2.p3.desc") },
-      ],
-    },
-    {
-      icon: Users,
-      title: t("protocol.layer3.title"),
-      subtitle: t("protocol.layer3.subtitle"),
-      color: "from-emerald-500 to-green-500",
-      bg: "bg-emerald-500/8",
+      title: t("protocol.pillar2.title"),
+      subtitle: t("protocol.pillar2.subtitle"),
+      desc: t("protocol.pillar2.desc"),
+      highlight: t("protocol.pillar2.highlight"),
+      color: "from-emerald-500 to-teal-500",
+      bg: "bg-emerald-500/5",
       border: "border-emerald-500/20",
-      protocols: [
-        { icon: Building2, name: t("protocol.layer3.p1.name"), desc: t("protocol.layer3.p1.desc") },
-        { icon: HeartHandshake, name: t("protocol.layer3.p2.name"), desc: t("protocol.layer3.p2.desc") },
-        { icon: Globe, name: t("protocol.layer3.p3.name"), desc: t("protocol.layer3.p3.desc") },
+      features: [
+        { icon: ShieldCheck, text: t("protocol.pillar2.f1") },
+        { icon: Globe, text: t("protocol.pillar2.f2") },
+        { icon: Coins, text: t("protocol.pillar2.f3") },
       ],
     },
     {
-      icon: Server,
-      title: t("protocol.layer4.title"),
-      subtitle: t("protocol.layer4.subtitle"),
-      color: "from-rose-500 to-pink-500",
-      bg: "bg-rose-500/8",
-      border: "border-rose-500/20",
-      protocols: [
-        { icon: MessageCircle, name: t("protocol.layer4.p1.name"), desc: t("protocol.layer4.p1.desc") },
-        { icon: HardDrive, name: t("protocol.layer4.p2.name"), desc: t("protocol.layer4.p2.desc") },
-        { icon: Server, name: t("protocol.layer4.p3.name"), desc: t("protocol.layer4.p3.desc") },
+      icon: Wheat,
+      title: t("protocol.pillar3.title"),
+      subtitle: t("protocol.pillar3.subtitle"),
+      desc: t("protocol.pillar3.desc"),
+      highlight: t("protocol.pillar3.highlight"),
+      color: "from-amber-500 to-orange-500",
+      bg: "bg-amber-500/5",
+      border: "border-amber-500/20",
+      features: [
+        { icon: Flame, text: t("protocol.pillar3.f1") },
+        { icon: Users, text: t("protocol.pillar3.f2") },
+        { icon: Coins, text: t("protocol.pillar3.f3") },
       ],
     },
   ];
@@ -84,10 +73,10 @@ export default function Protocol() {
     <section className="relative py-24 px-4 overflow-hidden" id="protocol">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-neon-cyan/3 rounded-full blur-[200px]" />
-        <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-neon-purple/3 rounded-full blur-[200px]" />
+        <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-gold/3 rounded-full blur-[200px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 30 }}
@@ -113,36 +102,39 @@ export default function Protocol() {
           </p>
         </motion.div>
 
-        {/* Layer Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-12">
-          {layers.map((layer, i) => (
+        {/* 3 Pillars */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-12">
+          {pillars.map((pillar, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 25 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.1 + i * 0.1, duration: 0.6 }}
-              className={`p-6 rounded-2xl ${layer.bg} border ${layer.border} hover:border-gold/30 transition-all duration-500`}
+              transition={{ delay: 0.15 + i * 0.15, duration: 0.7 }}
+              className={`relative p-6 rounded-2xl ${pillar.bg} border ${pillar.border} hover:border-gold/30 transition-all duration-500 flex flex-col`}
             >
               <div className="flex items-center gap-3 mb-4">
-                <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${layer.color} flex items-center justify-center`}>
-                  <layer.icon className="w-5 h-5 text-white" />
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${pillar.color} flex items-center justify-center`}>
+                  <pillar.icon className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-cinzel text-lg font-bold text-cream">{layer.title}</h3>
-                  <p className="text-cream/40 text-xs">{layer.subtitle}</p>
+                  <h3 className="font-cinzel text-lg font-bold text-cream">{pillar.title}</h3>
+                  <p className="text-cream/40 text-xs">{pillar.subtitle}</p>
                 </div>
               </div>
 
-              <div className="space-y-3">
-                {layer.protocols.map((p, j) => (
-                  <div key={j} className="flex items-start gap-3">
-                    <p.icon className="w-4 h-4 text-gold/40 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <span className="text-cream/80 text-sm font-semibold">{p.name}</span>
-                      <span className="text-cream/40 text-sm"> — {p.desc}</span>
-                    </div>
+              <p className="text-cream/55 text-sm leading-relaxed mb-5">{pillar.desc}</p>
+
+              <div className="space-y-2.5 mb-5 flex-1">
+                {pillar.features.map((f, j) => (
+                  <div key={j} className="flex items-start gap-2.5">
+                    <f.icon className="w-4 h-4 text-gold/50 mt-0.5 flex-shrink-0" />
+                    <span className="text-cream/60 text-sm">{f.text}</span>
                   </div>
                 ))}
+              </div>
+
+              <div className={`mt-auto px-3 py-2 rounded-lg bg-gradient-to-r ${pillar.color} bg-opacity-5 border border-white/5`}>
+                <p className="text-xs font-medium text-cream/70 italic">&ldquo;{pillar.highlight}&rdquo;</p>
               </div>
             </motion.div>
           ))}
@@ -152,20 +144,20 @@ export default function Protocol() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.5, duration: 0.8 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
           className="p-6 md:p-8 rounded-2xl glass-gold border border-gold/20 text-center"
         >
           <h3 className="font-cinzel text-xl font-bold text-cream mb-4">{t("protocol.flywheel.title")}</h3>
 
           <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 text-sm mb-4">
             {[
-              { label: t("protocol.flywheel.step1"), cls: "bg-blue-500/10 border-blue-500/20 text-blue-400" },
-              { label: t("protocol.flywheel.step2"), cls: "bg-green-500/10 border-green-500/20 text-green-400" },
+              { label: t("protocol.flywheel.step1"), cls: "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" },
+              { label: t("protocol.flywheel.step2"), cls: "bg-amber-500/10 border-amber-500/20 text-amber-400" },
               { label: t("protocol.flywheel.step3"), cls: "bg-orange-500/10 border-orange-500/20 text-orange-400" },
-              { label: t("protocol.flywheel.step4"), cls: "bg-purple-500/10 border-purple-500/20 text-purple-400" },
-              { label: t("protocol.flywheel.step5"), cls: "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" },
-              { label: t("protocol.flywheel.step6"), cls: "bg-rose-500/10 border-rose-500/20 text-rose-400" },
-              { label: t("protocol.flywheel.step7"), cls: "bg-amber-500/10 border-amber-500/20 text-amber-400" },
+              { label: t("protocol.flywheel.step4"), cls: "bg-green-500/10 border-green-500/20 text-green-400" },
+              { label: t("protocol.flywheel.step5"), cls: "bg-cyan-500/10 border-cyan-500/20 text-cyan-400" },
+              { label: t("protocol.flywheel.step6"), cls: "bg-blue-500/10 border-blue-500/20 text-blue-400" },
+              { label: t("protocol.flywheel.step7"), cls: "bg-purple-500/10 border-purple-500/20 text-purple-400" },
             ].map((step, i) => (
               <div key={i} className="flex items-center gap-2">
                 <span className={`px-3 py-1.5 rounded-lg border text-xs font-medium ${step.cls}`}>
@@ -176,21 +168,18 @@ export default function Protocol() {
             ))}
           </div>
 
-          <p className="text-cream/35 text-sm max-w-xl mx-auto">
+          <p className="text-cream/35 text-sm max-w-xl mx-auto mb-5">
             {t("protocol.flywheel.desc")}
           </p>
 
-          {/* Revenue Split */}
-          <div className="flex items-center justify-center gap-2.5 mt-5 text-cream/30 text-xs flex-wrap">
+          <div className="flex items-center justify-center gap-3 text-cream/30 text-xs flex-wrap">
             <span>{t("protocol.revenue.fee")}</span>
             <Sparkles className="w-3 h-3 text-gold/30" />
-            <span className="text-green-400">{t("protocol.revenue.ops")}</span>
+            <span className="text-orange-400">{t("protocol.revenue.ops")}</span>
             <span>·</span>
-            <span className="text-amber-400">{t("protocol.revenue.holders")}</span>
+            <span className="text-green-400">{t("protocol.revenue.holders")}</span>
             <span>·</span>
             <span className="text-purple-400">{t("protocol.revenue.commons")}</span>
-            <span>·</span>
-            <span className="text-orange-400">{t("protocol.revenue.burn")}</span>
           </div>
         </motion.div>
       </div>

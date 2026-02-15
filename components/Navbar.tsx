@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
-import LanguageSelector from "./LanguageSelector";
 import Image from "next/image";
 
 export default function Navbar() {
@@ -13,6 +12,7 @@ export default function Navbar() {
   const { t } = useLanguage();
 
   const navLinks = [
+    { name: t("nav.problem"), href: "#problem" },
     { name: t("nav.manifesto"), href: "#manifesto" },
     { name: t("nav.protocol"), href: "#protocol" },
     { name: t("nav.value"), href: "#value" },
@@ -79,10 +79,8 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Right Side - Language & Buy Button */}
+          {/* Right Side - Buy Button */}
           <div className="hidden md:flex items-center gap-4">
-            <LanguageSelector />
-            
             <motion.a
               href="https://t.me/mayastarter"
               target="_blank"
@@ -100,7 +98,6 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <div className="flex items-center gap-3 md:hidden">
-            <LanguageSelector />
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

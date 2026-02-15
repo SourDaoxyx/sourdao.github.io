@@ -35,10 +35,9 @@ export default function Value() {
   ];
 
   const revenue = [
-    { label: t("value.revenue.operations"), value: "50%", color: "bg-green-500", width: "w-[50%]" },
-    { label: t("value.revenue.holders"), value: "15%", color: "bg-gold", width: "w-[15%]" },
-    { label: t("value.revenue.commons"), value: "15%", color: "bg-purple-500", width: "w-[15%]" },
-    { label: t("value.revenue.burn"), value: "20%", color: "bg-orange-500", width: "w-[20%]" },
+    { label: t("value.revenue.operations"), value: "50%", color: "bg-orange-500", width: "w-[50%]" },
+    { label: t("value.revenue.holders"), value: "30%", color: "bg-green-500", width: "w-[30%]" },
+    { label: t("value.revenue.commons"), value: "20%", color: "bg-purple-500", width: "w-[20%]" },
   ];
 
   return (

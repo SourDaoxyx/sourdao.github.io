@@ -1,46 +1,22 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { Language, translations } from "@/lib/translations";
+import { createContext, useContext, ReactNode } from "react";
+import { translations } from "@/lib/translations";
 
 interface LanguageContextType {
-  language: Language;
-  setLanguage: (lang: Language) => void;
+  language: "en";
   t: (key: string) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>("en");
-
-  // Load saved language from localStorage on mount
-  useEffect(() => {
-    const saved = localStorage.getItem("maya-language") as Language;
-    if (saved && translations[saved]) {
-      setLanguage(saved);
-    } else {
-      // Try to detect browser language
-      const browserLang = navigator.language.split("-")[0] as Language;
-      if (translations[browserLang]) {
-        setLanguage(browserLang);
-      }
-    }
-  }, []);
-
-  // Save language to localStorage when changed
-  const handleSetLanguage = (lang: Language) => {
-    setLanguage(lang);
-    localStorage.setItem("maya-language", lang);
-  };
-
-  // Translation function
   const t = (key: string): string => {
-    return translations[language][key] || translations["en"][key] || key;
+    return translations["en"][key] || key;
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t }}>
+    <LanguageContext.Provider value={{ language: "en", t }}>
       {children}
     </LanguageContext.Provider>
   );

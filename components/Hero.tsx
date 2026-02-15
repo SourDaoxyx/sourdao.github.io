@@ -192,11 +192,11 @@ export default function Hero() {
         </motion.a>
 
         <motion.a
-          href="#protocol"
+          href="#manifesto"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="group relative px-10 py-5 overflow-hidden rounded-xl text-lg font-bold"
-          aria-label="Explore the Civilization Protocol"
+          aria-label="Read the Manifesto"
         >
           <div className="absolute inset-0 gradient-border rounded-xl" />
           <div className="absolute inset-[1px] bg-black/80 rounded-xl backdrop-blur-sm" />
