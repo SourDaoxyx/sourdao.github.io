@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { Wallet, Loader2, LogOut, Fingerprint } from "lucide-react";
-import { getMayaHolderInfo, type MayaHolderInfo } from "@/lib/solana";
+import { getSourHolderInfo, type SourHolderInfo } from "@/lib/solana";
 import { getKeeperTier } from "@/lib/constants";
 import BakerCard from "./BakerCard";
 import EditProfile from "./EditProfile";
@@ -20,7 +20,7 @@ interface BakerProfile {
 function loadProfile(wallet: string): BakerProfile {
   if (typeof window === "undefined") return { name: "", bio: "", avatar: "/mascot.svg" };
   try {
-    const stored = localStorage.getItem(`maya-baker-${wallet}`);
+    const stored = localStorage.getItem(`sour-baker-${wallet}`);
     if (stored) return JSON.parse(stored);
   } catch { /* ignore */ }
   return { name: "", bio: "", avatar: "/mascot.svg" };
@@ -28,14 +28,14 @@ function loadProfile(wallet: string): BakerProfile {
 
 function saveProfile(wallet: string, profile: BakerProfile) {
   try {
-    localStorage.setItem(`maya-baker-${wallet}`, JSON.stringify(profile));
+    localStorage.setItem(`sour-baker-${wallet}`, JSON.stringify(profile));
   } catch { /* ignore */ }
 }
 
 export default function CrustApp() {
   const { publicKey, connected, disconnect } = useWallet();
   const { setVisible } = useWalletModal();
-  const [holderInfo, setHolderInfo] = useState<MayaHolderInfo | null>(null);
+  const [holderInfo, setHolderInfo] = useState<SourHolderInfo | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [profile, setProfile] = useState<BakerProfile>({ name: "", bio: "", avatar: "/mascot.svg" });
@@ -55,7 +55,7 @@ export default function CrustApp() {
       setLoading(true);
       setError(null);
       try {
-        const info = await getMayaHolderInfo(publicKey);
+        const info = await getSourHolderInfo(publicKey);
         setHolderInfo(info);
       } catch (err) {
         console.error("Failed to fetch holder info:", err);

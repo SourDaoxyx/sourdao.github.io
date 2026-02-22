@@ -40,7 +40,7 @@ export default function ShareCard({
     const dataUrl = await generateImage();
     if (dataUrl) {
       const link = document.createElement("a");
-      link.download = `maya-baker-card.png`;
+      link.download = `sour-baker-card.png`;
       link.href = dataUrl;
       link.click();
     }
@@ -48,8 +48,8 @@ export default function ShareCard({
   };
 
   const handleTwitterShare = () => {
-    const text = `I'm a ${tierName} Baker 🍞\nFermenting for ${daysFermenting} days.\n\nYour dough. Your bread. Your economy.\n\n#MAYA #TheBakers #CivilizationProtocol`;
-    const url = `https://mayastarter.github.io/crust`;
+    const text = `I'm a ${tierName} Baker 🍞\nFermenting for ${daysFermenting} days.\n\nYour dough. Your bread. Your economy.\n\n#SOUR #TheBakers #CivilizationProtocol`;
+    const url = `https://sourdao.xyz/crust`;
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       text
     )}&url=${encodeURIComponent(url)}`;
@@ -57,7 +57,7 @@ export default function ShareCard({
   };
 
   const handleCopyLink = async () => {
-    const profileUrl = `https://mayastarter.github.io/crust`;
+    const profileUrl = `https://sourdao.xyz/crust`;
     try {
       await navigator.clipboard.writeText(profileUrl);
       setCopied(true);

@@ -1,9 +1,9 @@
-# MAYA: The Civilization Protocol
+# SOUR: The Civilization Protocol
 
 **Version 4.0 — February 2026**
 
 > *"10,000 years ago, a starter culture built civilization.*
-> *MAYA doesn't just make trades — it makes civilization possible again."*
+> *SOUR doesn't just make trades — it makes civilization possible again."*
 
 ---
 
@@ -32,14 +32,14 @@
 
 ## 1. Abstract
 
-MAYA is a civilization protocol built on Solana. Three pillars — identity, agreements, and shared prosperity — form the foundation for an economy that serves its participants, not its operators.
+SOUR is a civilization protocol built on Solana. Three pillars — identity, agreements, and shared prosperity — form the foundation for an economy that serves its participants, not its operators.
 
-**What makes MAYA different from every other crypto project:**
+**What makes SOUR different from every other crypto project:**
 
 - **Your reputation is yours** — on-chain, portable, unsellable, undeletable
 - **Trade with anyone, anywhere** — code guards the deal, not a middleman
 - **50% of all fees are burned** — permanent deflation, not token inflation
-- **30% flows to Keepers** — hold to earn, all in $MAYA
+- **30% flows to Keepers** — hold to earn, all in $SOUR
 - **20% funds the Commons** — community treasury for collective growth
 - **No team tokens. No insiders. No presale.** — 100% community-owned from day one
 
@@ -57,17 +57,17 @@ MAYA is a civilization protocol built on Solana. Three pillars — identity, agr
 | 3,000 BC | Grain as currency | First money systems, trade networks |
 | 1,400 AD | Banking system | Centralized trust, enabled commerce |
 | 2009 | Bitcoin | Decentralized trust, eliminated middlemen |
-| 2026 | **MAYA** | **Decentralized reputation, eliminated platforms** |
+| 2026 | **SOUR** | **Decentralized reputation, eliminated platforms** |
 
 Sourdough starter is the oldest continuously living organism cultivated by humans. It doesn't just ferment — **it transforms everything it touches.** Flour becomes bread. Grain becomes beer. Communities become civilizations.
 
-### MAYA as Digital Starter Culture
+### SOUR as Digital Starter Culture
 
 - **It's alive**: The ecosystem grows with every Bake, every Handshake, every Harvest
 - **It's self-sustaining**: No central authority feeds it — the community feeds itself
 - **It transforms**: Strangers become collaborators, skills become capital, reputation becomes value
 - **It cannot be killed**: Like sourdough shared across generations, the culture persists
-- **It goes into any dough**: MAYA works in any chain, any Oven, any economy
+- **It goes into any dough**: SOUR works in any chain, any Oven, any economy
 
 ---
 
@@ -91,7 +91,7 @@ The internet promised freedom. It delivered feudalism.
 2. **Banks** → You save. They print. You lose. Nothing remains.
 3. **Borders** → You earn. They block. You wait. Nothing moves.
 
-### MAYA's Answer
+### SOUR's Answer
 
 What if your reputation was yours forever? What if agreements were code, not contracts? What if every transaction made the economy stronger for everyone?
 
@@ -113,7 +113,7 @@ What if your reputation was yours forever? What if agreements were code, not con
 │   Soulbound Identity · Portable Reputation · On-Chain     │
 ├───────────────────────────────────────────────────────────┤
 │                     FOUNDATION                            │
-│        $MAYA Token · Community Owned · LP Burned          │
+│        $SOUR Token · Community Owned · LP Burned          │
 └───────────────────────────────────────────────────────────┘
 ```
 
@@ -156,7 +156,7 @@ Your Crust is your on-chain identity — a soulbound, dynamic record of everythi
 
 - **Soulbound**: Cannot be sold or transferred — it IS you
 - **Dynamic**: Grows with every successful Bake
-- **Portable**: Works across every Oven (chain) MAYA deploys to
+- **Portable**: Works across every Oven (chain) SOUR deploys to
 - **Undeletable**: No platform can erase your economic history
 - **Composable**: Other protocols can query your Crust via API
 
@@ -237,7 +237,7 @@ Every Bake (Trade/Agreement)
     ├── 30% → KEEPERS 🌾                │
     │         Distributed to holders     │
     │         Tier-weighted              │
-    │         All in $MAYA               │
+    │         All in $SOUR               │
     │                                    │
     └── 20% → COMMONS BAKERY 🏛️         │
               Community treasury         │
@@ -247,15 +247,15 @@ Every Bake (Trade/Agreement)
 
 ### Key Properties
 
-- **50% burned permanently** — every Bake makes $MAYA scarcer
-- **30% to Keepers** — paid in $MAYA, tier-weighted, real protocol revenue
+- **50% burned permanently** — every Bake makes $SOUR scarcer
+- **30% to Keepers** — paid in $SOUR, tier-weighted, real protocol revenue
 - **20% to Commons** — community treasury for collective growth
 - **No inflation** — no minting, no staking rewards, no team unlocks
-- **All in $MAYA** — creating real demand for the token
+- **All in $SOUR** — creating real demand for the token
 
-### Why $MAYA, not stablecoins?
+### Why $SOUR, not stablecoins?
 
-Paying rewards in $MAYA creates a virtuous cycle: protocol revenue → buy $MAYA for distribution → price support → Keepers receive appreciating asset → more incentive to hold → stronger civilization.
+Paying rewards in $SOUR creates a virtuous cycle: protocol revenue → buy $SOUR for distribution → price support → Keepers receive appreciating asset → more incentive to hold → stronger civilization.
 
 ### The Sourdough Metaphor
 
@@ -283,7 +283,7 @@ Paying rewards in $MAYA creates a virtuous cycle: protocol revenue → buy $MAYA
 1. **Bake** — A transaction happens on the protocol
 2. **Pinch** — 1-3% fee is collected
 3. **Feed the Oven** — 50% burns, 30% to Keepers, 20% to Commons
-4. **Harvest** — Keepers receive $MAYA, supply decreases
+4. **Harvest** — Keepers receive $SOUR, supply decreases
 5. **Crust Grows** — Participants build reputation
 6. **More Bakers** — Better reputation = more trust = more participants
 7. **Repeat ∞** — The civilization grows itself
@@ -298,8 +298,8 @@ Each step feeds the next. No step requires outside intervention. The flywheel is
 
 | Property | Value |
 |----------|-------|
-| Name | MAYA: The Genesis Starter |
-| Ticker | $MAYA |
+| Name | SOUR: The Genesis Starter |
+| Ticker | $SOUR |
 | Chain | Solana |
 | Total Supply | 1,000,000,000 (1 Billion) |
 | Team Allocation | 0% |
@@ -312,15 +312,15 @@ Each step feeds the next. No step requires outside intervention. The flywheel is
 
 ### Why Zero Tax?
 
-Buy/sell taxes punish traders and reduce liquidity. MAYA generates revenue from actual protocol usage (the Pinch), not from penalizing token transfers.
+Buy/sell taxes punish traders and reduce liquidity. SOUR generates revenue from actual protocol usage (the Pinch), not from penalizing token transfers.
 
-### The $MAYA Token's Role
+### The $SOUR Token's Role
 
-$MAYA is not a speculative token — it is the currency of a civilization:
-- **Fee currency**: All Pinch fees flow through $MAYA
-- **Keeper rewards**: 30% of all fees distributed in $MAYA
+$SOUR is not a speculative token — it is the currency of a civilization:
+- **Fee currency**: All Pinch fees flow through $SOUR
+- **Keeper rewards**: 30% of all fees distributed in $SOUR
 - **Governance**: Voting power in the Bakery DAO
-- **Identity bond**: Your Keeper tier is tied to $MAYA holdings
+- **Identity bond**: Your Keeper tier is tied to $SOUR holdings
 - **Deflationary**: 50% of all fees burned, permanently reducing supply
 
 ---
@@ -342,7 +342,7 @@ The longer you hold without selling, the thicker your Crust — and the greater 
 
 This is the core loyalty mechanic:
 
-**Sell your $MAYA → Tier resets to Fresh Dough. Hold timer restarts from zero. Harvest stops. Crust thins.**
+**Sell your $SOUR → Tier resets to Fresh Dough. Hold timer restarts from zero. Harvest stops. Crust thins.**
 
 The Starter rewards patience. Diamond hands aren't a meme here — they're the economic model.
 
@@ -363,12 +363,12 @@ The Starter rewards patience. Diamond hands aren't a meme here — they're the e
 Protocol Revenue (1-3% Pinch on every Bake)
          │
          ├── 50% → BURN 🔥
-         │         Buy $MAYA from market
+         │         Buy $SOUR from market
          │         Send to burn address
          │         Gone forever
          │
          ├── 30% → KEEPER HARVEST 🌾
-         │         Distributed in $MAYA
+         │         Distributed in $SOUR
          │         Tier-weighted
          │         Ongoing rewards
          │
@@ -389,7 +389,7 @@ Protocol Revenue (1-3% Pinch on every Bake)
 
 ### Fixed Supply, Only Burns
 
-MAYA has a fixed supply of 1 billion tokens with **no minting capability**. Every burn permanently reduces circulating supply. There is no inflation mechanism. No staking rewards. No airdrops. No team unlocks.
+SOUR has a fixed supply of 1 billion tokens with **no minting capability**. Every burn permanently reduces circulating supply. There is no inflation mechanism. No staking rewards. No airdrops. No team unlocks.
 
 **The math is simple: as the civilization grows, supply shrinks.** Your share gets bigger by doing nothing — just holding.
 
@@ -436,11 +436,11 @@ A whale with 10,000 tokens gets 100 votes, not 10,000. **Democracy, not plutocra
 
 **The Starter is Alive**
 
-The genesis moment. $MAYA launches with 100% community allocation. No insiders. No presale. The first culture is born. The Bakers gather.
+The genesis moment. $SOUR launches with 100% community allocation. No insiders. No presale. The first culture is born. The Bakers gather.
 
 - ✅ Fair launch — no presale, no insiders
 - 🔄 The First Bakers community
-- 🔄 Maya brand & meme culture
+- 🔄 SOUR brand & meme culture
 - ⬜ Live baking sessions (24/7 stream)
 - ⬜ Genesis Keeper recognition
 
@@ -498,7 +498,7 @@ Multichain deployment — every blockchain is an Oven. No-code platform builder 
 ### How Holding Gets Better Over Time
 
 ```
-Your holding: 1,000,000 MAYA (0.10% of supply)
+Your holding: 1,000,000 SOUR (0.10% of supply)
 
 Launch:  Supply 1,000,000,000 → Your share: 0.100%
 Year 1:  Supply   950,000,000 → Your share: 0.105%
@@ -509,7 +509,7 @@ Your ownership grew 67% — by doing absolutely nothing.
 No staking required. No locking. Just holding.
 ```
 
-Plus you're earning $MAYA from the Harvest on top of this deflation.
+Plus you're earning $SOUR from the Harvest on top of this deflation.
 
 ---
 
@@ -537,7 +537,7 @@ Floor: 0 (cannot go negative)
 
 ## Disclaimer
 
-MAYA is a community-driven experimental protocol. This document describes intended functionality and is not a guarantee of future performance. Smart contract risk, market risk, and regulatory uncertainty apply. Do not invest more than you can afford to lose. MAYA tokens are utility tokens — not securities, not investment contracts, not promises of financial return.
+SOUR is a community-driven experimental protocol. This document describes intended functionality and is not a guarantee of future performance. Smart contract risk, market risk, and regulatory uncertainty apply. Do not invest more than you can afford to lose. SOUR tokens are utility tokens — not securities, not investment contracts, not promises of financial return.
 
 ---
 

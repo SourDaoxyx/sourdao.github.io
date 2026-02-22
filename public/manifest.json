@@ -1,6 +1,6 @@
 {
-  "name": "MAYA: The Genesis Starter",
-  "short_name": "MAYA",
+  "name": "SOUR: The Genesis Starter",
+  "short_name": "SOUR",
   "description": "Modern finance went stale. We came to ferment. The decentralized sourdough revolution.",
   "start_url": "/",
   "display": "standalone",
@@ -9,15 +9,10 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/logo.png",
-      "sizes": "192x192",
-      "type": "image/png",
+      "src": "/sour-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
-    },
-    {
-      "src": "/logo.png",
-      "sizes": "512x512",
-      "type": "image/png"
     }
   ]
 }

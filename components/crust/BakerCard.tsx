@@ -62,7 +62,7 @@ export default function BakerCard({
           {/* Header */}
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono text-gold/60">🍞 MAYA BAKER CARD</span>
+              <span className="text-xs font-mono text-gold/60">🍞 SOUR BAKER CARD</span>
             </div>
             <div className={`px-2.5 py-1 rounded-full ${tier.bgColor} border ${tier.borderColor}`}>
               <span className={`text-[10px] font-bold tracking-wider ${tier.textColor}`}>
@@ -102,7 +102,7 @@ export default function BakerCard({
               <p className="text-cream font-bold text-lg font-mono">
                 {formatBalance(balance)}
               </p>
-              <p className="text-gold/40 text-[10px]">$MAYA</p>
+              <p className="text-gold/40 text-[10px]">$SOUR</p>
             </div>
             <div className="p-3 rounded-xl bg-gold/5 border border-gold/10">
               <p className="text-cream/40 text-[10px] font-medium uppercase tracking-wider mb-1">Fermenting</p>
@@ -128,7 +128,7 @@ export default function BakerCard({
 
           {/* Footer */}
           <div className="flex items-center justify-between pt-3 border-t border-cream/5">
-            <span className="text-cream/20 text-[10px]">maya.community/crust</span>
+            <span className="text-cream/20 text-[10px]">sour.community/crust</span>
             <span className="text-cream/20 text-[10px]">The Civilization Protocol</span>
           </div>
         </div>

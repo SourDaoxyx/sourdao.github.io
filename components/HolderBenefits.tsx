@@ -322,7 +322,7 @@ export default function HolderBenefits() {
             </div>
             <div>
               <h3 className="font-cinzel text-2xl font-bold text-cream mb-1">Solidarity Insurance</h3>
-              <p className="text-cream/40 text-sm italic">&ldquo;İmece — When one suffers, the village carries them.&rdquo;</p>
+              <p className="text-cream/40 text-sm italic">&ldquo;Solidarity — When one suffers, the village carries them.&rdquo;</p>
             </div>
           </div>
 

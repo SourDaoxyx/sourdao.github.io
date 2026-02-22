@@ -27,30 +27,30 @@ const pillars = [
     status: "✅ Live",
     statusColor: "text-green-400",
     description:
-      "Cüzdan tabanlı Baker Profil Sistemi. Cüzdanını bağla, $SOUR bakiyeni ve holding sürenle otomatik tier belirlensin. Baker Card&apos;ını PNG olarak indir veya Twitter&apos;da paylaş.",
+      "Wallet-based Baker Profile System. Connect your wallet, your tier is automatically determined by $SOUR balance and holding duration. Download your Baker Card as PNG or share on Twitter.",
     features: [
-      "Phantom & Solflare cüzdan desteği",
-      "On-chain bakiye + ilk TX tarihi okuma",
-      "4 kademeli Keeper sistemi (Fresh → Eternal)",
-      "Profil düzenleme + localStorage",
-      "PNG kart export + sosyal paylaşım",
+      "Phantom & Solflare wallet support",
+      "On-chain balance + first TX date reading",
+      "4-tier Keeper system (Fresh → Eternal)",
+      "Profile editing + localStorage",
+      "PNG card export + social sharing",
     ],
     link: "/crust",
-    linkText: "Crust'a Git →",
+    linkText: "Go to Crust →",
   },
   {
     icon: Handshake,
     name: "The Handshake",
-    status: "🔜 Yakında",
+    status: "🔜 Coming Soon",
     statusColor: "text-blue-400",
     description:
-      "İki cüzdan arası P2P anlaşma sistemi. Akıllı kontrat üzerinde escrow, milestone bazlı ödeme, anlaşmazlık çözümü. Platform komisyonu %50 burn edilir.",
+      "P2P agreement system between two wallets. Smart contract escrow, milestone-based payments, dispute resolution. 50% of platform fees are burned.",
     features: [
-      "Cüzdan-cüzdan doğrudan anlaşma",
-      "Escrow bazlı güvenli ödeme",
-      "Milestone takibi",
-      "Anlaşmazlık hakemliği",
-      "Komisyonun %50'si yakılır",
+      "Direct wallet-to-wallet agreements",
+      "Escrow-based secure payments",
+      "Milestone tracking",
+      "Dispute arbitration",
+      "50% of fees burned",
     ],
     link: null,
     linkText: null,
@@ -58,16 +58,16 @@ const pillars = [
   {
     icon: BarChart3,
     name: "The Harvest",
-    status: "📋 Planlandı",
+    status: "📋 Planned",
     statusColor: "text-gold/60",
     description:
-      "Oven Dashboard — topluluk metrikleri, burn tracker, keeper istatistikleri. SOUR ekosisteminin nabzını tutan merkezi kontrol paneli.",
+      "Oven Dashboard — community metrics, burn tracker, keeper statistics. The central control panel that tracks the pulse of the SOUR ecosystem.",
     features: [
-      "Gerçek zamanlı burn tracker",
-      "Keeper dağılım haritası",
-      "Topluluk büyüme metrikleri",
-      "Anlaşma istatistikleri",
-      "Hazine yönetim paneli",
+      "Real-time burn tracker",
+      "Keeper distribution map",
+      "Community growth metrics",
+      "Agreement statistics",
+      "Treasury management panel",
     ],
     link: null,
     linkText: null,
@@ -76,49 +76,49 @@ const pillars = [
 
 const techStack = [
   { category: "Frontend", items: "Next.js 15, React 19, TypeScript" },
-  { category: "Stil", items: "Tailwind CSS, Framer Motion" },
+  { category: "Styling", items: "Tailwind CSS, Framer Motion" },
   { category: "Blockchain", items: "@solana/web3.js v1, SPL Token" },
-  { category: "Cüzdan", items: "wallet-adapter (Phantom + Solflare)" },
-  { category: "Export", items: "html-to-image (PNG kart)" },
-  { category: "Deploy", items: "GitHub Pages (static export)" },
+  { category: "Wallets", items: "wallet-adapter (Phantom + Solflare)" },
+  { category: "Export", items: "html-to-image (PNG card)" },
+  { category: "Deploy", items: "Vercel (static export)" },
 ];
 
 const timeline = [
   {
-    date: "Şubat 2026",
-    title: "Proje Başlangıcı",
+    date: "February 2026",
+    title: "Project Launch",
     items: [
-      "Site tasarımı ve geliştirme",
-      "Whitepaper yazımı",
-      "3 Sütun vizyonu belirlendi",
+      "Site design and development",
+      "Whitepaper written",
+      "3-Pillar vision established",
     ],
   },
   {
-    date: "Şubat 2026",
+    date: "February 2026",
     title: "MVP 1: The Crust",
     items: [
-      "Baker Profil Sistemi geliştirildi",
-      "Solana wallet entegrasyonu",
-      "4 kademeli Keeper sistemi",
-      "PNG export + sosyal paylaşım",
+      "Baker Profile System developed",
+      "Solana wallet integration",
+      "4-tier Keeper system",
+      "PNG export + social sharing",
     ],
   },
   {
-    date: "Mart 2026",
+    date: "March 2026",
     title: "Token Launch",
     items: [
-      "$SOUR pump.fun lansmanı",
-      "Topluluk büyütme kampanyası",
-      "İlk Keeper ödülleri",
+      "$SOUR pump.fun launch",
+      "Community growth campaign",
+      "First Keeper rewards",
     ],
   },
   {
-    date: "Mart-Nisan 2026",
+    date: "March–April 2026",
     title: "MVP 2: The Handshake",
     items: [
-      "P2P anlaşma akıllı kontratı",
-      "Escrow sistemi",
-      "Anlaşmazlık çözüm mekanizması",
+      "P2P agreement smart contract",
+      "Escrow system",
+      "Dispute resolution mechanism",
     ],
   },
 ];
@@ -178,14 +178,14 @@ export default function AboutPage() {
         >
           <h1 className="font-cinzel text-4xl md:text-6xl font-bold mb-6">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cream via-gold to-cream">
-              SOUR Nedir?
+              What is SOUR?
             </span>
           </h1>
 
           <p className="text-cream/60 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mb-8">
-            SOUR, dijital feodalizme karşı organik bir medeniyet inşa ediyor.
-            Platformlar seni ürün yapıyor — SOUR seni <strong className="text-gold">sahip</strong> yapıyor.
-            Cüzdanını bağla, itibarını inşa et, aracıları depasaj yap.
+            SOUR is building an organic civilization against digital feudalism.
+            Platforms make you the product — SOUR makes you the <strong className="text-gold">owner</strong>.
+            Connect your wallet, build your reputation, bypass the middlemen.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
@@ -194,7 +194,7 @@ export default function AboutPage() {
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-gold to-amber text-black font-bold text-sm hover:scale-105 transition-transform"
             >
               <Fingerprint className="w-4 h-4" />
-              Crust&apos;u Dene
+              Try Crust
             </Link>
             <a
               href="https://github.com/SourDaoxyx/sourdao.github.io"
@@ -203,37 +203,37 @@ export default function AboutPage() {
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-gold/30 text-gold font-medium text-sm hover:border-gold/60 hover:bg-gold/5 transition-all"
             >
               <Github className="w-4 h-4" />
-              Kaynak Kod
+              Source Code
             </a>
           </div>
         </motion.div>
       </section>
 
-      {/* Vizyon */}
+      {/* Vision */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <SectionHeader
-            badge="🌱 VİZYON"
-            title="Organik Finans Medeniyeti"
-            subtitle="Modern finans bayat. Biz mayalamaya geldik."
+            badge="🌱 VISION"
+            title="Organic Finance Civilization"
+            subtitle="Modern finance is stale. We came to ferment."
           />
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
                 icon: Flame,
-                title: "Yak & İnşa Et",
-                text: "Platform gelirinin %50'si yakılır. Arz azalır, değer artar. Basit matematik.",
+                title: "Burn & Build",
+                text: "50% of platform revenue is burned. Supply decreases, value increases. Simple math.",
               },
               {
                 icon: Shield,
-                title: "%0 Vergi",
-                text: "Alım-satımda vergi yok. Likidite yakılacak. Tam şeffaflık, tam özgürlük.",
+                title: "0% Tax",
+                text: "No buy/sell tax. Liquidity will be burned. Full transparency, full freedom.",
               },
               {
                 icon: Users,
-                title: "Topluluk Sahipli",
-                text: "Tek sahibi yok, tek otoritesi yok. DAO yönetişimine geçiş planlanıyor.",
+                title: "Community Owned",
+                text: "No single owner, no single authority. Transitioning to DAO governance.",
               },
             ].map((item, i) => (
               <motion.div
@@ -257,13 +257,13 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Üç Sütun */}
+      {/* Three Pillars */}
       <section className="py-20 px-4 bg-gradient-to-b from-transparent via-gold/[0.02] to-transparent">
         <div className="max-w-5xl mx-auto">
           <SectionHeader
-            badge="🏛️ ÜÇ SÜTUN"
-            title="Medeniyet Protokolü"
-            subtitle="SOUR üç temel ürün üzerine inşa edilmektedir. Her biri bağımsız çalışır, birlikte bir ekosistem oluşturur."
+            badge="🏛️ THREE PILLARS"
+            title="Civilization Protocol"
+            subtitle="SOUR is built on three core products. Each operates independently, together they form an ecosystem."
           />
 
           <div className="space-y-8">
@@ -323,13 +323,13 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Teknik Altyapı */}
+      {/* Tech Stack */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <SectionHeader
-            badge="⚙️ TEKNOLOJİ"
-            title="Teknik Altyapı"
-            subtitle="Modern, performanslı ve tamamen açık kaynak."
+            badge="⚙️ TECHNOLOGY"
+            title="Tech Stack"
+            subtitle="Modern, performant, and fully open source."
           />
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -358,10 +358,10 @@ export default function AboutPage() {
           >
             <Code2 className="w-6 h-6 text-gold flex-shrink-0 mt-0.5" />
             <div>
-              <h4 className="text-cream font-medium text-sm mb-1">Açık Kaynak</h4>
+              <h4 className="text-cream font-medium text-sm mb-1">Open Source</h4>
               <p className="text-cream/40 text-xs leading-relaxed">
-                Tüm kaynak kod GitHub üzerinde herkese açıktır. Static export ile
-                GitHub Pages&apos;e deploy edilir. IPFS desteği planlanmaktadır.
+                All source code is publicly available on GitHub. Deployed as a static
+                export via Vercel. IPFS support is planned.
               </p>
               <a
                 href="https://github.com/SourDaoxyx/sourdao.github.io"
@@ -377,13 +377,13 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Zaman Çizelgesi */}
+      {/* Timeline */}
       <section className="py-20 px-4 bg-gradient-to-b from-transparent via-gold/[0.02] to-transparent">
         <div className="max-w-3xl mx-auto">
           <SectionHeader
-            badge="📅 GELİŞTİRME"
-            title="Zaman Çizelgesi"
-            subtitle="Adım adım, her sprint'te somut çıktı."
+            badge="📅 DEVELOPMENT"
+            title="Timeline"
+            subtitle="Step by step, tangible output every sprint."
           />
 
           <div className="relative">
@@ -419,21 +419,21 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Tokenomics Özet */}
+      {/* Tokenomics */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <SectionHeader
-            badge="💰 TOKENOMİKS"
+            badge="💰 TOKENOMICS"
             title="$SOUR Token"
-            subtitle="Basit, şeffaf, topluluk odaklı."
+            subtitle="Simple, transparent, community-focused."
           />
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { label: "Toplam Arz", value: "1B", sub: "$SOUR" },
-              { label: "Vergi", value: "%0", sub: "Alım & satım" },
-              { label: "Burn Oranı", value: "%50", sub: "Gelirden" },
-              { label: "Keeper Payı", value: "%30", sub: "Gelirden" },
+              { label: "Total Supply", value: "1B", sub: "$SOUR" },
+              { label: "Tax", value: "0%", sub: "Buy & sell" },
+              { label: "Burn Rate", value: "50%", sub: "From revenue" },
+              { label: "Keeper Share", value: "30%", sub: "From revenue" },
             ].map((stat, i) => (
               <motion.div
                 key={i}
@@ -459,7 +459,7 @@ export default function AboutPage() {
             className="mt-6 p-4 rounded-xl bg-gold/5 border border-gold/10 text-center"
           >
             <p className="text-cream/40 text-xs">
-              <strong className="text-cream/60">Gelir Formülü:</strong> Platform geliri → %50 Burn · %30 Keepers (tier&apos;a göre) · %20 Commons — tamamı $SOUR cinsinden
+              <strong className="text-cream/60">Revenue Formula:</strong> Platform revenue → 50% Burn · 30% Keepers (tier-weighted) · 20% Commons — all in $SOUR
             </p>
           </motion.div>
         </div>
@@ -475,23 +475,23 @@ export default function AboutPage() {
         >
           <Globe className="w-12 h-12 text-gold/40 mx-auto mb-6" />
           <h2 className="font-cinzel text-2xl md:text-3xl font-bold text-cream mb-4">
-            Medeniyete Katıl
+            Join the Civilization
           </h2>
           <p className="text-cream/45 text-sm mb-8 max-w-lg mx-auto">
-            SOUR bir kişi değil, bir fikirdir. Bir fikrin sahibi olmaz — sadece ona katkıda bulunanlar vardır.
+            SOUR is not a person, it is an idea. An idea has no owner — only contributors.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/crust"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-gold to-amber text-black font-bold text-sm hover:scale-105 transition-transform"
             >
-              Baker Card Al
+              Get Baker Card
             </Link>
             <Link
               href="/whitepaper"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-gold/30 text-gold font-medium text-sm hover:border-gold/60 transition-all"
             >
-              Whitepaper Oku
+              Read Whitepaper
             </Link>
             <a
               href="https://t.me/sourdaoxyz"

@@ -167,7 +167,7 @@ export default function Rewards() {
     {
       icon: HeartHandshake,
       title: "Solidarity Insurance",
-      tagline: "İmece — Coded On-Chain",
+      tagline: "Solidarity — Coded On-Chain",
       description:
         "Freelance world's biggest fear: no work, no safety net. The Mutual Aid Pool helps members through illness, disaster, or hardship — voted by the community.",
       features: [

@@ -24,9 +24,9 @@ export const metadata: Metadata = {
   keywords: ["SOUR", "Genesis Starter", "Organic Finance", "Web3", "DeFi", "Cryptocurrency", "Pump.fun", "Sourdough", "SourDAO"],
   manifest: "/manifest.json",
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: "/sour-logo.svg",
+    shortcut: "/sour-logo.svg",
+    apple: "/sour-logo.svg",
   },
   openGraph: {
     title: "SOUR: The Genesis Starter",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     siteName: "SOUR Genesis",
     images: [
       {
-        url: "/logo.png",
+        url: "/sour-logo.svg",
         width: 1200,
         height: 1200,
         alt: "SOUR Protocol - The Genesis Starter",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "SOUR: The Genesis Starter",
     description: "Modern finance went stale. We came to ferment.",
-    images: ["/logo.png"],
+    images: ["/sour-logo.svg"],
   },
   robots: {
     index: true,

@@ -4,7 +4,7 @@ import { SOLANA_RPC_ENDPOINT, SOUR_TOKEN_MINT } from "./constants";
 
 const connection = new Connection(SOLANA_RPC_ENDPOINT, "confirmed");
 
-export interface MayaHolderInfo {
+export interface SourHolderInfo {
   balance: number;
   firstTxDate: Date | null;
   daysFermenting: number;
@@ -13,7 +13,7 @@ export interface MayaHolderInfo {
 /**
  * Get SOUR token balance for a wallet
  */
-export async function getMayaBalance(walletAddress: PublicKey): Promise<number> {
+export async function getSourBalance(walletAddress: PublicKey): Promise<number> {
   try {
     const tokenAccount = await getAssociatedTokenAddress(
       SOUR_TOKEN_MINT,
@@ -32,7 +32,7 @@ export async function getMayaBalance(walletAddress: PublicKey): Promise<number> 
  * Get the first transaction date for this wallet with SOUR token
  * (approximation: uses the token account creation time)
  */
-export async function getFirstMayaTx(walletAddress: PublicKey): Promise<Date | null> {
+export async function getFirstSourTx(walletAddress: PublicKey): Promise<Date | null> {
   try {
     const tokenAccount = await getAssociatedTokenAddress(
       SOUR_TOKEN_MINT,
@@ -62,10 +62,10 @@ export async function getFirstMayaTx(walletAddress: PublicKey): Promise<Date | n
 /**
  * Get complete holder info
  */
-export async function getMayaHolderInfo(walletAddress: PublicKey): Promise<MayaHolderInfo> {
+export async function getSourHolderInfo(walletAddress: PublicKey): Promise<SourHolderInfo> {
   const [balance, firstTxDate] = await Promise.all([
-    getMayaBalance(walletAddress),
-    getFirstMayaTx(walletAddress),
+    getSourBalance(walletAddress),
+    getFirstSourTx(walletAddress),
   ]);
 
   const daysFermenting = firstTxDate

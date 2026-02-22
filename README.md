@@ -1,185 +1,187 @@
 # SOUR: The Genesis Starter 🫙
 
-> **"Sahipsiz. Sadece bir başlangıç var."**
+> **"Ownerless. There is only a beginning."**
 
-SOUR, bir memecoin değil — **Organik Finans Medeniyeti** vizyonuyla kurulan bir Web3 protokolünüdür. Cüzdanını bağla, itibarını inşa et, aracıları depasaj yap.
+SOUR is not a memecoin — it is a Web3 protocol founded with the vision of an **Organic Finance Civilization**. Connect your wallet, build your reputation, bypass the middlemen.
 
 🌐 **Live:** [sourdao.xyz](https://sourdao.xyz)
 
 ---
 
-## 🏛️ Üç Sütun
+## 🏛️ Three Pillars
 
-SOUR medeniyeti üç temel ürün üzerine inşa edilmektedir:
+The SOUR civilization is built on three core products:
 
-| Sütun | Ürün | Durum | Açıklama |
-|-------|------|-------|----------|
-| 🍞 **Crust** | Baker Profil Sistemi | ✅ MVP Live | Cüzdan bağla → bakiye oku → tier belirle → kart paylaş |
-| 🤝 **Handshake** | P2P Anlaşma Sistemi | 🔜 Yakında | İki cüzdan arası akıllı kontrat anlaşmaları |
-| 🌾 **Harvest** | Oven Dashboard | 📋 Planlandı | Burn tracker + topluluk metrikleri |
+| Pillar | Product | Status | Description |
+|--------|---------|--------|-------------|
+| 🍞 **Crust** | Baker Profile System | ✅ MVP Live | Connect wallet → read balance → determine tier → share card |
+| 🤝 **Handshake** | P2P Agreement System | 🔜 Coming Soon | Smart contract agreements between two wallets |
+| 🌾 **Harvest** | Oven Dashboard | 📋 Planned | Burn tracker + community metrics |
 
 ---
 
 ## 🍞 MVP 1: The Crust (Live)
 
-Baker Profil Sistemi — cüzdan tabanlı on-chain kimlik kartı.
+Baker Profile System — wallet-based on-chain identity card.
 
-### Özellikler
-- **Wallet Connect** — Phantom & Solflare desteği
-- **On-chain Veri** — $SOUR bakiyesi + ilk TX tarihi otomatik okunur
-- **4 Kademeli Keeper Sistemi:**
-  - 🌱 Fresh Dough (0+ gün)
-  - 🍞 Rising Dough (30+ gün)
-  - ✨ Golden Crust (90+ gün)
-  - 👑 Eternal Starter (365+ gün)
-- **Baker Card** — Avatar, isim, bio, bakiye, tier rozeti + ilerleme çubuğu
-- **Profil Düzenleme** — İsim (24 kar), bio (60 kar), avatar seçimi → localStorage
-- **Paylaşım** — PNG olarak indir, X/Twitter'da paylaş, link kopyala
+### Features
+- **Wallet Connect** — Phantom & Solflare support
+- **On-chain Data** — $SOUR balance + first TX date auto-read
+- **4-Tier Keeper System:**
+  - 🌱 Fresh Dough (0+ days)
+  - 🍞 Rising Dough (30+ days)
+  - ✨ Golden Crust (90+ days)
+  - 👑 Eternal Starter (365+ days)
+- **Baker Card** — Avatar, name, bio, balance, tier badge + progress bar
+- **Profile Editing** — Name (24 chars), bio (60 chars), avatar selection → localStorage
+- **Sharing** — Download as PNG, share on X/Twitter, copy link
 
-### Erişim
+### Access
 ```
-https://mayastarter.github.io/crust
+https://sourdao.xyz/crust
 ```
 
 ---
 
-## 🎨 Tasarım Dili
+## 🎨 Design Language
 
-| Özellik | Detay |
-|---------|-------|
-| **Renkler** | Siyah `#000000`, Antik Altın `#D4AF37`, Krem `#F5F5DC`, Amber |
-| **Fontlar** | Cinzel (başlıklar), Playfair Display (vurgular), Inter (gövde) |
-| **Estetik** | "Love, Death & Robots" × simya laboratuvarı |
-| **Animasyon** | Yavaş, organik "rising dough" ease-in efektleri |
+| Feature | Detail |
+|---------|--------|
+| **Colors** | Black `#000000`, Ancient Gold `#D4AF37`, Cream `#F5F5DC`, Amber |
+| **Fonts** | Cinzel (headings), Playfair Display (accents), Inter (body) |
+| **Aesthetic** | "Love, Death & Robots" × alchemy laboratory |
+| **Animation** | Slow, organic "rising dough" ease-in effects |
 
 ---
 
-## 🏗️ Teknoloji
+## 🏗️ Technology
 
-| Katman | Teknoloji |
-|--------|-----------|
+| Layer | Technology |
+|-------|-----------|
 | Framework | Next.js 15.5 (App Router, TypeScript) |
-| Stil | Tailwind CSS (özel tema + grenli doku) |
-| Animasyon | Framer Motion |
-| İkonlar | Lucide React |
+| Styling | Tailwind CSS (custom theme + grainy texture) |
+| Animation | Framer Motion |
+| Icons | Lucide React |
 | Blockchain | @solana/web3.js v1, @solana/spl-token |
-| Cüzdan | wallet-adapter-react (Phantom + Solflare) |
-| Export | html-to-image (PNG kart) |
-| Deploy | GitHub Pages (static export) |
+| Wallets | wallet-adapter-react (Phantom + Solflare) |
+| Export | html-to-image (PNG card) |
+| Deploy | Vercel (static export) |
 
 ---
 
-## 📦 Kurulum
+## 📦 Setup
 
 ```bash
-# Bağımlılıkları yükle
+# Install dependencies
 npm install --legacy-peer-deps
 
-# Geliştirme sunucusu
+# Development server
 npm run dev
 
-# Prodüksiyon build
+# Production build
 npm run build
 ```
 
-> **Not:** React 19 peer dependency çakışmaları nedeniyle `--legacy-peer-deps` gereklidir.
+> **Note:** `--legacy-peer-deps` is required due to React 19 peer dependency conflicts.
 
 ---
 
-## 📁 Proje Yapısı
+## 📁 Project Structure
 
 ```
-Maya/
+SOUR/
 ├── app/
-│   ├── layout.tsx              # Root layout (fontlar, metadata)
-│   ├── page.tsx                # Ana sayfa
-│   ├── globals.css             # Global stiller + grenli doku
+│   ├── layout.tsx              # Root layout (fonts, metadata)
+│   ├── page.tsx                # Home page
+│   ├── globals.css             # Global styles + grainy texture
+│   ├── about/
+│   │   └── page.tsx            # About page
 │   ├── crust/
-│   │   └── page.tsx            # 🍞 Crust sayfası (dynamic, ssr:false)
+│   │   └── page.tsx            # 🍞 Crust page (dynamic, ssr:false)
 │   └── whitepaper/
-│       └── page.tsx            # Whitepaper sayfası
+│       └── page.tsx            # Whitepaper page
 ├── components/
-│   ├── Hero.tsx                # Hero bölümü (The Altar)
-│   ├── Problem.tsx             # Dijital feodalizm + çözüm köprüsü
-│   ├── Manifesto.tsx           # Felsefe manifestosu
-│   ├── Protocol.tsx            # 3 sütun protokol tanıtımı
-│   ├── Value.tsx               # Değer önerisi
-│   ├── Roadmap.tsx             # 3 fazlı yol haritası
-│   ├── Community.tsx           # Topluluk bölümü
-│   ├── Navbar.tsx              # Navigasyon (My Crust linki dahil)
-│   ├── Footer.tsx              # Footer + sosyal linkler
+│   ├── Hero.tsx                # Hero section (The Altar)
+│   ├── Problem.tsx             # Digital feudalism + solution bridge
+│   ├── Manifesto.tsx           # Philosophy manifesto
+│   ├── Protocol.tsx            # 3-pillar protocol showcase
+│   ├── Value.tsx               # Value proposition
+│   ├── Roadmap.tsx             # 3-phase roadmap
+│   ├── Community.tsx           # Community section
+│   ├── Navbar.tsx              # Navigation (incl. My Crust link)
+│   ├── Footer.tsx              # Footer + social links
 │   ├── crust/
 │   │   ├── CrustContent.tsx    # SolanaProvider + CrustApp wrapper
-│   │   ├── CrustApp.tsx        # Ana orkestratör (wallet, fetch, state)
-│   │   ├── SolanaProvider.tsx  # Phantom + Solflare bağlantı sağlayıcı
-│   │   ├── BakerCard.tsx       # Görsel profil kartı + tier progress
-│   │   ├── EditProfile.tsx     # İsim/bio/avatar düzenleyici
-│   │   └── ShareCard.tsx       # PNG export + Twitter paylaşım
-│   └── ...                     # Diğer bileşenler
+│   │   ├── CrustApp.tsx        # Main orchestrator (wallet, fetch, state)
+│   │   ├── SolanaProvider.tsx  # Phantom + Solflare connection provider
+│   │   ├── BakerCard.tsx       # Visual profile card + tier progress
+│   │   ├── EditProfile.tsx     # Name/bio/avatar editor
+│   │   └── ShareCard.tsx       # PNG export + Twitter sharing
+│   └── ...                     # Other components
 ├── lib/
-│   ├── constants.ts            # Token mint, tier tanımları, RPC
-│   ├── solana.ts               # getMayaBalance, getFirstMayaTx, getMayaHolderInfo
-│   ├── translations.ts         # Çeviri anahtarları (EN)
-│   └── LanguageContext.tsx      # Dil context provider
+│   ├── constants.ts            # Token mint, tier definitions, RPC
+│   ├── solana.ts               # getSourBalance, getFirstSourTx, getSourHolderInfo
+│   ├── translations.ts         # Translation keys (EN)
+│   └── LanguageContext.tsx      # Language context provider
 ├── public/
-│   ├── logo.png                # MAYA logosu
-│   ├── mascot.svg              # Maskot görseli
+│   ├── sour-logo.svg           # SOUR logo
+│   ├── mascot.svg              # Mascot visual
 │   └── docs/
 │       └── whitepaper.md       # Whitepaper markdown
-└── tailwind.config.ts          # Özel tema konfigürasyonu
+└── tailwind.config.ts          # Custom theme configuration
 ```
 
 ---
 
 ## 🔐 Tokenomics
 
-| Metrik | Değer |
+| Metric | Value |
 |--------|-------|
-| Toplam Arz | 1 Milyar $SOUR |
-| Vergi | %0 |
-| Likidite | Yakılacak (burned) |
-| Gelir Dağılımı | %50 Burn · %30 Keepers · %20 Commons |
+| Total Supply | 1 Billion $SOUR |
+| Tax | 0% |
+| Liquidity | To be burned |
+| Revenue Distribution | 50% Burn · 30% Keepers · 20% Commons |
 | Platform | Solana (pump.fun launch) |
 
-> Tüm gelir dağılımı $SOUR token üzerinden yapılır. Sahipsiz, topluluk yönetimli.
+> All revenue distribution is in $SOUR tokens. Ownerless, community-governed.
 
 ---
 
-## 🗺️ Yol Haritası
+## 🗺️ Roadmap
 
-### Faz 1 — Hamur Yoğrulur (Şimdi)
-- ✅ Site lansmanı
-- ✅ Whitepaper yayınlandı
-- ✅ The Crust MVP (Baker Profil Sistemi)
-- ⏳ Topluluk oluşturma (Telegram/X)
-- ⏳ $MAYA pump.fun lansmanı
+### Phase 1 — The Dough Rises (Now)
+- ✅ Site launch
+- ✅ Whitepaper published
+- ✅ The Crust MVP (Baker Profile System)
+- ⏳ Community building (Telegram/X)
+- ⏳ $SOUR pump.fun launch
 
-### Faz 2 — Fırın Isınır (Sonraki)
-- 🔜 The Handshake (P2P anlaşma sistemi)
-- 🔜 Keeper ödül sistemi
-- 🔜 Maya AI bot (Telegram)
-- 🔜 İlk esnaf ortaklıkları
+### Phase 2 — The Oven Heats (Next)
+- 🔜 The Handshake (P2P agreement system)
+- 🔜 Keeper reward system
+- 🔜 Sour AI bot (Telegram)
+- 🔜 First artisan partnerships
 
-### Faz 3 — Ekmek Dağılır (Gelecek)
+### Phase 3 — The Bread Spreads (Future)
 - 📋 The Harvest (Oven Dashboard)
-- 📋 Çok zincirli genişleme
-- 📋 DAO yönetişim
-- 📋 Gerçek dünya entegrasyonu
+- 📋 Multi-chain expansion
+- 📋 DAO governance
+- 📋 Real-world integration
 
 ---
 
-## 🤝 Katkıda Bulunma
+## 🤝 Contributing
 
-Bu topluluk sahipli bir projedir. PR'lar, issue'lar ve fikirler her zaman açıktır.
-
----
-
-## 📜 Lisans
-
-Merkeziyetsiz & Topluluk Sahipli
+This is a community-owned project. PRs, issues, and ideas are always welcome.
 
 ---
 
-**"Sahipsiz. Sadece bir başlangıç var."**
+## 📜 License
 
-*Yatırım tavsiyesi değildir. Memecoin değildir. Organik bir finans deneyi.*
+Decentralized & Community Owned
+
+---
+
+**"Ownerless. There is only a beginning."**
+
+*Not financial advice. Not a memecoin. An organic finance experiment.*
