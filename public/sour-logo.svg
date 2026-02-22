@@ -1,156 +1,170 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" fill="none">
   <defs>
-    <!-- Background -->
-    <radialGradient id="bg" cx="50%" cy="35%" r="70%">
-      <stop offset="0%" stop-color="#1c1400"/>
-      <stop offset="100%" stop-color="#040300"/>
+    <radialGradient id="bg" cx="50%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#141000"/>
+      <stop offset="100%" stop-color="#000000"/>
     </radialGradient>
-    <!-- Gold gradient diagonal -->
     <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#F5E070"/>
-      <stop offset="45%" stop-color="#D4AF37"/>
-      <stop offset="100%" stop-color="#7A5C10"/>
+      <stop offset="0%" stop-color="#F5F5DC"/>
+      <stop offset="40%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#8B6914"/>
     </linearGradient>
-    <!-- Gold vertical (for jar) -->
-    <linearGradient id="goldV" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#FFE066"/>
-      <stop offset="50%" stop-color="#D4AF37"/>
+    <linearGradient id="goldSoft" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFE680"/>
+      <stop offset="55%" stop-color="#D4AF37"/>
       <stop offset="100%" stop-color="#9A7520"/>
     </linearGradient>
-    <!-- Jar body dark fill -->
-    <linearGradient id="jarFill" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0e0b00"/>
-      <stop offset="100%" stop-color="#060500"/>
-    </linearGradient>
-    <!-- Dough blob fill -->
-    <radialGradient id="doughFill" cx="50%" cy="60%" r="55%">
-      <stop offset="0%" stop-color="#1a1400"/>
-      <stop offset="100%" stop-color="#0a0800"/>
-    </radialGradient>
-    <!-- Ambient outer glow -->
     <radialGradient id="outerGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.12"/>
+      <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.14"/>
       <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
     </radialGradient>
-    <!-- Liquid fill -->
-    <linearGradient id="liquid" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#2a1f00"/>
-      <stop offset="100%" stop-color="#0f0900"/>
-    </linearGradient>
-    <!-- Glow filter -->
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="5" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <filter id="glow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
     </filter>
-    <filter id="strongGlow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="9" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <filter id="fineGlow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
     </filter>
-    <!-- Clip jar interior -->
-    <clipPath id="jarClip">
-      <rect x="172" y="234" width="156" height="152" rx="20"/>
-    </clipPath>
+
+    <!-- Arc path for top label -->
+    <path id="topArc" d="M 70,250 A 180,180 0 0,1 430,250" />
   </defs>
 
-  <!-- ── MEDALLION BACKGROUND ── -->
+  <!-- Ambient glow + core disk -->
   <circle cx="250" cy="250" r="250" fill="url(#outerGlow)"/>
-  <circle cx="250" cy="250" r="243" fill="url(#bg)"/>
+  <circle cx="250" cy="250" r="244" fill="url(#bg)"/>
 
-  <!-- Outer ring -->
-  <circle cx="250" cy="250" r="240" fill="none" stroke="url(#gold)" stroke-width="6.5"/>
-  <!-- Inner ring -->
-  <circle cx="250" cy="250" r="228" fill="none" stroke="#D4AF37" stroke-width="0.8" stroke-dasharray="2 6" opacity="0.35"/>
+  <!-- Outer seal rings -->
+  <circle cx="250" cy="250" r="240" fill="none" stroke="url(#gold)" stroke-width="7"/>
+  <circle cx="250" cy="250" r="228" fill="none" stroke="#D4AF37" stroke-width="0.9" stroke-dasharray="2 7" opacity="0.32"/>
+  <circle cx="250" cy="250" r="214" fill="none" stroke="#D4AF37" stroke-width="0.8" opacity="0.12"/>
+
+  <!-- Seal ticks (12) -->
+  <g opacity="0.28" stroke="#D4AF37" stroke-width="1" stroke-linecap="round">
+    <line x1="250" y1="22" x2="250" y2="38" />
+    <line x1="250" y1="462" x2="250" y2="478" />
+    <line x1="22" y1="250" x2="38" y2="250" />
+    <line x1="462" y1="250" x2="478" y2="250" />
+
+    <line x1="105" y1="105" x2="116" y2="116" />
+    <line x1="395" y1="105" x2="384" y2="116" />
+    <line x1="105" y1="395" x2="116" y2="384" />
+    <line x1="395" y1="395" x2="384" y2="384" />
+
+    <line x1="250" y1="55" x2="250" y2="65" />
+    <line x1="250" y1="435" x2="250" y2="445" />
+    <line x1="55" y1="250" x2="65" y2="250" />
+    <line x1="435" y1="250" x2="445" y2="250" />
+  </g>
 
   <!-- Cardinal dots -->
-  <circle cx="250" cy="13"  r="3.5" fill="#D4AF37" opacity="0.55"/>
-  <circle cx="487" cy="250" r="3.5" fill="#D4AF37" opacity="0.55"/>
-  <circle cx="250" cy="487" r="3.5" fill="#D4AF37" opacity="0.55"/>
-  <circle cx="13"  cy="250" r="3.5" fill="#D4AF37" opacity="0.55"/>
+  <g fill="#D4AF37" opacity="0.55">
+    <circle cx="250" cy="13" r="3.2" />
+    <circle cx="487" cy="250" r="3.2" />
+    <circle cx="250" cy="487" r="3.2" />
+    <circle cx="13" cy="250" r="3.2" />
+  </g>
 
-  <!-- Diagonal ornament lines (top-left, top-right) -->
-  <line x1="76"  y1="76"  x2="90"  y2="90"  stroke="#D4AF37" stroke-width="1" opacity="0.3"/>
-  <line x1="424" y1="76"  x2="410" y2="90"  stroke="#D4AF37" stroke-width="1" opacity="0.3"/>
+  <!-- Center glyph: wheat + flame + S-curve -->
+  <!-- Wheat stem -->
+  <path d="M 250 132 L 250 300" stroke="url(#goldSoft)" stroke-width="6" stroke-linecap="round" opacity="0.92" filter="url(#fineGlow)"/>
 
-  <!-- ── RISING DOUGH BLOB (above jar) ── -->
-  <!-- Outer glow of blob -->
-  <path d="M 213 200 C 195 178, 188 150, 200 126 C 210 106, 228 96, 250 98
-           C 272 96, 290 106, 300 126 C 312 150, 305 178, 287 200 Z"
-        fill="url(#doughFill)" stroke="url(#gold)" stroke-width="2.2"
-        filter="url(#glow)"/>
-  <!-- Dough texture curves -->
-  <path d="M 228 168 Q 250 155 272 168" fill="none" stroke="#D4AF37" stroke-width="1.2" opacity="0.45" stroke-linecap="round"/>
-  <path d="M 222 182 Q 250 170 278 182" fill="none" stroke="#D4AF37" stroke-width="1"   opacity="0.3"  stroke-linecap="round"/>
-  <!-- Rising bubble trails from jar -->
-  <circle cx="235" cy="210" r="3"   fill="none" stroke="#D4AF37" stroke-width="1"   opacity="0.4"/>
-  <circle cx="250" cy="204" r="2.5" fill="#D4AF37" opacity="0.25" filter="url(#glow)"/>
-  <circle cx="265" cy="210" r="3"   fill="none" stroke="#D4AF37" stroke-width="1"   opacity="0.4"/>
+  <!-- Wheat grains (left/right) -->
+  <g fill="none" stroke="url(#gold)" stroke-width="2" opacity="0.9" filter="url(#fineGlow)">
+    <!-- left grains -->
+    <path d="M 248 152 C 234 154 226 162 224 172 C 236 172 245 165 248 152 Z" fill="#00000000"/>
+    <path d="M 248 174 C 232 176 222 186 220 198 C 235 198 246 190 248 174 Z" fill="#00000000"/>
+    <path d="M 248 198 C 232 200 222 210 220 222 C 235 222 246 214 248 198 Z" fill="#00000000"/>
+    <path d="M 248 224 C 234 226 226 236 224 246 C 238 246 246 238 248 224 Z" fill="#00000000"/>
 
-  <!-- ── JAR ── -->
-  <!-- Jar lid -->
-  <rect x="174" y="196" width="152" height="16" rx="5"
-        fill="url(#jarFill)" stroke="url(#gold)" stroke-width="2.5"/>
-  <!-- Lid shine -->
-  <rect x="184" y="199" width="52" height="5" rx="2.5" fill="white" opacity="0.06"/>
+    <!-- right grains -->
+    <path d="M 252 152 C 266 154 274 162 276 172 C 264 172 255 165 252 152 Z" fill="#00000000"/>
+    <path d="M 252 174 C 268 176 278 186 280 198 C 265 198 254 190 252 174 Z" fill="#00000000"/>
+    <path d="M 252 198 C 268 200 278 210 280 222 C 265 222 254 214 252 198 Z" fill="#00000000"/>
+    <path d="M 252 224 C 266 226 274 236 276 246 C 262 246 254 238 252 224 Z" fill="#00000000"/>
+  </g>
 
-  <!-- Jar neck / shoulder -->
-  <rect x="188" y="211" width="124" height="25" rx="5"
-        fill="url(#jarFill)" stroke="url(#gold)" stroke-width="2"/>
+  <!-- Flame at top of stem -->
+  <path
+    d="M 250 112
+       C 242 126 252 132 244 146
+       C 258 140 262 130 258 120
+       C 266 130 266 144 250 156
+       C 232 142 234 128 250 112 Z"
+    fill="url(#goldSoft)"
+    opacity="0.95"
+    filter="url(#glow)"
+  />
 
-  <!-- Jar body -->
-  <rect x="172" y="234" width="156" height="152" rx="20"
-        fill="url(#jarFill)" stroke="url(#gold)" stroke-width="2.5"/>
+  <!-- S curve (token monogram) -->
+  <path
+    d="M 305 170
+       C 285 150 230 150 215 175
+       C 198 203 225 216 255 226
+       C 292 239 308 254 290 282
+       C 268 315 210 312 190 285"
+    fill="none"
+    stroke="url(#gold)"
+    stroke-width="12"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="0.95"
+    filter="url(#glow)"
+  />
 
-  <!-- Liquid fill (clipped to jar) -->
-  <rect x="172" y="285" width="156" height="101" rx="0" fill="url(#liquid)" clip-path="url(#jarClip)"/>
-  <!-- Liquid surface -->
-  <ellipse cx="250" cy="285" rx="78" ry="7" fill="#2e2200" opacity="0.85"/>
+  <!-- Fermentation bubbles around glyph -->
+  <g stroke="#D4AF37" stroke-width="1.2" opacity="0.32">
+    <circle cx="172" cy="214" r="6" fill="none"/>
+    <circle cx="336" cy="206" r="4" fill="none"/>
+    <circle cx="356" cy="260" r="6" fill="none"/>
+    <circle cx="150" cy="278" r="4" fill="none"/>
+    <circle cx="190" cy="318" r="5" fill="none"/>
+    <circle cx="318" cy="320" r="4.5" fill="none"/>
+  </g>
+  <g fill="#D4AF37" opacity="0.18">
+    <circle cx="165" cy="244" r="2.2"/>
+    <circle cx="344" cy="238" r="2.0"/>
+    <circle cx="330" cy="290" r="2.4"/>
+    <circle cx="182" cy="296" r="2.0"/>
+  </g>
 
-  <!-- Bubbles inside jar -->
-  <circle cx="208" cy="272" r="7"   fill="none" stroke="#D4AF37" stroke-width="1.3" opacity="0.5"/>
-  <circle cx="228" cy="260" r="4.5" fill="none" stroke="#D4AF37" stroke-width="1"   opacity="0.4"/>
-  <circle cx="268" cy="267" r="6"   fill="none" stroke="#D4AF37" stroke-width="1.2" opacity="0.45"/>
-  <circle cx="290" cy="258" r="4"   fill="none" stroke="#D4AF37" stroke-width="1"   opacity="0.4"/>
-  <circle cx="243" cy="275" r="2.8" fill="#D4AF37" opacity="0.28"/>
-  <circle cx="263" cy="278" r="3.2" fill="#D4AF37" opacity="0.22"/>
-  <circle cx="220" cy="305" r="5"   fill="none" stroke="#D4AF37" stroke-width="1"   opacity="0.3"/>
-  <circle cx="275" cy="312" r="4"   fill="none" stroke="#D4AF37" stroke-width="0.9" opacity="0.28"/>
-
-  <!-- Label band on jar -->
-  <rect x="177" y="300" width="146" height="46" rx="4"
-        fill="none" stroke="#D4AF37" stroke-width="0.7" opacity="0.22"/>
-
-  <!-- ── TEXT ── -->
-  <!-- "SOUR" -->
-  <text x="250" y="432"
-        font-family="Georgia, 'Times New Roman', serif"
-        font-size="56" font-weight="700"
-        text-anchor="middle"
-        fill="url(#goldV)"
-        letter-spacing="10"
-        filter="url(#glow)">SOUR</text>
-
-  <!-- Flanking lines for SOUR -->
-  <line x1="96"  y1="416" x2="148" y2="416" stroke="#D4AF37" stroke-width="0.8" opacity="0.45"/>
-  <line x1="352" y1="416" x2="404" y2="416" stroke="#D4AF37" stroke-width="0.8" opacity="0.45"/>
-  <!-- Diamond ornament on lines -->
-  <polygon points="148,416 153,411 158,416 153,421" fill="#D4AF37" opacity="0.45"/>
-  <polygon points="342,416 347,411 352,416 347,421" fill="#D4AF37" opacity="0.45"/>
-
-  <!-- "THE GENESIS STARTER" tagline -->
-  <text x="250" y="458"
-        font-family="Georgia, 'Times New Roman', serif"
-        font-size="10.5" font-weight="400"
-        text-anchor="middle"
-        fill="#D4AF37"
-        letter-spacing="4.5"
-        opacity="0.48">THE GENESIS STARTER</text>
-
-  <!-- Top arc text path (arcs along top of inner ring) -->
-  <path id="topArc" d="M 80,250 A 170,170 0 0,1 420,250" fill="none"/>
-  <text font-family="Georgia, serif" font-size="9.5" fill="#D4AF37" letter-spacing="3" opacity="0.3">
+  <!-- Top arc label -->
+  <text font-family="Cinzel, 'Times New Roman', serif" font-size="10" fill="#D4AF37" letter-spacing="4" opacity="0.35">
     <textPath href="#topArc" startOffset="50%" text-anchor="middle">· ORGANIC FINANCE EMPIRE ·</textPath>
   </text>
 
-  <!-- Bottom subtle glow reflection -->
-  <ellipse cx="250" cy="472" rx="105" ry="4.5" fill="url(#gold)" opacity="0.18"/>
+  <!-- Wordmark -->
+  <text
+    x="250"
+    y="410"
+    font-family="Cinzel, 'Times New Roman', serif"
+    font-size="54"
+    font-weight="700"
+    text-anchor="middle"
+    fill="url(#goldSoft)"
+    letter-spacing="12"
+    filter="url(#fineGlow)"
+  >SOUR</text>
+
+  <text
+    x="250"
+    y="438"
+    font-family="Inter, Arial, sans-serif"
+    font-size="11"
+    font-weight="500"
+    text-anchor="middle"
+    fill="#D4AF37"
+    letter-spacing="4"
+    opacity="0.5"
+  >THE GENESIS STARTER</text>
+
+  <!-- Bottom reflection -->
+  <ellipse cx="250" cy="458" rx="120" ry="5" fill="url(#gold)" opacity="0.12"/>
 </svg>
