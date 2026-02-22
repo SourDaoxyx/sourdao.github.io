@@ -34,3 +34,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Rust / Anchor
+/target/
+!target/idl/
+!target/types/
+!target/deploy/sour_handshake-keypair.json

@@ -1,0 +1,19 @@
+[features]
+seeds = false
+skip-lint = false
+
+[programs.localnet]
+sour_handshake = "HUAq4NFymfn4hNvs7RMNCC5uFEoRctkWDWCA9G7prxeF"
+
+[programs.devnet]
+sour_handshake = "HUAq4NFymfn4hNvs7RMNCC5uFEoRctkWDWCA9G7prxeF"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "devnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
