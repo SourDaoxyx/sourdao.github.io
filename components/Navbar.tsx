@@ -55,14 +55,14 @@ export default function Navbar() {
             <div className="relative w-9 h-9 rounded-full overflow-hidden">
               <Image
                 src="/logo.png"
-                alt="MAYA"
+                alt="SOUR"
                 fill
                 className="object-contain"
                 sizes="36px"
               />
             </div>
             <span className="font-cinzel font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-gold to-amber">
-              MAYA
+              SOUR
             </span>
           </motion.a>
 

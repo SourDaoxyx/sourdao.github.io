@@ -27,7 +27,7 @@ const pillars = [
     status: "✅ Live",
     statusColor: "text-green-400",
     description:
-      "Cüzdan tabanlı Baker Profil Sistemi. Cüzdanını bağla, $MAYA bakiyeni ve holding sürenle otomatik tier belirlensin. Baker Card'ını PNG olarak indir veya Twitter'da paylaş.",
+      "Cüzdan tabanlı Baker Profil Sistemi. Cüzdanını bağla, $SOUR bakiyeni ve holding sürenle otomatik tier belirlensin. Baker Card&apos;ını PNG olarak indir veya Twitter&apos;da paylaş.",
     features: [
       "Phantom & Solflare cüzdan desteği",
       "On-chain bakiye + ilk TX tarihi okuma",
@@ -183,8 +183,8 @@ export default function AboutPage() {
           </h1>
 
           <p className="text-cream/60 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mb-8">
-            MAYA, dijital feodalizme karşı organik bir medeniyet inşa ediyor.
-            Platformlar seni ürün yapıyor — MAYA seni <strong className="text-gold">sahip</strong> yapıyor.
+            SOUR, dijital feodalizme karşı organik bir medeniyet inşa ediyor.
+            Platformlar seni ürün yapıyor — SOUR seni <strong className="text-gold">sahip</strong> yapıyor.
             Cüzdanını bağla, itibarını inşa et, aracıları depasaj yap.
           </p>
 
@@ -459,7 +459,7 @@ export default function AboutPage() {
             className="mt-6 p-4 rounded-xl bg-gold/5 border border-gold/10 text-center"
           >
             <p className="text-cream/40 text-xs">
-              <strong className="text-cream/60">Gelir Formülü:</strong> Platform geliri → %50 Burn · %30 Keepers (tier&apos;a göre) · %20 Commons — tamamı $MAYA cinsinden
+              <strong className="text-cream/60">Gelir Formülü:</strong> Platform geliri → %50 Burn · %30 Keepers (tier&apos;a göre) · %20 Commons — tamamı $SOUR cinsinden
             </p>
           </motion.div>
         </div>

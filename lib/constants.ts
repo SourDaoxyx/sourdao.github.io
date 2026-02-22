@@ -1,7 +1,7 @@
 import { PublicKey } from "@solana/web3.js";
 
-// MAYA Token Mint Address on Solana (UPDATE THIS after pump.fun launch)
-export const MAYA_TOKEN_MINT = new PublicKey(
+// SOUR Token Mint Address on Solana (UPDATE THIS after pump.fun launch)
+export const SOUR_TOKEN_MINT = new PublicKey(
   "11111111111111111111111111111111" // Placeholder — replace with real mint after launch
 );
 

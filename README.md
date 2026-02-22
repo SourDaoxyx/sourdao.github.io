@@ -1,16 +1,16 @@
-# MAYA: The Genesis Starter 🧬
+# SOUR: The Genesis Starter 🫙
 
 > **"Sahipsiz. Sadece bir başlangıç var."**
 
-MAYA, bir memecoin değil — **Organik Finans Medeniyeti** vizyonuyla kurulan bir Web3 protokolüdür. Cüzdanını bağla, itibarını inşa et, aracıları depasaj yap.
+SOUR, bir memecoin değil — **Organik Finans Medeniyeti** vizyonuyla kurulan bir Web3 protokolünüdür. Cüzdanını bağla, itibarını inşa et, aracıları depasaj yap.
 
-🌐 **Live:** [mayastarter.github.io](https://mayastarter.github.io)
+🌐 **Live:** [sourdao.xyz](https://sourdao.xyz)
 
 ---
 
 ## 🏛️ Üç Sütun
 
-MAYA medeniyeti üç temel ürün üzerine inşa edilmektedir:
+SOUR medeniyeti üç temel ürün üzerine inşa edilmektedir:
 
 | Sütun | Ürün | Durum | Açıklama |
 |-------|------|-------|----------|
@@ -26,7 +26,7 @@ Baker Profil Sistemi — cüzdan tabanlı on-chain kimlik kartı.
 
 ### Özellikler
 - **Wallet Connect** — Phantom & Solflare desteği
-- **On-chain Veri** — $MAYA bakiyesi + ilk TX tarihi otomatik okunur
+- **On-chain Veri** — $SOUR bakiyesi + ilk TX tarihi otomatik okunur
 - **4 Kademeli Keeper Sistemi:**
   - 🌱 Fresh Dough (0+ gün)
   - 🍞 Rising Dough (30+ gün)
@@ -135,13 +135,13 @@ Maya/
 
 | Metrik | Değer |
 |--------|-------|
-| Toplam Arz | 1 Milyar $MAYA |
+| Toplam Arz | 1 Milyar $SOUR |
 | Vergi | %0 |
 | Likidite | Yakılacak (burned) |
 | Gelir Dağılımı | %50 Burn · %30 Keepers · %20 Commons |
 | Platform | Solana (pump.fun launch) |
 
-> Tüm gelir dağılımı $MAYA token üzerinden yapılır. Sahipsiz, topluluk yönetimli.
+> Tüm gelir dağılımı $SOUR token üzerinden yapılır. Sahipsiz, topluluk yönetimli.
 
 ---
 

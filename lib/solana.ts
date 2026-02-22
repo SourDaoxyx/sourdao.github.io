@@ -1,6 +1,6 @@
 import { Connection, PublicKey } from "@solana/web3.js";
 import { getAccount, getAssociatedTokenAddress } from "@solana/spl-token";
-import { SOLANA_RPC_ENDPOINT, MAYA_TOKEN_MINT } from "./constants";
+import { SOLANA_RPC_ENDPOINT, SOUR_TOKEN_MINT } from "./constants";
 
 const connection = new Connection(SOLANA_RPC_ENDPOINT, "confirmed");
 
@@ -11,16 +11,16 @@ export interface MayaHolderInfo {
 }
 
 /**
- * Get MAYA token balance for a wallet
+ * Get SOUR token balance for a wallet
  */
 export async function getMayaBalance(walletAddress: PublicKey): Promise<number> {
   try {
     const tokenAccount = await getAssociatedTokenAddress(
-      MAYA_TOKEN_MINT,
+      SOUR_TOKEN_MINT,
       walletAddress
     );
     const account = await getAccount(connection, tokenAccount);
-    // MAYA has 6 decimals (standard SPL token)
+    // SOUR has 6 decimals (standard SPL token)
     return Number(account.amount) / 1e6;
   } catch {
     // Token account doesn't exist = 0 balance
@@ -29,13 +29,13 @@ export async function getMayaBalance(walletAddress: PublicKey): Promise<number> 
 }
 
 /**
- * Get the first transaction date for this wallet with MAYA token
+ * Get the first transaction date for this wallet with SOUR token
  * (approximation: uses the token account creation time)
  */
 export async function getFirstMayaTx(walletAddress: PublicKey): Promise<Date | null> {
   try {
     const tokenAccount = await getAssociatedTokenAddress(
-      MAYA_TOKEN_MINT,
+      SOUR_TOKEN_MINT,
       walletAddress
     );
 

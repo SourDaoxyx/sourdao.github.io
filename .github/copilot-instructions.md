@@ -1,7 +1,7 @@
-# MAYA: The Genesis Starter - Project Guidelines
+# SOUR: The Genesis Starter - Project Guidelines
 
 ## Project Overview
-Dark-themed, mystical single-page website for "MAYA: The Genesis Starter" - an Organic Finance Empire manifesto. Not a memecoin, but a philosophical Web3 experience.
+Dark-themed, mystical single-page website for "SOUR: The Genesis Starter" - an Organic Finance Empire manifesto. Not a memecoin, but a philosophical Web3 experience. Domain: sourdao.xyz
 
 ## Tech Stack
 - Next.js (App Router)

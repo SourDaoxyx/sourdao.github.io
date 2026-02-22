@@ -19,9 +19,9 @@ const cinzel = Cinzel({
 });
 
 export const metadata: Metadata = {
-  title: "MAYA: The Genesis Starter | Organic Finance Revolution",
+  title: "SOUR: The Genesis Starter | Organic Finance Revolution",
   description: "Modern finance went stale. We came to ferment. The decentralized sourdough revolution against dollar hegemony.",
-  keywords: ["MAYA", "Genesis Starter", "Organic Finance", "Web3", "DeFi", "Cryptocurrency", "Pump.fun", "Sourdough"],
+  keywords: ["SOUR", "Genesis Starter", "Organic Finance", "Web3", "DeFi", "Cryptocurrency", "Pump.fun", "Sourdough", "SourDAO"],
   manifest: "/manifest.json",
   icons: {
     icon: "/logo.png",
@@ -29,22 +29,22 @@ export const metadata: Metadata = {
     apple: "/logo.png",
   },
   openGraph: {
-    title: "MAYA: The Genesis Starter",
+    title: "SOUR: The Genesis Starter",
     description: "Modern finance went stale. We came to ferment.",
     type: "website",
-    siteName: "MAYA Genesis",
+    siteName: "SOUR Genesis",
     images: [
       {
         url: "/logo.png",
         width: 1200,
         height: 1200,
-        alt: "MAYA Protocol - The Civilization Coin",
+        alt: "SOUR Protocol - The Genesis Starter",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "MAYA: The Genesis Starter",
+    title: "SOUR: The Genesis Starter",
     description: "Modern finance went stale. We came to ferment.",
     images: ["/logo.png"],
   },
