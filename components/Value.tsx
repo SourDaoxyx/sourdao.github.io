@@ -106,7 +106,7 @@ export default function Value() {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="max-w-2xl mx-auto mb-12"
         >
-          <ContractAddress address="MAYA...Coming Soon" label={t("tokenomics.contract")} />
+          <ContractAddress address="SOUR...Coming Soon" label={t("tokenomics.contract")} />
         </motion.div>
 
         {/* Revenue Share */}

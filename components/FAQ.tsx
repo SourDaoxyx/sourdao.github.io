@@ -143,7 +143,7 @@ export default function FAQ() {
         >
           <p className="text-cream/60 mb-4">{t("faq.stillHave")}</p>
           <motion.a
-            href="https://t.me/mayastarter"
+            href="https://t.me/sourdaoxyz"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 glass-gold text-gold hover:text-cream transition-colors rounded-lg"

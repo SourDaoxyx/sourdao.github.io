@@ -61,7 +61,7 @@ const pillars = [
     status: "📋 Planlandı",
     statusColor: "text-gold/60",
     description:
-      "Oven Dashboard — topluluk metrikleri, burn tracker, keeper istatistikleri. MAYA ekosisteminin nabzını tutan merkezi kontrol paneli.",
+      "Oven Dashboard — topluluk metrikleri, burn tracker, keeper istatistikleri. SOUR ekosisteminin nabzını tutan merkezi kontrol paneli.",
     features: [
       "Gerçek zamanlı burn tracker",
       "Keeper dağılım haritası",
@@ -107,7 +107,7 @@ const timeline = [
     date: "Mart 2026",
     title: "Token Launch",
     items: [
-      "$MAYA pump.fun lansmanı",
+      "$SOUR pump.fun lansmanı",
       "Topluluk büyütme kampanyası",
       "İlk Keeper ödülleri",
     ],
@@ -178,7 +178,7 @@ export default function AboutPage() {
         >
           <h1 className="font-cinzel text-4xl md:text-6xl font-bold mb-6">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cream via-gold to-cream">
-              MAYA Nedir?
+              SOUR Nedir?
             </span>
           </h1>
 
@@ -197,7 +197,7 @@ export default function AboutPage() {
               Crust&apos;u Dene
             </Link>
             <a
-              href="https://github.com/MayaStarter/mayastarter.github.io"
+              href="https://github.com/SourDaoxyx/sourdao.github.io"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-gold/30 text-gold font-medium text-sm hover:border-gold/60 hover:bg-gold/5 transition-all"
@@ -263,7 +263,7 @@ export default function AboutPage() {
           <SectionHeader
             badge="🏛️ ÜÇ SÜTUN"
             title="Medeniyet Protokolü"
-            subtitle="MAYA üç temel ürün üzerine inşa edilmektedir. Her biri bağımsız çalışır, birlikte bir ekosistem oluşturur."
+            subtitle="SOUR üç temel ürün üzerine inşa edilmektedir. Her biri bağımsız çalışır, birlikte bir ekosistem oluşturur."
           />
 
           <div className="space-y-8">
@@ -364,7 +364,7 @@ export default function AboutPage() {
                 GitHub Pages&apos;e deploy edilir. IPFS desteği planlanmaktadır.
               </p>
               <a
-                href="https://github.com/MayaStarter/mayastarter.github.io"
+                href="https://github.com/SourDaoxyx/sourdao.github.io"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-gold text-xs mt-2 hover:text-amber transition-colors"
@@ -424,13 +424,13 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto">
           <SectionHeader
             badge="💰 TOKENOMİKS"
-            title="$MAYA Token"
+            title="$SOUR Token"
             subtitle="Basit, şeffaf, topluluk odaklı."
           />
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { label: "Toplam Arz", value: "1B", sub: "$MAYA" },
+              { label: "Toplam Arz", value: "1B", sub: "$SOUR" },
               { label: "Vergi", value: "%0", sub: "Alım & satım" },
               { label: "Burn Oranı", value: "%50", sub: "Gelirden" },
               { label: "Keeper Payı", value: "%30", sub: "Gelirden" },
@@ -478,7 +478,7 @@ export default function AboutPage() {
             Medeniyete Katıl
           </h2>
           <p className="text-cream/45 text-sm mb-8 max-w-lg mx-auto">
-            MAYA bir kişi değil, bir fikirdir. Bir fikrin sahibi olmaz — sadece ona katkıda bulunanlar vardır.
+            SOUR bir kişi değil, bir fikirdir. Bir fikrin sahibi olmaz — sadece ona katkıda bulunanlar vardır.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
@@ -494,7 +494,7 @@ export default function AboutPage() {
               Whitepaper Oku
             </Link>
             <a
-              href="https://t.me/mayastarter"
+              href="https://t.me/sourdaoxyz"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-cream/10 text-cream/50 font-medium text-sm hover:border-cream/30 transition-all"

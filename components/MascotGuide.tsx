@@ -180,7 +180,7 @@ export default function MascotGuide() {
         >
           <Image
             src="/mascot.svg"
-            alt="Maya"
+            alt="Sour"
             fill
             className="object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
             sizes="80px"

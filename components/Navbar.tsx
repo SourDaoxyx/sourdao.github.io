@@ -54,7 +54,7 @@ export default function Navbar() {
           >
             <div className="relative w-9 h-9 rounded-full overflow-hidden">
               <Image
-                src="/logo.png"
+                src="/sour-logo.svg"
                 alt="SOUR"
                 fill
                 className="object-contain"
@@ -98,7 +98,7 @@ export default function Navbar() {
               {crustLink.name}
             </Link>
             <motion.a
-              href="https://t.me/mayastarter"
+              href="https://t.me/sourdaoxyz"
               target="_blank"
               rel="noopener noreferrer"
               initial={{ opacity: 0, scale: 0.8 }}

@@ -88,11 +88,11 @@ export default function Rewards() {
       title: "Reputation Protocol (RaaS)",
       tagline: "Web3's Trust Infrastructure",
       description:
-        "Your soulbound NFT isn't just for MAYA — any Web3 project queries your score via API. MAYA becomes the trust layer of the internet.",
+        "Your soulbound NFT isn't just for SOUR — any Web3 project queries your score via API. SOUR becomes the trust layer of the internet.",
       features: [
         "Soulbound NFT — can't sell, can't fake, evolves visually",
-        "Open API/SDK for external protocols to read MAYA reputation",
-        "MAYA tokens required per query = permanent token demand",
+        "Open API/SDK for external protocols to read SOUR reputation",
+        "SOUR tokens required per query = permanent token demand",
         "Score formula: trade_value × completion × time × bond_factor",
       ],
       color: "from-gold to-amber-500",
@@ -199,7 +199,7 @@ export default function Rewards() {
   const infrastructureLayer: Protocol[] = [
     {
       icon: MessageCircle,
-      title: "Maya Agora",
+      title: "Sour Agora",
       tagline: "Our Own Social Network",
       description:
         "Not Discord. Not Telegram. A wallet-based social network where your identity IS your reputation. No bans. No centralized control. Your data is yours.",
@@ -214,7 +214,7 @@ export default function Rewards() {
     },
     {
       icon: HardDrive,
-      title: "Maya Vault Network",
+      title: "Sour Vault Network",
       tagline: "Every Computer is a Server",
       description:
         "Members donate 10-100GB from their computers. Combined, it becomes a decentralized storage network. Provide space = earn rewards. No AWS needed.",
@@ -229,7 +229,7 @@ export default function Rewards() {
     },
     {
       icon: Server,
-      title: "Maya Daemon",
+      title: "Sour Daemon",
       tagline: "Your Local AI Agent",
       description:
         "A lightweight AI running on your own computer. Learns your style. Does simple tasks while you sleep. Federated learning — collective intelligence, individual privacy.",
@@ -359,7 +359,7 @@ export default function Rewards() {
               { emoji: "🏺", year: "3,000 BC", title: "Trade", desc: "Grain = money" },
               { emoji: "🏦", year: "1400 AD", title: "Banks", desc: "Trust centralized" },
               { emoji: "₿", year: "2009", title: "Bitcoin", desc: "Trust decentralized" },
-              { emoji: "🍞", year: "2026", title: "MAYA", desc: "Civilization protocol" },
+              { emoji: "🍞", year: "2026", title: "SOUR", desc: "Civilization protocol" },
             ].map((era, i) => (
               <div key={i} className="flex items-center gap-6 md:gap-8">
                 <div className="flex flex-col items-center">

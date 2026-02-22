@@ -45,7 +45,7 @@ export default function NotFound() {
           >
             <Image
               src="/mascot-sad.svg"
-              alt="Maya is sad"
+              alt="Sour is sad"
               width={160}
               height={176}
               className="drop-shadow-[0_0_20px_rgba(212,175,55,0.2)]"

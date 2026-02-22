@@ -107,7 +107,7 @@ export default function Whitepaper() {
       howItWorks: [
         "Soulbound identity created on-chain — cannot be sold or transferred",
         "Every completed Bake (trade/agreement) strengthens your Crust score",
-        "Portable across every Oven (chain) MAYA deploys to",
+        "Portable across every Oven (chain) SOUR deploys to",
         "Other protocols can query your Crust via API — composable trust",
         "No platform can erase your economic history — it's yours forever",
       ],
@@ -137,7 +137,7 @@ export default function Whitepaper() {
       howItWorks: [
         "Every Bake generates a Pinch (1-3% fee)",
         "50% of the Pinch is burned — permanent supply reduction",
-        "30% distributed to Keepers — tier-weighted, in $MAYA",
+        "30% distributed to Keepers — tier-weighted, in $SOUR",
         "20% flows to Commons Bakery — community treasury for growth",
         "No inflation mechanics — real revenue from real protocol activity",
       ],
@@ -149,10 +149,10 @@ export default function Whitepaper() {
     {
       icon: TrendingDown,
       title: "Deflationary Burns",
-      description: "50% of all protocol fees buy $MAYA from market and burn it. Fixed supply. No minting. Your share grows automatically over time.",
+      description: "50% of all protocol fees buy $SOUR from market and burn it. Fixed supply. No minting. Your share grows automatically over time.",
       howItWorks: [
         "Every Bake → 1-3% Pinch → 50% directed to burn",
-        "$MAYA bought from open market → sent to burn address → gone forever",
+        "$SOUR bought from open market → sent to burn address → gone forever",
         "Total supply: 1B. Burns only reduce — nothing mints",
         "Year 5 projection: ~600M supply → 0.10% holding becomes 0.167%",
         "67% ownership increase — zero effort, just hold",
@@ -241,7 +241,7 @@ export default function Whitepaper() {
     {
       icon: Globe,
       title: "Every Oven, Every Flame",
-      description: "MAYA starts on Solana but is designed for every chain. Wherever the flame burns, the Starter rises. Multichain is the endgame.",
+      description: "SOUR starts on Solana but is designed for every chain. Wherever the flame burns, the Starter rises. Multichain is the endgame.",
       howItWorks: [
         "Genesis on Solana — fast, cheap, battle-tested",
         "Architecture designed for multichain from day one",
@@ -307,7 +307,7 @@ export default function Whitepaper() {
               Read Full Whitepaper
             </motion.a>
             <motion.a
-              href="https://github.com/mayastarter"
+              href="https://github.com/SourDaoxyx"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
@@ -334,7 +334,7 @@ export default function Whitepaper() {
               { label: "PILLAR III — THE HARVEST", bgOuter: "bg-orange-500/5 border-orange-500/15", textLabel: "text-orange-400", bgTag: "bg-orange-500/10 text-orange-300", items: ["50% Burn 🔥", "30% Keepers 🌾", "20% Commons 🏛️"] },
               { label: "PILLAR II — THE HANDSHAKE", bgOuter: "bg-blue-500/5 border-blue-500/15", textLabel: "text-blue-400", bgTag: "bg-blue-500/10 text-blue-300", items: ["Smart Contracts", "Borderless Settlement", "1-3% Pinch"] },
               { label: "PILLAR I — THE CRUST", bgOuter: "bg-amber-500/5 border-amber-500/15", textLabel: "text-amber-400", bgTag: "bg-amber-500/10 text-amber-300", items: ["Soulbound Identity", "Portable Reputation", "On-Chain Crust"] },
-              { label: "FOUNDATION", bgOuter: "bg-emerald-500/5 border-emerald-500/15", textLabel: "text-emerald-400", bgTag: "bg-emerald-500/10 text-emerald-300", items: ["$MAYA Token", "Community Owned", "LP Burned", "Mint Revoked"] },
+              { label: "FOUNDATION", bgOuter: "bg-emerald-500/5 border-emerald-500/15", textLabel: "text-emerald-400", bgTag: "bg-emerald-500/10 text-emerald-300", items: ["$SOUR Token", "Community Owned", "LP Burned", "Mint Revoked"] },
             ].map((layer, i) => (
               <div key={i} className={`p-3.5 rounded-xl border ${layer.bgOuter}`}>
                 <span className={`text-[10px] font-bold tracking-wider ${layer.textLabel}`}>{layer.label}</span>
@@ -409,7 +409,7 @@ export default function Whitepaper() {
           </div>
 
           <p className="text-center text-cream/35 text-sm mt-6">
-            No tokens minted. No staking inflation. All rewards in $MAYA. Real revenue from real Bakes.
+            No tokens minted. No staking inflation. All rewards in $SOUR. Real revenue from real Bakes.
           </p>
         </motion.div>
       </div>

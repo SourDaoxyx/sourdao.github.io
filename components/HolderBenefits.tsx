@@ -159,7 +159,7 @@ export default function HolderBenefits() {
             className="inline-block px-4 py-2 rounded-full glass-gold text-gold text-sm font-medium tracking-wider mb-6"
             whileHover={{ scale: 1.05 }}
           >
-            💎 WHY HOLD $MAYA
+            💎 WHY HOLD $SOUR
           </motion.span>
 
           <h2 className="font-cinzel text-4xl md:text-6xl font-bold mb-6">
@@ -289,7 +289,7 @@ export default function HolderBenefits() {
         >
           <h3 className="font-cinzel text-2xl font-bold text-cream mb-2">Seasonal Economy</h3>
           <p className="text-cream/40 text-sm mb-8">
-            Like nature, the MAYA economy follows seasons. Each quarter brings a different rhythm.
+            Like nature, the SOUR economy follows seasons. Each quarter brings a different rhythm.
             Revenue share is distributed every harvest season.
           </p>
 
@@ -346,7 +346,7 @@ export default function HolderBenefits() {
               <p className="text-pink-400 font-bold text-sm mb-2">Why It Matters</p>
               <p className="text-cream/50 text-sm">
                 No memecoin does this. No freelance platform does this.
-                This is real solidarity — not marketing. People hold MAYA for safety,
+                This is real solidarity — not marketing. People hold SOUR for safety,
                 not just profit.
               </p>
             </div>
@@ -366,7 +366,7 @@ export default function HolderBenefits() {
           </div>
 
           <p className="text-cream/45 text-sm mb-8 max-w-2xl">
-            20% of all revenue buys MAYA and burns it permanently.
+            20% of all revenue buys SOUR and burns it permanently.
             Your share grows — <span className="text-gold">without doing anything</span>.
           </p>
 
@@ -399,7 +399,7 @@ export default function HolderBenefits() {
           <div className="flex items-center gap-3 p-4 rounded-xl bg-green-500/5 border border-green-500/10">
             <TrendingUp className="w-5 h-5 text-green-400 flex-shrink-0" />
             <p className="text-cream/55 text-sm">
-              With 1M MAYA: ownership grows from <span className="text-green-400 font-semibold">0.10%</span> to{" "}
+              With 1M SOUR: ownership grows from <span className="text-green-400 font-semibold">0.10%</span> to{" "}
               <span className="text-green-400 font-semibold">0.1667%</span> — a{" "}
               <span className="text-green-400 font-semibold">67% increase</span>. No staking. No locking. Just math.
             </p>
@@ -417,7 +417,7 @@ export default function HolderBenefits() {
           <div>
             <h4 className="text-red-400 font-bold text-sm mb-1">Sell = Reset</h4>
             <p className="text-cream/45 text-sm">
-              Sell your MAYA → tier resets to Fresh Dough. Hold time restarts. Revenue share stops.
+              Sell your SOUR → tier resets to Fresh Dough. Hold time restarts. Revenue share stops.
               Insurance access revoked. Genesis Badge? Gone forever. Loyalty is rewarded. Paper hands pay the price.
             </p>
           </div>

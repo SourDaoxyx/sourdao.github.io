@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <radialGradient id="jarGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5F5DC"/>
+      <stop offset="40%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#FFBF00"/>
+    </linearGradient>
+    <linearGradient id="jarBody" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a0a"/>
+      <stop offset="100%" stop-color="#0a0a00"/>
+    </linearGradient>
+    <linearGradient id="rimGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFBF00"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#FFBF00"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background glow -->
+  <circle cx="100" cy="100" r="95" fill="url(#jarGlow)"/>
+
+  <!-- Jar body -->
+  <rect x="52" y="78" width="96" height="90" rx="12" fill="url(#jarBody)" stroke="url(#rimGrad)" stroke-width="1.5" opacity="0.9"/>
+
+  <!-- Jar shoulder (neck area) -->
+  <rect x="58" y="64" width="84" height="20" rx="6" fill="#111100" stroke="url(#rimGrad)" stroke-width="1.5"/>
+
+  <!-- Jar lid -->
+  <rect x="54" y="54" width="92" height="14" rx="5" fill="url(#jarBody)" stroke="url(#goldGrad)" stroke-width="2"/>
+  <rect x="62" y="57" width="76" height="8" rx="3" fill="transparent" stroke="#D4AF37" stroke-width="0.5" opacity="0.5"/>
+
+  <!-- Fermenting liquid inside jar -->
+  <rect x="55" y="105" width="90" height="60" rx="8" fill="#1a1200" opacity="0.8"/>
+  <ellipse cx="100" cy="105" rx="45" ry="6" fill="#2a1f00" opacity="0.9"/>
+
+  <!-- Bubble particles (fermentation) -->
+  <circle cx="72" cy="130" r="5" fill="transparent" stroke="#D4AF37" stroke-width="1" opacity="0.6"/>
+  <circle cx="88" cy="118" r="3" fill="transparent" stroke="#D4AF37" stroke-width="1" opacity="0.4"/>
+  <circle cx="118" cy="125" r="4" fill="transparent" stroke="#D4AF37" stroke-width="1" opacity="0.5"/>
+  <circle cx="133" cy="138" r="3.5" fill="transparent" stroke="#D4AF37" stroke-width="1" opacity="0.45"/>
+  <circle cx="105" cy="145" r="3" fill="transparent" stroke="#D4AF37" stroke-width="0.8" opacity="0.35"/>
+  <circle cx="82" cy="155" r="2" fill="#D4AF37" opacity="0.4"/>
+  <circle cx="120" cy="152" r="2.5" fill="#D4AF37" opacity="0.3"/>
+
+  <!-- S letter - centered in jar -->
+  <text
+    x="100"
+    y="102"
+    font-family="Georgia, serif"
+    font-size="42"
+    font-weight="700"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    fill="url(#goldGrad)"
+    filter="url(#glow)"
+    letter-spacing="-1"
+  >S</text>
+
+  <!-- SOUR text below jar -->
+  <text
+    x="100"
+    y="183"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="14"
+    font-weight="700"
+    text-anchor="middle"
+    fill="url(#goldGrad)"
+    letter-spacing="5"
+    filter="url(#glow)"
+  >SOUR</text>
+
+  <!-- Top shine on lid -->
+  <rect x="68" y="56" width="40" height="3" rx="2" fill="white" opacity="0.08"/>
+
+  <!-- Subtle outer ring -->
+  <circle cx="100" cy="100" r="93" stroke="#D4AF37" stroke-width="0.5" stroke-dasharray="4 8" opacity="0.2"/>
+</svg>

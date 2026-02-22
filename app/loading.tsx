@@ -39,7 +39,7 @@ export default function LoadingPage() {
         >
           <Image
             src="/mascot.svg"
-            alt="Maya"
+            alt="Sour"
             width={140}
             height={154}
             className="drop-shadow-[0_0_30px_rgba(212,175,55,0.3)]"
