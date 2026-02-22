@@ -1,56 +1,156 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 515 515" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
   <defs>
-    <radialGradient id="bgGrad" cx="50%" cy="38%" r="65%">
-      <stop offset="0%" stop-color="#2a1f00"/>
-      <stop offset="100%" stop-color="#080600"/>
+    <!-- Background -->
+    <radialGradient id="bg" cx="50%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#1c1400"/>
+      <stop offset="100%" stop-color="#040300"/>
     </radialGradient>
-    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <!-- Gold gradient diagonal -->
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#F5E070"/>
       <stop offset="45%" stop-color="#D4AF37"/>
-      <stop offset="100%" stop-color="#8B6914"/>
+      <stop offset="100%" stop-color="#7A5C10"/>
     </linearGradient>
-    <linearGradient id="letterGrad" x1="15%" y1="0%" x2="85%" y2="100%">
-      <stop offset="0%" stop-color="#FFE680"/>
-      <stop offset="40%" stop-color="#D4AF37"/>
+    <!-- Gold vertical (for jar) -->
+    <linearGradient id="goldV" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFE066"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
       <stop offset="100%" stop-color="#9A7520"/>
     </linearGradient>
-    <radialGradient id="glowPulse" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.18"/>
+    <!-- Jar body dark fill -->
+    <linearGradient id="jarFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0e0b00"/>
+      <stop offset="100%" stop-color="#060500"/>
+    </linearGradient>
+    <!-- Dough blob fill -->
+    <radialGradient id="doughFill" cx="50%" cy="60%" r="55%">
+      <stop offset="0%" stop-color="#1a1400"/>
+      <stop offset="100%" stop-color="#0a0800"/>
+    </radialGradient>
+    <!-- Ambient outer glow -->
+    <radialGradient id="outerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.12"/>
       <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
     </radialGradient>
-    <filter id="letterGlow" x="-15%" y="-15%" width="130%" height="130%">
-      <feGaussianBlur stdDeviation="10" result="blur"/>
+    <!-- Liquid fill -->
+    <linearGradient id="liquid" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2a1f00"/>
+      <stop offset="100%" stop-color="#0f0900"/>
+    </linearGradient>
+    <!-- Glow filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+    <filter id="strongGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="9" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Clip jar interior -->
+    <clipPath id="jarClip">
+      <rect x="172" y="234" width="156" height="152" rx="20"/>
+    </clipPath>
   </defs>
 
-  <!-- Outer ambient glow -->
-  <circle cx="257.5" cy="257.5" r="257.5" fill="url(#glowPulse)"/>
+  <!-- ── MEDALLION BACKGROUND ── -->
+  <circle cx="250" cy="250" r="250" fill="url(#outerGlow)"/>
+  <circle cx="250" cy="250" r="243" fill="url(#bg)"/>
 
-  <!-- Main dark circle -->
-  <circle cx="257.5" cy="257.5" r="245" fill="url(#bgGrad)"/>
+  <!-- Outer ring -->
+  <circle cx="250" cy="250" r="240" fill="none" stroke="url(#gold)" stroke-width="6.5"/>
+  <!-- Inner ring -->
+  <circle cx="250" cy="250" r="228" fill="none" stroke="#D4AF37" stroke-width="0.8" stroke-dasharray="2 6" opacity="0.35"/>
 
-  <!-- Outer gold ring -->
-  <circle cx="257.5" cy="257.5" r="242" fill="none" stroke="url(#ringGrad)" stroke-width="7"/>
+  <!-- Cardinal dots -->
+  <circle cx="250" cy="13"  r="3.5" fill="#D4AF37" opacity="0.55"/>
+  <circle cx="487" cy="250" r="3.5" fill="#D4AF37" opacity="0.55"/>
+  <circle cx="250" cy="487" r="3.5" fill="#D4AF37" opacity="0.55"/>
+  <circle cx="13"  cy="250" r="3.5" fill="#D4AF37" opacity="0.55"/>
 
-  <!-- Inner thin accent ring -->
-  <circle cx="257.5" cy="257.5" r="228" fill="none" stroke="#D4AF37" stroke-width="1" opacity="0.2"/>
+  <!-- Diagonal ornament lines (top-left, top-right) -->
+  <line x1="76"  y1="76"  x2="90"  y2="90"  stroke="#D4AF37" stroke-width="1" opacity="0.3"/>
+  <line x1="424" y1="76"  x2="410" y2="90"  stroke="#D4AF37" stroke-width="1" opacity="0.3"/>
 
-  <!-- Top highlight arc -->
-  <path d="M 120 175 A 160 160 0 0 1 395 175" stroke="#FFE680" stroke-width="1.5" fill="none" opacity="0.12" stroke-linecap="round"/>
+  <!-- ── RISING DOUGH BLOB (above jar) ── -->
+  <!-- Outer glow of blob -->
+  <path d="M 213 200 C 195 178, 188 150, 200 126 C 210 106, 228 96, 250 98
+           C 272 96, 290 106, 300 126 C 312 150, 305 178, 287 200 Z"
+        fill="url(#doughFill)" stroke="url(#gold)" stroke-width="2.2"
+        filter="url(#glow)"/>
+  <!-- Dough texture curves -->
+  <path d="M 228 168 Q 250 155 272 168" fill="none" stroke="#D4AF37" stroke-width="1.2" opacity="0.45" stroke-linecap="round"/>
+  <path d="M 222 182 Q 250 170 278 182" fill="none" stroke="#D4AF37" stroke-width="1"   opacity="0.3"  stroke-linecap="round"/>
+  <!-- Rising bubble trails from jar -->
+  <circle cx="235" cy="210" r="3"   fill="none" stroke="#D4AF37" stroke-width="1"   opacity="0.4"/>
+  <circle cx="250" cy="204" r="2.5" fill="#D4AF37" opacity="0.25" filter="url(#glow)"/>
+  <circle cx="265" cy="210" r="3"   fill="none" stroke="#D4AF37" stroke-width="1"   opacity="0.4"/>
 
-  <!-- S letter -->
-  <text
-    x="257.5"
-    y="348"
-    text-anchor="middle"
-    font-family="Georgia, 'Times New Roman', serif"
-    font-size="310"
-    font-weight="700"
-    fill="url(#letterGrad)"
-    filter="url(#letterGlow)"
-  >S</text>
+  <!-- ── JAR ── -->
+  <!-- Jar lid -->
+  <rect x="174" y="196" width="152" height="16" rx="5"
+        fill="url(#jarFill)" stroke="url(#gold)" stroke-width="2.5"/>
+  <!-- Lid shine -->
+  <rect x="184" y="199" width="52" height="5" rx="2.5" fill="white" opacity="0.06"/>
 
-  <!-- Bottom glow reflection -->
-  <ellipse cx="257.5" cy="468" rx="110" ry="5" fill="url(#ringGrad)" opacity="0.2"/>
+  <!-- Jar neck / shoulder -->
+  <rect x="188" y="211" width="124" height="25" rx="5"
+        fill="url(#jarFill)" stroke="url(#gold)" stroke-width="2"/>
+
+  <!-- Jar body -->
+  <rect x="172" y="234" width="156" height="152" rx="20"
+        fill="url(#jarFill)" stroke="url(#gold)" stroke-width="2.5"/>
+
+  <!-- Liquid fill (clipped to jar) -->
+  <rect x="172" y="285" width="156" height="101" rx="0" fill="url(#liquid)" clip-path="url(#jarClip)"/>
+  <!-- Liquid surface -->
+  <ellipse cx="250" cy="285" rx="78" ry="7" fill="#2e2200" opacity="0.85"/>
+
+  <!-- Bubbles inside jar -->
+  <circle cx="208" cy="272" r="7"   fill="none" stroke="#D4AF37" stroke-width="1.3" opacity="0.5"/>
+  <circle cx="228" cy="260" r="4.5" fill="none" stroke="#D4AF37" stroke-width="1"   opacity="0.4"/>
+  <circle cx="268" cy="267" r="6"   fill="none" stroke="#D4AF37" stroke-width="1.2" opacity="0.45"/>
+  <circle cx="290" cy="258" r="4"   fill="none" stroke="#D4AF37" stroke-width="1"   opacity="0.4"/>
+  <circle cx="243" cy="275" r="2.8" fill="#D4AF37" opacity="0.28"/>
+  <circle cx="263" cy="278" r="3.2" fill="#D4AF37" opacity="0.22"/>
+  <circle cx="220" cy="305" r="5"   fill="none" stroke="#D4AF37" stroke-width="1"   opacity="0.3"/>
+  <circle cx="275" cy="312" r="4"   fill="none" stroke="#D4AF37" stroke-width="0.9" opacity="0.28"/>
+
+  <!-- Label band on jar -->
+  <rect x="177" y="300" width="146" height="46" rx="4"
+        fill="none" stroke="#D4AF37" stroke-width="0.7" opacity="0.22"/>
+
+  <!-- ── TEXT ── -->
+  <!-- "SOUR" -->
+  <text x="250" y="432"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="56" font-weight="700"
+        text-anchor="middle"
+        fill="url(#goldV)"
+        letter-spacing="10"
+        filter="url(#glow)">SOUR</text>
+
+  <!-- Flanking lines for SOUR -->
+  <line x1="96"  y1="416" x2="148" y2="416" stroke="#D4AF37" stroke-width="0.8" opacity="0.45"/>
+  <line x1="352" y1="416" x2="404" y2="416" stroke="#D4AF37" stroke-width="0.8" opacity="0.45"/>
+  <!-- Diamond ornament on lines -->
+  <polygon points="148,416 153,411 158,416 153,421" fill="#D4AF37" opacity="0.45"/>
+  <polygon points="342,416 347,411 352,416 347,421" fill="#D4AF37" opacity="0.45"/>
+
+  <!-- "THE GENESIS STARTER" tagline -->
+  <text x="250" y="458"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="10.5" font-weight="400"
+        text-anchor="middle"
+        fill="#D4AF37"
+        letter-spacing="4.5"
+        opacity="0.48">THE GENESIS STARTER</text>
+
+  <!-- Top arc text path (arcs along top of inner ring) -->
+  <path id="topArc" d="M 80,250 A 170,170 0 0,1 420,250" fill="none"/>
+  <text font-family="Georgia, serif" font-size="9.5" fill="#D4AF37" letter-spacing="3" opacity="0.3">
+    <textPath href="#topArc" startOffset="50%" text-anchor="middle">· ORGANIC FINANCE EMPIRE ·</textPath>
+  </text>
+
+  <!-- Bottom subtle glow reflection -->
+  <ellipse cx="250" cy="472" rx="105" ry="4.5" fill="url(#gold)" opacity="0.18"/>
 </svg>
