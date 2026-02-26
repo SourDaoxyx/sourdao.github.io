@@ -35,7 +35,7 @@ pub struct HandshakeApproved {
     pub worker: Pubkey,
     pub amount: u64,
     pub pinch_total: u64,
-    pub burned: u64,
+    pub to_treasury: u64,
     pub to_keepers: u64,
     pub to_commons: u64,
 }

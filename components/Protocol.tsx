@@ -65,7 +65,7 @@ export default function Protocol() {
       bg: "bg-amber-500/5",
       border: "border-amber-500/20",
       features: [
-        { icon: Flame, text: t("protocol.pillar3.f1") },
+        { icon: Coins, text: t("protocol.pillar3.f1") },
         { icon: Users, text: t("protocol.pillar3.f2") },
         { icon: Coins, text: t("protocol.pillar3.f3") },
       ],

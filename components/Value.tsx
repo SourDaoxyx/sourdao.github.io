@@ -195,7 +195,7 @@ export default function Value() {
           ))}
         </div>
 
-        {/* Burn Math */}
+        {/* LP Growth Math */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -209,10 +209,10 @@ export default function Value() {
 
           <div className="grid grid-cols-4 gap-3 mb-4">
             {[
-              { year: t("value.burn.launch"), supply: "1B", your: "0.10%" },
-              { year: t("value.burn.year1"), supply: "~998M", your: "0.10%" },
-              { year: t("value.burn.year3"), supply: "~760M", your: "0.13%" },
-              { year: t("value.burn.year5"), supply: "~600M", your: "0.17%" },
+              { year: t("value.burn.launch"), supply: "$0", your: "Genesis" },
+              { year: t("value.burn.year1"), supply: "~$120K", your: "LP depth" },
+              { year: t("value.burn.year3"), supply: "~$500K", your: "LP depth" },
+              { year: t("value.burn.year5"), supply: "~$2M+", your: "LP depth" },
             ].map((item, i) => (
               <div key={i} className="text-center p-3 rounded-xl bg-black/30 border border-cream/5">
                 <p className="text-cream/30 text-[11px] mb-1">{item.year}</p>

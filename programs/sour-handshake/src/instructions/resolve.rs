@@ -7,7 +7,7 @@
 // ============================================================================
 
 use anchor_lang::prelude::*;
-use anchor_spl::token::{self, Token, TokenAccount, Transfer, Burn, Mint};
+use anchor_spl::token::{self, Token, TokenAccount, Transfer};
 
 use crate::state::{Handshake, HandshakeStatus, ProtocolConfig};
 use crate::errors::SourError;
@@ -77,12 +77,12 @@ pub struct ResolveDispute<'info> {
     )]
     pub commons_treasury: Account<'info, TokenAccount>,
 
-    /// $SOUR mint for burning
+    /// Buyback+LP treasury — receives 50% of Pinch
     #[account(
         mut,
-        address = config.sour_mint,
+        constraint = buyback_treasury.key() == config.buyback_treasury,
     )]
-    pub sour_mint: Account<'info, Mint>,
+    pub buyback_treasury: Account<'info, TokenAccount>,
 
     /// Protocol authority (resolver)
     pub authority: Signer<'info>,
@@ -136,7 +136,7 @@ pub fn handler(ctx: Context<ResolveDispute>, ruling: u8) -> Result<()> {
             .ok_or(SourError::MathOverflow)? as u64;
 
         let burn_amount = (pinch_total as u128)
-            .checked_mul(config.burn_share_bps as u128)
+            .checked_mul(config.treasury_share_bps as u128)
             .ok_or(SourError::MathOverflow)?
             .checked_div(10_000)
             .ok_or(SourError::MathOverflow)? as u64;
@@ -171,18 +171,18 @@ pub fn handler(ctx: Context<ResolveDispute>, ruling: u8) -> Result<()> {
             token::transfer(ctx_transfer, worker_amount)?;
         }
 
-        // Burn
+        // Transfer to buyback+LP treasury
         if burn_amount > 0 {
-            let burn_ctx = CpiContext::new_with_signer(
+            let treasury_ctx = CpiContext::new_with_signer(
                 ctx.accounts.token_program.to_account_info(),
-                Burn {
-                    mint: ctx.accounts.sour_mint.to_account_info(),
+                Transfer {
                     from: ctx.accounts.vault.to_account_info(),
+                    to: ctx.accounts.buyback_treasury.to_account_info(),
                     authority: ctx.accounts.vault_authority.to_account_info(),
                 },
                 signer_seeds,
             );
-            token::burn(burn_ctx, burn_amount)?;
+            token::transfer(treasury_ctx, burn_amount)?;
         }
 
         // To keepers
@@ -219,8 +219,8 @@ pub fn handler(ctx: Context<ResolveDispute>, ruling: u8) -> Result<()> {
             .total_completed
             .checked_add(1)
             .ok_or(SourError::MathOverflow)?;
-        config.total_burned = config
-            .total_burned
+        config.total_to_treasury = config
+            .total_to_treasury
             .checked_add(burn_amount)
             .ok_or(SourError::MathOverflow)?;
         config.total_to_keepers = config
@@ -233,7 +233,7 @@ pub fn handler(ctx: Context<ResolveDispute>, ruling: u8) -> Result<()> {
             .ok_or(SourError::MathOverflow)?;
 
         msg!(
-            "Dispute #{} resolved: PAY worker. {} paid, {} burned",
+            "Dispute #{} resolved: PAY worker. {} paid, {} to treasury",
             handshake_id,
             worker_amount,
             burn_amount,

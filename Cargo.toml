@@ -1,6 +1,7 @@
 [workspace]
 members = [
-    "programs/sour-handshake"
+    "programs/sour-handshake",
+    "programs/sour-treasury"
 ]
 resolver = "2"
 

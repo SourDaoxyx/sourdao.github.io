@@ -63,7 +63,7 @@ export default function Rewards() {
         "Crypto-signed contracts with measurable deliverables",
         "AI agent validates: files delivered? format correct? deadline met?",
         "Milestone-based escrow — pay as work progresses",
-        "Fee funds burn + holders + commons treasury",
+        "Fee funds buyback+LP + holders + commons treasury",
       ],
       color: "from-blue-500 to-cyan-500",
       gradient: "bg-gradient-to-br from-blue-500/10 to-cyan-500/5",
@@ -435,7 +435,7 @@ export default function Rewards() {
             {[
               { label: "Trades", cls: "bg-blue-500/10 border-blue-500/20 text-blue-400" },
               { label: "Revenue", cls: "bg-green-500/10 border-green-500/20 text-green-400" },
-              { label: "Burns + Rewards", cls: "bg-orange-500/10 border-orange-500/20 text-orange-400" },
+              { label: "Buyback + LP", cls: "bg-orange-500/10 border-orange-500/20 text-orange-400" },
               { label: "Reputation", cls: "bg-purple-500/10 border-purple-500/20 text-purple-400" },
               { label: "Guilds", cls: "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" },
               { label: "Infrastructure", cls: "bg-rose-500/10 border-rose-500/20 text-rose-400" },
@@ -450,7 +450,7 @@ export default function Rewards() {
             ))}
           </div>
           <p className="text-cream/35 text-sm max-w-2xl mx-auto">
-            Each protocol feeds the next. Escrow generates fees. Fees burn tokens and reward holders.
+            Each protocol feeds the next. Escrow generates fees. Fees buy back tokens, deepen LP, and reward holders.
             Reputation attracts users. Users form guilds. Guilds build infrastructure.
             The civilization grows itself — forever.
           </p>

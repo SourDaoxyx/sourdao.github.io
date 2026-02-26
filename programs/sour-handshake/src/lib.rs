@@ -8,7 +8,7 @@
 //   Baker B accepts the handshake
 //   Baker B delivers work
 //   Baker A approves → funds released, Pinch fee applied:
-//     - 50% of fee burned permanently
+//     - 50% of fee sent to Treasury PDA (batched → buyback + LP)
 //     - 30% of fee to Keepers pool
 //     - 20% of fee to Commons treasury
 //
@@ -53,7 +53,7 @@ pub mod sour_handshake {
     }
 
     /// Baker A approves delivery — releases funds minus the Pinch fee.
-    /// Pinch (2%): 50% burn + 30% keepers + 20% commons
+    /// Pinch (2%): 50% treasury (buyback+LP) + 30% keepers + 20% commons
     pub fn approve(ctx: Context<Approve>) -> Result<()> {
         instructions::approve::handler(ctx)
     }
@@ -79,15 +79,15 @@ pub mod sour_handshake {
     /// Initialize the protocol config (one-time setup).
     pub fn initialize_config(
         ctx: Context<InitializeConfig>,
-        pinch_bps: u16,         // fee in basis points (200 = 2%)
-        burn_share_bps: u16,    // 5000 = 50% of fee
-        keepers_share_bps: u16, // 3000 = 30% of fee
-        commons_share_bps: u16, // 2000 = 20% of fee
+        pinch_bps: u16,           // fee in basis points (200 = 2%)
+        treasury_share_bps: u16,  // 5000 = 50% of fee → buyback+LP
+        keepers_share_bps: u16,   // 3000 = 30% of fee
+        commons_share_bps: u16,   // 2000 = 20% of fee
     ) -> Result<()> {
         instructions::init_config::handler(
             ctx,
             pinch_bps,
-            burn_share_bps,
+            treasury_share_bps,
             keepers_share_bps,
             commons_share_bps,
         )

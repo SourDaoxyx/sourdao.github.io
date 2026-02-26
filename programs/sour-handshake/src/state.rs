@@ -101,11 +101,14 @@ pub struct ProtocolConfig {
     /// Commons treasury token account (receives 20% of Pinch)
     pub commons_treasury: Pubkey,
 
+    /// Buyback+LP Treasury token account (receives 50% of Pinch for batched buyback+LP)
+    pub buyback_treasury: Pubkey,
+
     /// Total Pinch fee in basis points (200 = 2.00%)
     pub pinch_bps: u16,
 
-    /// Share of Pinch that gets burned, in bps of the fee (5000 = 50%)
-    pub burn_share_bps: u16,
+    /// Share of Pinch to Treasury (buyback+LP), in bps of the fee (5000 = 50%)
+    pub treasury_share_bps: u16,
 
     /// Share of Pinch to Keepers, in bps of the fee (3000 = 30%)
     pub keepers_share_bps: u16,
@@ -116,8 +119,8 @@ pub struct ProtocolConfig {
     /// Running counter for handshake IDs
     pub handshake_count: u64,
 
-    /// Total $SOUR burned through Pinch fees
-    pub total_burned: u64,
+    /// Total $SOUR sent to buyback+LP treasury
+    pub total_to_treasury: u64,
 
     /// Total $SOUR distributed to keepers
     pub total_to_keepers: u64,

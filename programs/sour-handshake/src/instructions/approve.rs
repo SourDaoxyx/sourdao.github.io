@@ -2,7 +2,7 @@
 // Approve — Baker A approves delivery, releases funds with Pinch fee
 //
 // Pinch Fee Flow (default 2% of escrow):
-//   50% → BURNED permanently (sent to burn address / closed)
+//   50% → Treasury PDA (batched → SOUR buyback + Protocol-Owned LP)
 //   30% → Keepers pool (holder rewards)
 //   20% → Commons treasury (community fund)
 //
@@ -10,7 +10,7 @@
 // ============================================================================
 
 use anchor_lang::prelude::*;
-use anchor_spl::token::{self, Token, TokenAccount, Transfer, Burn, Mint};
+use anchor_spl::token::{self, Token, TokenAccount, Transfer, Mint};
 
 use crate::state::{Handshake, HandshakeStatus, ProtocolConfig};
 use crate::errors::SourError;
@@ -72,12 +72,12 @@ pub struct Approve<'info> {
     )]
     pub commons_treasury: Account<'info, TokenAccount>,
 
-    /// $SOUR mint — needed for burn
+    /// Buyback+LP treasury — receives 50% of Pinch (batched → buyback + LP)
     #[account(
         mut,
-        address = config.sour_mint,
+        constraint = buyback_treasury.key() == config.buyback_treasury,
     )]
-    pub sour_mint: Account<'info, Mint>,
+    pub buyback_treasury: Account<'info, TokenAccount>,
 
     /// The creator (Baker A) approving the delivery
     pub creator: Signer<'info>,
@@ -100,8 +100,8 @@ pub fn handler(ctx: Context<Approve>) -> Result<()> {
         .checked_div(10_000)
         .ok_or(SourError::MathOverflow)? as u64;
 
-    let burn_amount = (pinch_total as u128)
-        .checked_mul(config.burn_share_bps as u128)
+    let treasury_amount = (pinch_total as u128)
+        .checked_mul(config.treasury_share_bps as u128)
         .ok_or(SourError::MathOverflow)?
         .checked_div(10_000)
         .ok_or(SourError::MathOverflow)? as u64;
@@ -114,7 +114,7 @@ pub fn handler(ctx: Context<Approve>) -> Result<()> {
 
     // Commons gets the remainder to avoid rounding dust
     let commons_amount = pinch_total
-        .checked_sub(burn_amount)
+        .checked_sub(treasury_amount)
         .ok_or(SourError::MathOverflow)?
         .checked_sub(keepers_amount)
         .ok_or(SourError::MathOverflow)?;
@@ -151,19 +151,19 @@ pub fn handler(ctx: Context<Approve>) -> Result<()> {
     }
 
     // -----------------------------------------------------------------------
-    // 2. Burn 50% of Pinch
+    // 2. Transfer 50% of Pinch to Buyback+LP Treasury
     // -----------------------------------------------------------------------
-    if burn_amount > 0 {
-        let burn_ctx = CpiContext::new_with_signer(
+    if treasury_amount > 0 {
+        let transfer_treasury_ctx = CpiContext::new_with_signer(
             ctx.accounts.token_program.to_account_info(),
-            Burn {
-                mint: ctx.accounts.sour_mint.to_account_info(),
+            Transfer {
                 from: ctx.accounts.vault.to_account_info(),
+                to: ctx.accounts.buyback_treasury.to_account_info(),
                 authority: ctx.accounts.vault_authority.to_account_info(),
             },
             signer_seeds,
         );
-        token::burn(burn_ctx, burn_amount)?;
+        token::transfer(transfer_treasury_ctx, treasury_amount)?;
     }
 
     // -----------------------------------------------------------------------
@@ -210,9 +210,9 @@ pub fn handler(ctx: Context<Approve>) -> Result<()> {
         .total_completed
         .checked_add(1)
         .ok_or(SourError::MathOverflow)?;
-    config.total_burned = config
-        .total_burned
-        .checked_add(burn_amount)
+    config.total_to_treasury = config
+        .total_to_treasury
+        .checked_add(treasury_amount)
         .ok_or(SourError::MathOverflow)?;
     config.total_to_keepers = config
         .total_to_keepers
@@ -229,16 +229,16 @@ pub fn handler(ctx: Context<Approve>) -> Result<()> {
         worker: handshake.worker,
         amount,
         pinch_total,
-        burned: burn_amount,
+        to_treasury: treasury_amount,
         to_keepers: keepers_amount,
         to_commons: commons_amount,
     });
 
     msg!(
-        "Handshake #{} approved! {} to worker, {} burned, {} to keepers, {} to commons",
+        "Handshake #{} approved! {} to worker, {} to treasury, {} to keepers, {} to commons",
         handshake.id,
         worker_amount,
-        burn_amount,
+        treasury_amount,
         keepers_amount,
         commons_amount,
     );

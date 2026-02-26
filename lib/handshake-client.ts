@@ -92,11 +92,11 @@ export interface ProtocolConfigAccount {
   keepersPool: PublicKey;
   commonsTreasury: PublicKey;
   pinchBps: number;
-  burnShareBps: number;
+  treasuryShareBps: number;
   keepersShareBps: number;
   commonsShareBps: number;
   handshakeCount: bigint;
-  totalBurned: bigint;
+  totalToTreasury: bigint;
   totalToKeepers: bigint;
   totalToCommons: bigint;
   totalCompleted: bigint;
@@ -110,7 +110,7 @@ export interface ProtocolConfigAccount {
 
 export interface PinchBreakdown {
   pinchTotal: bigint;
-  burnAmount: bigint;
+  treasuryAmount: bigint;
   keepersAmount: bigint;
   commonsAmount: bigint;
   workerAmount: bigint;
@@ -119,19 +119,19 @@ export interface PinchBreakdown {
 export function calculatePinch(
   amount: bigint,
   pinchBps: number = 200,
-  burnShareBps: number = 5000,
+  treasuryShareBps: number = 5000,
   keepersShareBps: number = 3000,
 ): PinchBreakdown {
   const bpsBase = BigInt(10_000);
   const pinchTotal = (amount * BigInt(pinchBps)) / bpsBase;
-  const burnAmount = (pinchTotal * BigInt(burnShareBps)) / bpsBase;
+  const treasuryAmount = (pinchTotal * BigInt(treasuryShareBps)) / bpsBase;
   const keepersAmount = (pinchTotal * BigInt(keepersShareBps)) / bpsBase;
-  const commonsAmount = pinchTotal - burnAmount - keepersAmount;
+  const commonsAmount = pinchTotal - treasuryAmount - keepersAmount;
   const workerAmount = amount - pinchTotal;
 
   return {
     pinchTotal,
-    burnAmount,
+    treasuryAmount,
     keepersAmount,
     commonsAmount,
     workerAmount,

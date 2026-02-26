@@ -111,7 +111,7 @@ export default function HandshakeApp() {
           <p className="text-cream/40 max-w-2xl mx-auto text-sm">
             The Handshake is SOUR&apos;s trustless P2P agreement engine built on Solana.
             Every deal is a smart contract — deliverables, deadlines, and payment locked on-chain.
-            A 1-3% Pinch fuels the entire ecosystem: 50% burned forever, 30% to Keepers, 20% to Commons.
+            A 1-3% Pinch fuels the entire ecosystem: 50% buyback+LP, 30% to Keepers, 20% to Commons.
           </p>
         </motion.div>
 
@@ -126,7 +126,7 @@ export default function HandshakeApp() {
             { step: "1", title: "Create", desc: "Define deliverables, deadline, and $SOUR amount. A Recipe (smart contract) is deployed on-chain." },
             { step: "2", title: "Accept", desc: "Worker reviews terms and accepts. Funds are locked in escrow — untouchable until conditions are met." },
             { step: "3", title: "Deliver", desc: "Worker submits deliverables. Client reviews. If approved, funds release instantly to the worker." },
-            { step: "4", title: "Resolve", desc: "Dispute? An arbiter resolves it. The 1-3% Pinch feeds burns, Keepers, and the Commons treasury." },
+            { step: "4", title: "Resolve", desc: "Dispute? An arbiter resolves it. The 1-3% Pinch feeds buyback+LP, Keepers, and the Commons treasury." },
           ].map((item) => (
             <div key={item.step} className="rounded-xl border border-gold/15 bg-black/30 p-4">
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gold to-amber flex items-center justify-center text-black font-bold text-sm mb-3">
@@ -238,8 +238,8 @@ export default function HandshakeApp() {
                 <p className="text-right text-cream">{formatSourAmount(amountUnits)} $SOUR</p>
                 <p className="text-cream/60">Pinch Total</p>
                 <p className="text-right text-gold">{formatSourAmount(pinch.pinchTotal)} $SOUR</p>
-                <p className="text-cream/60">Burn</p>
-                <p className="text-right text-red-400">{formatSourAmount(pinch.burnAmount)} $SOUR</p>
+                <p className="text-cream/60">Buyback+LP</p>
+                <p className="text-right text-red-400">{formatSourAmount(pinch.treasuryAmount)} $SOUR</p>
                 <p className="text-cream/60">Keepers</p>
                 <p className="text-right text-blue-400">{formatSourAmount(pinch.keepersAmount)} $SOUR</p>
                 <p className="text-cream/60">Commons</p>

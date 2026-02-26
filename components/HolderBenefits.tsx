@@ -128,7 +128,7 @@ export default function HolderBenefits() {
     { label: "Operations", value: "50%", color: "bg-green-500", width: "w-[50%]" },
     { label: "Holder Revenue", value: "15%", color: "bg-gold", width: "w-[15%]" },
     { label: "Commons Treasury", value: "15%", color: "bg-purple-500", width: "w-[15%]" },
-    { label: "Buyback & Burn", value: "20%", color: "bg-orange-500", width: "w-[20%]" },
+    { label: "Buyback + LP", value: "20%", color: "bg-orange-500", width: "w-[20%]" },
   ];
 
   const seasons = [
@@ -231,7 +231,7 @@ export default function HolderBenefits() {
 
           <p className="text-cream/45 text-sm mb-8 max-w-2xl">
             Every escrow trade generates 1-3% fee. Real income split between operations,
-            holders, community, and permanent burn. <span className="text-gold">No tokens are minted — ever.</span>
+            holders, community, and protocol-owned LP. <span className="text-gold">No tokens are minted — ever.</span>
           </p>
 
           {/* Revenue Bar */}
@@ -353,7 +353,7 @@ export default function HolderBenefits() {
           </div>
         </motion.div>
 
-        {/* Burn Math */}
+        {/* LP Growth Math */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -362,20 +362,20 @@ export default function HolderBenefits() {
         >
           <div className="flex items-center gap-3 mb-6">
             <Flame className="w-6 h-6 text-orange-400" />
-            <h3 className="font-cinzel text-2xl font-bold text-cream">Deflationary Math</h3>
+            <h3 className="font-cinzel text-2xl font-bold text-cream">Protocol-Owned LP Growth</h3>
           </div>
 
           <p className="text-cream/45 text-sm mb-8 max-w-2xl">
-            20% of all revenue buys SOUR and burns it permanently.
-            Your share grows — <span className="text-gold">without doing anything</span>.
+            50% of all protocol fees buy $SOUR and add to protocol-owned liquidity.
+            Deeper LP every month — <span className="text-gold">better for everyone</span>.
           </p>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             {[
-              { year: "Launch", supply: "1,000,000,000", pct: "100%", your: "0.10%" },
-              { year: "Year 1", supply: "~997,600,000", pct: "99.76%", your: "0.1002%" },
-              { year: "Year 3", supply: "~760,000,000", pct: "76%", your: "0.1316%" },
-              { year: "Year 5", supply: "~600,000,000", pct: "60%", your: "0.1667%" },
+              { year: "Launch", supply: "$0", pct: "1%", your: "Genesis" },
+              { year: "Year 1", supply: "~$120K", pct: "25%", your: "LP depth" },
+              { year: "Year 3", supply: "~$500K", pct: "60%", your: "LP depth" },
+              { year: "Year 5", supply: "~$2M+", pct: "100%", your: "LP depth" },
             ].map((item, i) => (
               <div key={i} className="text-center p-4 rounded-xl bg-black/30 border border-cream/5">
                 <p className="text-cream/35 text-xs mb-1">{item.year}</p>
@@ -399,9 +399,9 @@ export default function HolderBenefits() {
           <div className="flex items-center gap-3 p-4 rounded-xl bg-green-500/5 border border-green-500/10">
             <TrendingUp className="w-5 h-5 text-green-400 flex-shrink-0" />
             <p className="text-cream/55 text-sm">
-              With 1M SOUR: ownership grows from <span className="text-green-400 font-semibold">0.10%</span> to{" "}
-              <span className="text-green-400 font-semibold">0.1667%</span> — a{" "}
-              <span className="text-green-400 font-semibold">67% increase</span>. No staking. No locking. Just math.
+              More volume = more buybacks = deeper LP = tighter spreads.
+              <span className="text-green-400 font-semibold"> Protocol-owned LP</span> means no impermanent loss risk for individuals.
+              The protocol absorbs it. Just hold.
             </p>
           </div>
         </motion.div>

@@ -135,10 +135,10 @@ export default function Whitepaper() {
     {
       icon: Flame,
       title: "The Harvest — Grow Together",
-      description: "Every Bake returns a Pinch to the Oven. 50% burns forever. 30% flows to Keepers. 20% to Commons. The network grows, everyone grows.",
+      description: "Every Bake returns a Pinch to the Oven. 50% buys back $SOUR and deepens protocol-owned liquidity. 30% flows to Keepers. 20% to Commons. The network grows, everyone grows.",
       howItWorks: [
         "Every Bake generates a Pinch (1-3% fee)",
-        "50% of the Pinch is burned — permanent supply reduction",
+        "50% of the Pinch → Treasury → batched buyback + LP",
         "30% distributed to Keepers — tier-weighted, in $SOUR",
         "20% flows to Commons Bakery — community treasury for growth",
         "No inflation mechanics — real revenue from real protocol activity",
@@ -165,14 +165,14 @@ export default function Whitepaper() {
     // ECONOMICS
     {
       icon: TrendingDown,
-      title: "Deflationary Burns",
-      description: "50% of all protocol fees buy $SOUR from market and burn it. Fixed supply. No minting. Your share grows automatically over time.",
+      title: "Buyback + Protocol-Owned LP",
+      description: "50% of all protocol fees batch-buy $SOUR and add to protocol-owned liquidity. Constant buy pressure + ever-deepening LP. No impermanent loss for individuals.",
       howItWorks: [
-        "Every Bake → 1-3% Pinch → 50% directed to burn",
-        "$SOUR bought from open market → sent to burn address → gone forever",
-        "Total supply: 1B. Burns only reduce — nothing mints",
-        "Year 5 projection: ~600M supply → 0.10% holding becomes 0.167%",
-        "67% ownership increase — zero effort, just hold",
+        "Every Bake → 1-3% Pinch → 50% to Treasury PDA",
+        "Fees accumulate until threshold ($500+) → keeper triggers batch",
+        "Jupiter swap: buy $SOUR from market → pair with native token → add LP",
+        "LP tokens locked in protocol treasury — permanent, protocol-owned",
+        "Deeper LP = tighter spreads = less slippage = better for everyone",
       ],
       color: "from-red-500 to-orange-500",
       borderColor: "border-red-500/10",
@@ -365,10 +365,10 @@ export default function Whitepaper() {
           <div className="space-y-2.5">
             {[
               { label: "PILLAR IV — THE MILL", bgOuter: "bg-violet-500/5 border-violet-500/15", textLabel: "text-violet-400", bgTag: "bg-violet-500/10 text-violet-300", items: ["AI Workflows 🤖", "Agent Marketplace", "Creator Royalties", "Sandbox"] },
-              { label: "PILLAR III — THE HARVEST", bgOuter: "bg-orange-500/5 border-orange-500/15", textLabel: "text-orange-400", bgTag: "bg-orange-500/10 text-orange-300", items: ["50% Burn 🔥", "30% Keepers 🌾", "20% Commons 🏛️"] },
+              { label: "PILLAR III — THE HARVEST", bgOuter: "bg-orange-500/5 border-orange-500/15", textLabel: "text-orange-400", bgTag: "bg-orange-500/10 text-orange-300", items: ["50% Buyback+LP 🏦", "30% Keepers 🌾", "20% Commons 🏛️"] },
               { label: "PILLAR II — THE HANDSHAKE", bgOuter: "bg-blue-500/5 border-blue-500/15", textLabel: "text-blue-400", bgTag: "bg-blue-500/10 text-blue-300", items: ["Smart Contracts", "Borderless Settlement", "1-3% Pinch"] },
               { label: "PILLAR I — THE CRUST", bgOuter: "bg-amber-500/5 border-amber-500/15", textLabel: "text-amber-400", bgTag: "bg-amber-500/10 text-amber-300", items: ["Soulbound Identity", "Portable Reputation", "On-Chain Crust"] },
-              { label: "FOUNDATION", bgOuter: "bg-emerald-500/5 border-emerald-500/15", textLabel: "text-emerald-400", bgTag: "bg-emerald-500/10 text-emerald-300", items: ["$SOUR Token", "Community Owned", "LP Burned", "Mint Revoked"] },
+              { label: "FOUNDATION", bgOuter: "bg-emerald-500/5 border-emerald-500/15", textLabel: "text-emerald-400", bgTag: "bg-emerald-500/10 text-emerald-300", items: ["$SOUR Token", "Community Owned", "Protocol-Owned LP", "Mint Revoked"] },
             ].map((layer, i) => (
               <div key={i} className={`p-3.5 rounded-xl border ${layer.bgOuter}`}>
                 <span className={`text-[10px] font-bold tracking-wider ${layer.textLabel}`}>{layer.label}</span>
@@ -388,7 +388,7 @@ export default function Whitepaper() {
             <ArrowRight className="w-3 h-3" />
             <span>Pinch (1-3%)</span>
             <ArrowRight className="w-3 h-3" />
-            <span className="text-orange-400">50% Burn</span>
+            <span className="text-orange-400">50% Buyback+LP</span>
             <span>+</span>
             <span className="text-amber-400">30% Keepers</span>
             <span>+</span>
@@ -432,7 +432,7 @@ export default function Whitepaper() {
 
             <div className="grid grid-cols-3 gap-3">
               {[
-                { label: "Burn", pct: "50%", colorBg: "bg-orange-500/10", colorBorder: "border-orange-500/20", colorText: "text-orange-400" },
+                { label: "Buyback+LP", pct: "50%", colorBg: "bg-orange-500/10", colorBorder: "border-orange-500/20", colorText: "text-orange-400" },
                 { label: "Keepers", pct: "30%", colorBg: "bg-amber-500/10", colorBorder: "border-amber-500/20", colorText: "text-amber-400" },
                 { label: "Commons", pct: "20%", colorBg: "bg-purple-500/10", colorBorder: "border-purple-500/20", colorText: "text-purple-400" },
               ].map((item, i) => (

@@ -7,7 +7,7 @@
 //   2. Create handshake (escrow $SOUR)
 //   3. Accept handshake
 //   4. Deliver work
-//   5. Approve → Pinch fee applied (burn + keepers + commons)
+//   5. Approve → Pinch fee applied (treasury + keepers + commons)
 //   6. Cancel (before acceptance)
 //   7. Dispute + Resolve
 // ============================================================================
@@ -40,6 +40,7 @@ describe("sour-handshake", () => {
   let workerTokenAccount: anchor.web3.PublicKey;
   let keepersPool: anchor.web3.PublicKey;
   let commonsTreasury: anchor.web3.PublicKey;
+  let buybackTreasury: anchor.web3.PublicKey;
 
   // PDAs
   let configPda: anchor.web3.PublicKey;
@@ -47,10 +48,10 @@ describe("sour-handshake", () => {
 
   // Test constants
   const ESCROW_AMOUNT = 1_000_000_000; // 1B smallest units (= 1 $SOUR with 9 decimals)
-  const PINCH_BPS = 200;        // 2%
-  const BURN_SHARE = 5000;      // 50% of fee
-  const KEEPERS_SHARE = 3000;   // 30% of fee
-  const COMMONS_SHARE = 2000;   // 20% of fee
+  const PINCH_BPS = 200;          // 2%
+  const TREASURY_SHARE = 5000;    // 50% of fee → buyback+LP
+  const KEEPERS_SHARE = 3000;     // 30% of fee
+  const COMMONS_SHARE = 2000;     // 20% of fee
 
   before(async () => {
     // Transfer SOL to worker for tx fees (from authority wallet)
@@ -109,6 +110,15 @@ describe("sour-handshake", () => {
       commonsTreasuryKp
     );
 
+    const buybackTreasuryKp = anchor.web3.Keypair.generate();
+    buybackTreasury = await createAccount(
+      provider.connection,
+      (authority as any).payer,
+      sourMint,
+      authority.publicKey, // authority manages buyback treasury
+      buybackTreasuryKp
+    );
+
     // Mint $SOUR to creator
     await mintTo(
       provider.connection,
@@ -131,12 +141,13 @@ describe("sour-handshake", () => {
   // =========================================================================
   it("initializes protocol config", async () => {
     await program.methods
-      .initializeConfig(PINCH_BPS, BURN_SHARE, KEEPERS_SHARE, COMMONS_SHARE)
+      .initializeConfig(PINCH_BPS, TREASURY_SHARE, KEEPERS_SHARE, COMMONS_SHARE)
       .accounts({
         config: configPda,
         sourMint,
         keepersPool,
         commonsTreasury,
+        buybackTreasury,
         authority: authority.publicKey,
         systemProgram: anchor.web3.SystemProgram.programId,
       })
@@ -144,11 +155,11 @@ describe("sour-handshake", () => {
 
     const config = await program.account.protocolConfig.fetch(configPda);
     assert.equal(config.pinchBps, PINCH_BPS);
-    assert.equal(config.burnShareBps, BURN_SHARE);
+    assert.equal(config.treasuryShareBps, TREASURY_SHARE);
     assert.equal(config.keepersShareBps, KEEPERS_SHARE);
     assert.equal(config.commonsShareBps, COMMONS_SHARE);
     assert.equal(config.handshakeCount.toNumber(), 0);
-    assert.equal(config.totalBurned.toNumber(), 0);
+    assert.equal(config.totalToTreasury.toNumber(), 0);
     console.log("    ✓ Config initialized with 2% Pinch (50/30/20 split)");
   });
 
@@ -265,7 +276,7 @@ describe("sour-handshake", () => {
   // =========================================================================
   // Test 5: Approve — Pinch fee applied
   // =========================================================================
-  it("creator approves — Pinch fee burned/distributed", async () => {
+  it("creator approves — Pinch fee to treasury/distributed", async () => {
     const handshakeId = new anchor.BN(0);
     const idBytes = handshakeId.toArrayLike(Buffer, "le", 8);
 
@@ -288,6 +299,7 @@ describe("sour-handshake", () => {
     const workerBefore = await getAccount(provider.connection, workerTokenAccount);
     const keepersBefore = await getAccount(provider.connection, keepersPool);
     const commonsBefore = await getAccount(provider.connection, commonsTreasury);
+    const treasuryBefore = await getAccount(provider.connection, buybackTreasury);
 
     await program.methods
       .approve()
@@ -299,22 +311,23 @@ describe("sour-handshake", () => {
         workerTokenAccount,
         keepersPool,
         commonsTreasury,
-        sourMint,
+        buybackTreasury,
         creator: authority.publicKey,
         tokenProgram: TOKEN_PROGRAM_ID,
       })
       .rpc();
 
     // Verify fee splits
-    const pinchTotal = Math.floor(ESCROW_AMOUNT * PINCH_BPS / 10_000);   // 2% = 20,000,000
-    const burnAmount = Math.floor(pinchTotal * BURN_SHARE / 10_000);      // 50% = 10,000,000
-    const keepersAmount = Math.floor(pinchTotal * KEEPERS_SHARE / 10_000); // 30% = 6,000,000
-    const commonsAmount = pinchTotal - burnAmount - keepersAmount;         // 20% = 4,000,000
-    const workerAmount = ESCROW_AMOUNT - pinchTotal;                       // 98% = 980,000,000
+    const pinchTotal = Math.floor(ESCROW_AMOUNT * PINCH_BPS / 10_000);        // 2% = 20,000,000
+    const treasuryAmount = Math.floor(pinchTotal * TREASURY_SHARE / 10_000);   // 50% = 10,000,000
+    const keepersAmount = Math.floor(pinchTotal * KEEPERS_SHARE / 10_000);     // 30% = 6,000,000
+    const commonsAmount = pinchTotal - treasuryAmount - keepersAmount;          // 20% = 4,000,000
+    const workerAmount = ESCROW_AMOUNT - pinchTotal;                            // 98% = 980,000,000
 
     const workerAfter = await getAccount(provider.connection, workerTokenAccount);
     const keepersAfter = await getAccount(provider.connection, keepersPool);
     const commonsAfter = await getAccount(provider.connection, commonsTreasury);
+    const treasuryAfter = await getAccount(provider.connection, buybackTreasury);
 
     assert.equal(
       Number(workerAfter.amount) - Number(workerBefore.amount),
@@ -331,6 +344,11 @@ describe("sour-handshake", () => {
       commonsAmount,
       "Commons should receive 20% of Pinch"
     );
+    assert.equal(
+      Number(treasuryAfter.amount) - Number(treasuryBefore.amount),
+      treasuryAmount,
+      "Buyback treasury should receive 50% of Pinch"
+    );
 
     // Verify vault is empty
     const vaultAfter = await getAccount(provider.connection, vaultPda);
@@ -339,11 +357,11 @@ describe("sour-handshake", () => {
     // Verify config stats
     const config = await program.account.protocolConfig.fetch(configPda);
     assert.equal(config.totalCompleted.toNumber(), 1);
-    assert.equal(config.totalBurned.toNumber(), burnAmount);
+    assert.equal(config.totalToTreasury.toNumber(), treasuryAmount);
     assert.equal(config.totalToKeepers.toNumber(), keepersAmount);
     assert.equal(config.totalToCommons.toNumber(), commonsAmount);
 
-    console.log(`    ✓ Approved! Worker: ${workerAmount}, Burned: ${burnAmount}, Keepers: ${keepersAmount}, Commons: ${commonsAmount}`);
+    console.log(`    ✓ Approved! Worker: ${workerAmount}, Treasury: ${treasuryAmount}, Keepers: ${keepersAmount}, Commons: ${commonsAmount}`);
   });
 
   // =========================================================================
@@ -495,7 +513,7 @@ describe("sour-handshake", () => {
         workerTokenAccount,
         keepersPool,
         commonsTreasury,
-        sourMint,
+        buybackTreasury,
         authority: authority.publicKey,
         tokenProgram: TOKEN_PROGRAM_ID,
       })

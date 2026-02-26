@@ -10,7 +10,7 @@ interface BadgeWallProps {
 const CATEGORY_LABELS: Record<string, { label: string; icon: string }> = {
   holding: { label: "Holding", icon: "💰" },
   handshake: { label: "Handshake", icon: "🤝" },
-  burn: { label: "Burn", icon: "🔥" },
+  treasury: { label: "Treasury", icon: "🏦" },
   community: { label: "Community", icon: "🏛️" },
 };
 
@@ -18,7 +18,7 @@ export default function BadgeWall({ earnedBadges }: BadgeWallProps) {
   const allBadges = getAllBadges();
   const earnedIds = new Set(earnedBadges.map((b) => b.id));
 
-  const categories = ["holding", "handshake", "burn", "community"] as const;
+  const categories = ["holding", "handshake", "treasury", "community"] as const;
 
   return (
     <div className="w-full max-w-sm mx-auto">

@@ -20,13 +20,13 @@
 9. [The Civilizational Flywheel](#9-the-civilizational-flywheel)
 10. [Tokenomics: The Starter Economy](#10-tokenomics-the-starter-economy)
 11. [Keeper Tiers & Loyalty](#11-keeper-tiers--loyalty)
-12. [Revenue Model & Burn Mechanics](#12-revenue-model--burn-mechanics)
+12. [Revenue Model & Protocol-Owned Liquidity](#12-revenue-model--protocol-owned-liquidity)
 13. [Community Ownership & The Bakery DAO](#13-community-ownership--the-bakery-dao)
 14. [The Bake Plan (Roadmap)](#14-the-bake-plan-roadmap)
 15. [Security Architecture](#15-security-architecture)
 
 **Appendices**
-- [A: Deflationary Math](#appendix-a-deflationary-math)
+- [A: Buyback & LP Growth Math](#appendix-a-buyback--lp-growth-math)
 - [B: Reputation Score Formula](#appendix-b-reputation-score-formula)
 
 ---
@@ -40,9 +40,10 @@ SOUR is a civilization protocol built on Solana. Four pillars — identity, agre
 - **Your reputation is yours** — on-chain, portable, unsellable, undeletable
 - **Trade with anyone, anywhere** — code guards the deal, not a middleman
 - **Automate your work** — decentralized AI workflow marketplace, no middleman tax
-- **50% of all fees are burned** — permanent deflation, not token inflation
+- **50% of all fees → Buyback + Protocol-Owned LP** — constant buy pressure + deeper liquidity
 - **30% flows to Keepers** — hold to earn, all in $SOUR
 - **20% funds the Commons** — community treasury for collective growth
+- **Multi-token fees** — pay in SOL, USDC, or any token; treasury batches into SOUR buyback+LP
 - **No team tokens. No insiders. No presale.** — 100% community-owned from day one
 
 **We don't pay you to hold. We build an economy where holding has real value.**
@@ -109,7 +110,7 @@ What if your reputation was yours forever? What if agreements were code, not con
 │   AI Workflow Marketplace · Agent Fuel · Creator Royalty  │
 ├───────────────────────────────────────────────────────────┤
 │            PILLAR III — THE HARVEST                       │
-│   50% Burn · 30% Keepers · 20% Commons Bakery            │
+│   50% Buyback+LP · 30% Keepers · 20% Commons Bakery      │
 ├───────────────────────────────────────────────────────────┤
 │            PILLAR II — THE HANDSHAKE                      │
 │   Smart Contracts · Borderless · Minimal Fees             │
@@ -118,7 +119,7 @@ What if your reputation was yours forever? What if agreements were code, not con
 │   Soulbound Identity · Portable Reputation · On-Chain     │
 ├───────────────────────────────────────────────────────────┤
 │                     FOUNDATION                            │
-│        $SOUR Token · Community Owned · LP Burned          │
+│   $SOUR Token · Community Owned · Protocol-Owned LP       │
 └───────────────────────────────────────────────────────────┘
 ```
 
@@ -252,12 +253,13 @@ Approval triggers:
        │
   Pinch (2%)
        │
-  ┌────┴────────────────────────┐
-  │                              │
-  ├── 50% → BURN 🔥              │
-  ├── 30% → KEEPERS 🌾           │
-  └── 20% → COMMONS BAKERY 🏛️    │
-  ─────────────────────────────┘
+  ┌────┴─────────────────────────────────┐
+  │                                       │
+  ├── 50% → TREASURY PDA 🏦               │
+  │         (batched → Buyback + LP)      │
+  ├── 30% → KEEPERS 🌾                    │
+  └── 20% → COMMONS BAKERY 🏛️             │
+  ────────────────────────────────────────┘
   Remainder → Provider wallet
 ```
 
@@ -289,6 +291,7 @@ Most crypto projects:
 - Promise staking APY → funded by inflation (Ponzi mechanics)
 - Have no real revenue → price = pure speculation
 - "Decentralized" in name only → team holds the keys
+- **Thin liquidity** → even small sells crash the price
 
 ### The Harvest
 
@@ -299,29 +302,65 @@ Every Bake (Trade/Agreement)
          │
     Pinch (1-3%)
          │
-    ┌────┴──────────────────────────────┐
-    │                                    │
-    ├── 50% → BURN 🔥                   │
-    │         Supply shrinks forever     │
-    │                                    │
-    ├── 30% → KEEPERS 🌾                │
-    │         Distributed to holders     │
-    │         Tier-weighted              │
-    │         All in $SOUR               │
-    │                                    │
-    └── 20% → COMMONS BAKERY 🏛️         │
-              Community treasury         │
-              DAO-governed spending       │
-    ─────────────────────────────────────┘
+    ┌────┴──────────────────────────────────────────┐
+    │                                                │
+    ├── 50% → TREASURY PDA 🏦                       │
+    │         Accumulated in native token            │
+    │         Keeper triggers batch when threshold   │
+    │         → Jupiter swap to $SOUR                │
+    │         → Add to Protocol-Owned LP             │
+    │                                                │
+    ├── 30% → KEEPERS 🌾                            │
+    │         Distributed to holders                 │
+    │         Tier-weighted                          │
+    │         All in $SOUR                           │
+    │                                                │
+    └── 20% → COMMONS BAKERY 🏛️                     │
+              Community treasury                     │
+              DAO-governed spending                   │
+    ─────────────────────────────────────────────────┘
 ```
 
 ### Key Properties
 
-- **50% burned permanently** — every Bake makes $SOUR scarcer
+- **50% → Buyback + Protocol-Owned LP** — constant buy pressure + ever-deepening liquidity
 - **30% to Keepers** — paid in $SOUR, tier-weighted, real protocol revenue
 - **20% to Commons** — community treasury for collective growth
 - **No inflation** — no minting, no staking rewards, no team unlocks
-- **All in $SOUR** — creating real demand for the token
+- **Multi-token fees** — users can pay in SOL, USDC, or any supported token
+- **Batch efficiency** — treasury accumulates fees, swaps in large batches (~99.7% efficiency vs ~90% for micro-swaps)
+
+### Why Buyback + LP Instead of Burn?
+
+Burning tokens reduces supply but does nothing for liquidity. Protocol-Owned Liquidity (POL) solves the real problem:
+
+| Approach | Buy Pressure | Liquidity | Price Floor |
+|----------|-------------|-----------|-------------|
+| Burn only | ✅ Yes (one-time) | ❌ No help | ❌ None |
+| Buyback + LP | ✅ Yes (constant) | ✅ Deepens every batch | ✅ Grows over time |
+
+Every buyback batch: buys $SOUR from market → pairs with native token → adds to LP pool → LP tokens locked in protocol treasury. The liquidity is **protocol-owned and permanent** — no impermanent loss risk to individual users.
+
+### Multi-Token Fee Flow
+
+Users don't need to hold $SOUR to use the protocol:
+
+```
+User pays in SOL/USDC/any token
+         │
+    Fee collected in native token
+         │
+    Sent to Treasury PDA
+         │
+    Accumulated until threshold ($500+)
+         │
+    Keeper triggers batch:
+    ├── Jupiter swap → buy $SOUR
+    └── Pair SOUR + native → add LP
+         │
+    LP tokens → Protocol Treasury (locked)
+    Keeper earns reward for triggering
+```
 
 ### Why $SOUR, not stablecoins?
 
@@ -368,12 +407,12 @@ The Mill is SOUR's decentralized AI workflow marketplace — where Bakers create
 │  Workflow deployed to buyer's environment                 │
 │       │                                                  │
 │       ▼                                                  │
-│  Every execution → micro $SOUR burn (Agent Fuel)         │
+│  Every execution → micro $SOUR fee (Agent Fuel)         │
 │  Every sale → Creator royalty (10-20%)                   │
 │  Every transaction → Pinch fee (2%)                      │
 │       │                                                  │
 │       ▼                                                  │
-│  50% Burn 🔥 · 30% Keepers 🌾 · 20% Commons 🏛️          │
+│  50% Buyback+LP 🏦 · 30% Keepers 🌾 · 20% Commons 🏛️    │
 └──────────────────────────────────────────────────────────┘
 ```
 
@@ -403,15 +442,15 @@ Mill Revenue Sources:
 │
 ├── 1. Workflow Sales
 │      Buyer pays $SOUR → Creator receives payment
-│      Pinch (2%) → 50% burn / 30% keepers / 20% commons
+│      Pinch (2%) → 50% buyback+LP / 30% keepers / 20% commons
 │
 ├── 2. Creator Royalties
 │      Every re-use/execution → 10-20% to original creator
 │      Passive income for builders
 │
-├── 3. Agent Fuel Burns
-│      Every AI agent execution → micro $SOUR burned
-│      Constant deflationary pressure
+├── 3. Agent Fuel Fees
+│      Every AI agent execution → micro $SOUR fee
+│      Constant protocol revenue
 │
 ├── 4. Premium Access (Mill Staking)
 │      Lock $SOUR → early access to new workflows
@@ -428,7 +467,7 @@ Mill Revenue Sources:
 |--------|----------------------|
 | **Crust** | Seller's Crust score = trust indicator. More successful sales = higher Crust. "Golden Workflow" badge for top-rated automations. |
 | **Handshake** | Every purchase uses Handshake escrow. Built-in dispute resolution if workflow doesn't work as described. |
-| **Harvest** | Mill fees flow through the same Pinch mechanism. More Mill activity = more burns = more Keeper rewards. |
+| **Harvest** | Mill fees flow through the same Pinch mechanism. More Mill activity = more buybacks = more LP = more Keeper rewards. |
 
 ### The Sourdough Metaphor
 
@@ -455,8 +494,8 @@ Mill Revenue Sources:
 
 1. **Bake** — A transaction happens on the protocol
 2. **Pinch** — 1-3% fee is collected
-3. **Feed the Oven** — 50% burns, 30% to Keepers, 20% to Commons
-4. **Harvest** — Keepers receive $SOUR, supply decreases
+3. **Feed the Oven** — 50% to treasury (batched buyback+LP), 30% to Keepers, 20% to Commons
+4. **Harvest** — Keepers receive $SOUR, liquidity deepens
 5. **Crust Grows** — Participants build reputation
 6. **More Bakers** — Better reputation = more trust = more participants
 7. **Repeat ∞** — The civilization grows itself
@@ -490,14 +529,14 @@ Buy/sell taxes punish traders and reduce liquidity. SOUR generates revenue from 
 ### The $SOUR Token's Role
 
 $SOUR is not a speculative token — it is the currency of a civilization:
-- **Fee currency**: All Pinch fees flow through $SOUR
+- **Fee currency**: All Pinch fees collected in native token, batched into $SOUR buyback+LP
 - **Keeper rewards**: 30% of all fees distributed in $SOUR
 - **Mill fuel**: AI agents burn $SOUR on every execution
 - **Workflow purchases**: Buy and sell automations in $SOUR
 - **Creator royalties**: Earn recurring $SOUR from your workflows
 - **Governance**: Voting power in the Bakery DAO
 - **Identity bond**: Your Keeper tier is tied to $SOUR holdings
-- **Deflationary**: 50% of all fees + agent fuel burned, permanently reducing supply
+- **Deflationary via buyback**: 50% of all fees + agent fuel → constant buy pressure + protocol-owned LP
 
 ---
 
@@ -531,17 +570,21 @@ The Starter rewards patience. Diamond hands aren't a meme here — they're the e
 
 ---
 
-## 12. Revenue Model & Burn Mechanics
+## 12. Revenue Model & Protocol-Owned Liquidity
 
 ### Revenue Distribution
 
 ```
 Protocol Revenue (1-3% Pinch on every Bake)
          │
-         ├── 50% → BURN 🔥
-         │         Buy $SOUR from market
-         │         Send to burn address
-         │         Gone forever
+    Collected in native token (SOL/USDC/any)
+         │
+         ├── 50% → TREASURY PDA 🏦
+         │         Accumulated until threshold
+         │         Keeper triggers batch:
+         │         → Jupiter swap to $SOUR
+         │         → Pair with native token → LP
+         │         → LP tokens locked in protocol
          │
          ├── 30% → KEEPER HARVEST 🌾
          │         Distributed in $SOUR
@@ -554,20 +597,32 @@ Protocol Revenue (1-3% Pinch on every Bake)
                    Funds ecosystem growth
 ```
 
-### Burn Projections
+### Batch Processing — Why It Matters
 
-| Monthly Volume | Pinch Rate | Monthly Revenue | Monthly Burn (50%) | Keeper Harvest (30%) | Commons (20%) |
+Swapping micro-fees ($5-10) individually would lose ~10% to slippage and gas. Instead, fees accumulate in the Treasury PDA and are processed in large batches:
+
+| Batch Size | Swap Efficiency | Gas Overhead | Net Efficiency |
+|-----------|----------------|-------------|---------------|
+| $10 (micro) | ~92% | ~8% | ~84% |
+| $100 | ~97% | ~2% | ~95% |
+| $500+ (batched) | ~99.5% | ~0.3% | ~99.2% |
+
+**Keeper-triggered batches** ensure the protocol captures maximum value from every fee collected.
+
+### LP Growth Projections
+
+| Monthly Volume | Pinch Rate | Monthly Revenue | Buyback+LP (50%) | Keeper Harvest (30%) | Commons (20%) |
 |---------------|-----------|----------------|-------------------|---------------------|--------------|
-| $100K | 2.5% | $2,500 | $1,250 | $750 | $500 |
-| $1M | 2.0% | $20,000 | $10,000 | $6,000 | $4,000 |
-| $10M | 1.5% | $150,000 | $75,000 | $45,000 | $30,000 |
-| $100M | 1.2% | $1,200,000 | $600,000 | $360,000 | $240,000 |
+| $100K | 2.5% | $2,500 | $1,250→LP | $750 | $500 |
+| $1M | 2.0% | $20,000 | $10,000→LP | $6,000 | $4,000 |
+| $10M | 1.5% | $150,000 | $75,000→LP | $45,000 | $30,000 |
+| $100M | 1.2% | $1,200,000 | $600,000→LP | $360,000 | $240,000 |
 
-### Fixed Supply, Only Burns
+### Fixed Supply, Protocol-Owned Liquidity
 
-SOUR has a fixed supply of 1 billion tokens with **no minting capability**. Every burn permanently reduces circulating supply. There is no inflation mechanism. No staking rewards. No airdrops. No team unlocks.
+SOUR has a fixed supply of 1 billion tokens with **no minting capability**. Every buyback batch creates constant buy pressure. Every LP addition deepens the liquidity pool. There is no inflation mechanism. No staking rewards. No airdrops. No team unlocks.
 
-**The math is simple: as the civilization grows, supply shrinks.** Your share gets bigger by doing nothing — just holding.
+**The math is simple: as the civilization grows, liquidity deepens, buy pressure increases, and your $SOUR is backed by ever-growing protocol-owned LP.**
 
 ---
 
@@ -698,13 +753,13 @@ The genesis moment. $SOUR launches with 100% community allocation. No insiders. 
 
 **Writing the Recipe**
 
-Protocol smart contracts. The Crust identity system. Handshake engine for agreements. First Pinch → first Burn. SDK & building blocks. The first Bakeries open.
+Protocol smart contracts. The Crust identity system. Handshake engine for agreements. First Pinch → first Buyback. SDK & building blocks. The first Bakeries open.
 
 - ✅ The Crust — wallet-based Baker Profile System (MVP live)
 - ✅ Handshake — P2P escrow smart contract (8 instructions, 9/9 tests)
 - ✅ Handshake Beta page live at sourdao.xyz/handshake
 - ⏳ Handshake devnet/mainnet deployment
-- ⬜ First Pinch → first Feed the Oven 🔥
+- ⬜ First Pinch → first Buyback + LP 🔥
 - ⬜ SDK & no-code Bakery builder
 - ⬜ The Harvest begins — Keepers earn
 
@@ -717,7 +772,7 @@ The AI workflow marketplace opens. Bakers create and sell automations. Agent fue
 - ⬜ The Mill MVP — first 50 workflows listed
 - ⬜ AI agent template marketplace
 - ⬜ Creator royalty system (10-20% per use)
-- ⬜ Agent Fuel burn mechanism
+- ⬜ Agent Fuel fee mechanism
 - ⬜ Sandbox testing environment
 - ⬜ Mill Staking — premium access tiers
 - ⬜ Recipe Bounties — earn $SOUR for contributions
@@ -761,23 +816,24 @@ Multichain deployment — every blockchain is an Oven. No-code platform builder 
 
 ---
 
-## Appendix A: Deflationary Math
+## Appendix A: Buyback & LP Growth Math
 
-### How Holding Gets Better Over Time
+### How Protocol-Owned Liquidity Grows Over Time
 
 ```
-Your holding: 1,000,000 SOUR (0.10% of supply)
+Protocol-Owned LP Growth (assuming $1M monthly volume, 2% Pinch):
 
-Launch:  Supply 1,000,000,000 → Your share: 0.100%
-Year 1:  Supply   950,000,000 → Your share: 0.105%
-Year 3:  Supply   760,000,000 → Your share: 0.132%
-Year 5:  Supply   600,000,000 → Your share: 0.167%
+Month 1:   $10,000 → LP Pool  → Total LP: $10,000
+Month 6:   $10,000 → LP Pool  → Total LP: $60,000
+Month 12:  $10,000 → LP Pool  → Total LP: $120,000
+Year 3:    (growing volume)    → Total LP: $500,000+
+Year 5:    (scaling)           → Total LP: $2,000,000+
 
-Your ownership grew 67% — by doing absolutely nothing.
-No staking required. No locking. Just holding.
+Deeper LP = tighter spread = less slippage = better for everyone.
+No impermanent loss risk to individuals — protocol absorbs it.
 ```
 
-Plus you're earning $SOUR from the Harvest on top of this deflation.
+Plus you're earning $SOUR from the Harvest on top of this liquidity growth.
 
 ---
 

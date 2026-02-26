@@ -6,7 +6,7 @@ import {
   Fingerprint,
   Handshake,
   BarChart3,
-  Flame,
+  Coins,
   Shield,
   Users,
   Globe,
@@ -45,13 +45,13 @@ const pillars = [
     status: "🧪 Beta Live",
     statusColor: "text-cyan-400",
     description:
-      "P2P agreement system between two wallets. Smart contract escrow, milestone-based payments, dispute resolution. 50% of platform fees are burned.",
+      "P2P agreement system between two wallets. Smart contract escrow, milestone-based payments, dispute resolution. 50% of platform fees fund buyback+LP.",
     features: [
       "Direct wallet-to-wallet agreements",
       "Escrow-based secure payments",
       "Milestone tracking",
       "Dispute arbitration",
-      "50% of fees burned",
+      "50% of fees → buyback+LP",
     ],
     link: "/handshake",
     linkText: "Open Handshake →",
@@ -62,9 +62,9 @@ const pillars = [
     status: "📋 Planned",
     statusColor: "text-gold/60",
     description:
-      "Oven Dashboard — community metrics, burn tracker, keeper statistics. The central control panel that tracks the pulse of the SOUR ecosystem.",
+      "Oven Dashboard — community metrics, treasury tracker, keeper statistics. The central control panel that tracks the pulse of the SOUR ecosystem.",
     features: [
-      "Real-time burn tracker",
+      "Real-time treasury & LP tracker",
       "Keeper distribution map",
       "Community growth metrics",
       "Agreement statistics",
@@ -79,11 +79,11 @@ const pillars = [
     status: "📋 Planned",
     statusColor: "text-gold/60",
     description:
-      "Decentralized AI Workflow Marketplace — buy, sell, and run automations powered by $SOUR. AI agents burn micro $SOUR on every execution. Creators earn perpetual royalties.",
+      "Decentralized AI Workflow Marketplace — buy, sell, and run automations powered by $SOUR. AI agents spend micro $SOUR on every execution. Fees flow to treasury for buyback+LP. Creators earn perpetual royalties.",
     features: [
       "AI workflow & agent template marketplace",
       "Creator royalties (10-20% per use)",
-      "Agent Fuel: micro $SOUR burn per execution",
+      "Agent Fuel: micro $SOUR fee per execution",
       "Sandbox testing before purchase",
       "Crust-verified seller reputation",
     ],
@@ -146,7 +146,7 @@ const timeline = [
     items: [
       "Decentralized workflow marketplace",
       "AI agent templates",
-      "Creator royalties + Agent Fuel burns",
+      "Creator royalties + Agent Fuel fees → treasury",
       "Recipe Bounties & Mill Guilds",
     ],
   },
@@ -250,14 +250,14 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                icon: Flame,
-                title: "Burn & Build",
-                text: "50% of platform revenue is burned. Supply decreases, value increases. Simple math.",
+                icon: Coins,
+                title: "Buyback + LP",
+                text: "50% of platform revenue buys back $SOUR and deepens protocol-owned liquidity. More volume = deeper LP = more stable price.",
               },
               {
                 icon: Shield,
                 title: "0% Tax",
-                text: "No buy/sell tax. Liquidity will be burned. Full transparency, full freedom.",
+                text: "No buy/sell tax. Protocol-owned LP locked forever. Full transparency, full freedom.",
               },
               {
                 icon: Users,
@@ -461,7 +461,7 @@ export default function AboutPage() {
             {[
               { label: "Total Supply", value: "1B", sub: "$SOUR" },
               { label: "Tax", value: "0%", sub: "Buy & sell" },
-              { label: "Burn Rate", value: "50%", sub: "From revenue" },
+              { label: "Buyback+LP", value: "50%", sub: "From revenue" },
               { label: "Keeper Share", value: "30%", sub: "From revenue" },
             ].map((stat, i) => (
               <motion.div
@@ -488,7 +488,7 @@ export default function AboutPage() {
             className="mt-6 p-4 rounded-xl bg-gold/5 border border-gold/10 text-center"
           >
             <p className="text-cream/40 text-xs">
-              <strong className="text-cream/60">Revenue Formula:</strong> Platform revenue → 50% Burn · 30% Keepers (tier-weighted) · 20% Commons — all in $SOUR
+              <strong className="text-cream/60">Revenue Formula:</strong> Platform revenue → 50% Buyback+LP 🏦 · 30% Keepers (tier-weighted) · 20% Commons
             </p>
           </motion.div>
         </div>

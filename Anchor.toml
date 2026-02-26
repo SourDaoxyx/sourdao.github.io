@@ -4,9 +4,11 @@ skip-lint = false
 
 [programs.localnet]
 sour_handshake = "HUAq4NFymfn4hNvs7RMNCC5uFEoRctkWDWCA9G7prxeF"
+sour_treasury = "Ho84Z1zGWKCKhXZc1QcfinehucRAKZn3vpofSp7HseXW"
 
 [programs.devnet]
 sour_handshake = "HUAq4NFymfn4hNvs7RMNCC5uFEoRctkWDWCA9G7prxeF"
+sour_treasury = "Ho84Z1zGWKCKhXZc1QcfinehucRAKZn3vpofSp7HseXW"
 
 [registry]
 url = "https://api.apr.dev"

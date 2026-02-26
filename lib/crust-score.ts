@@ -145,7 +145,7 @@ export interface Badge {
   name: string;
   emoji: string;
   description: string;
-  category: "holding" | "handshake" | "burn" | "community";
+  category: "holding" | "handshake" | "treasury" | "community";
 }
 
 const ALL_BADGES: Badge[] = [
@@ -161,10 +161,10 @@ const ALL_BADGES: Badge[] = [
   { id: "baker_dozen", name: "Baker's Dozen", emoji: "🤝", description: "12 Handshakes completed", category: "handshake" },
   { id: "master_baker", name: "Master Baker", emoji: "🤝", description: "50 Handshakes completed", category: "handshake" },
   { id: "perfect_record", name: "Perfect Record", emoji: "🏆", description: "20+ Handshakes with 0 disputes lost", category: "handshake" },
-  // BURN
-  { id: "first_burn", name: "First Burn", emoji: "🔥", description: "Contributed to your first burn", category: "burn" },
-  { id: "oven_keeper", name: "Oven Keeper", emoji: "🔥", description: "10K+ $SOUR burned through your Bakes", category: "burn" },
-  { id: "eternal_flame", name: "Eternal Flame", emoji: "🔥", description: "100K+ $SOUR burned through your Bakes", category: "burn" },
+  // TREASURY (buyback + LP)
+  { id: "first_burn", name: "First Contribution", emoji: "🏦", description: "Contributed to your first buyback+LP", category: "treasury" },
+  { id: "oven_keeper", name: "Oven Keeper", emoji: "🏦", description: "10K+ $SOUR directed to treasury through your Bakes", category: "treasury" },
+  { id: "eternal_flame", name: "Eternal Flame", emoji: "🏦", description: "100K+ $SOUR directed to treasury through your Bakes", category: "treasury" },
   // COMMUNITY
   { id: "genesis_baker", name: "Genesis Baker", emoji: "📜", description: "Among the first 1,000 holders", category: "community" },
   { id: "forge_hand", name: "Forge Hand", emoji: "🏗️", description: "Merged a PR on GitHub", category: "community" },
@@ -301,7 +301,7 @@ function computeBadges(input: CrustScoreInput): Badge[] {
     earned.push(ALL_BADGES.find((b) => b.id === "perfect_record")!);
   }
 
-  // Burn badge (any completed handshake means contribution to burn)
+  // Treasury badge (any completed handshake means contribution to buyback+LP)
   if (handshakesCompleted >= 1) earned.push(ALL_BADGES.find((b) => b.id === "first_burn")!);
 
   return earned.filter(Boolean);
