@@ -10,12 +10,14 @@ interface ShareCardProps {
   cardRef: React.RefObject<HTMLDivElement | null>;
   tierName: string;
   daysFermenting: number;
+  crustScore?: number;
 }
 
 export default function ShareCard({
   cardRef,
   tierName,
   daysFermenting,
+  crustScore,
 }: ShareCardProps) {
   const [copied, setCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
@@ -48,7 +50,8 @@ export default function ShareCard({
   };
 
   const handleTwitterShare = () => {
-    const text = `I'm a ${tierName} Baker 🍞\nFermenting for ${daysFermenting} days.\n\nYour dough. Your bread. Your economy.\n\n#SOUR #TheBakers #CivilizationProtocol`;
+    const scoreText = crustScore ? `\nCrust Score: ${crustScore}/1000` : "";
+    const text = `I'm a ${tierName} Baker 🍞\nFermenting for ${daysFermenting} days.${scoreText}\n\nYour dough. Your bread. Your economy.\n\n#SOUR #TheBakers #CivilizationProtocol`;
     const url = `https://sourdao.xyz/crust`;
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       text

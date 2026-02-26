@@ -1,13 +1,15 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import { Wallet, Loader2, LogOut, Fingerprint } from "lucide-react";
+import { Wallet, Loader2, LogOut, Fingerprint, Trophy, User } from "lucide-react";
+import Link from "next/link";
 import { getSourHolderInfo, type SourHolderInfo } from "@/lib/solana";
-import { getKeeperTier } from "@/lib/constants";
+import { calculateCrustScore, CRUST_TIERS, type CrustScoreBreakdown, type CrustScoreInput } from "@/lib/crust-score";
 import BakerCard from "./BakerCard";
+import BadgeWall from "./BadgeWall";
 import EditProfile from "./EditProfile";
 import ShareCard from "./ShareCard";
 
@@ -39,6 +41,7 @@ export default function CrustApp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [profile, setProfile] = useState<BakerProfile>({ name: "", bio: "", avatar: "/sour-logo.png" });
+  const [showBadges, setShowBadges] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
   // Load on-chain data
@@ -85,7 +88,21 @@ export default function CrustApp() {
     [publicKey]
   );
 
-  const tier = holderInfo ? getKeeperTier(holderInfo.daysFermenting) : null;
+  // Calculate Crust Score from on-chain data
+  const scoreBreakdown: CrustScoreBreakdown | null = useMemo(() => {
+    if (!holderInfo) return null;
+    const input: CrustScoreInput = {
+      balance: holderInfo.balance,
+      daysFermenting: holderInfo.daysFermenting,
+      // Handshake data will come from on-chain indexer post-launch
+      // For now, use 0 (only holding + diamond contribute)
+      handshakesCompleted: 0,
+      disputesLost: 0,
+      handshakesCancelled: 0,
+      handshakesTotal: 0,
+    };
+    return calculateCrustScore(input);
+  }, [holderInfo]);
 
   return (
     <section className="min-h-[80vh] flex flex-col items-center justify-center px-4 py-20 relative">
@@ -117,31 +134,50 @@ export default function CrustApp() {
 
           <p className="text-cream/35 text-xs font-inter max-w-lg mx-auto leading-relaxed">
             The Crust is your soulbound on-chain identity. It cannot be sold, transferred, or erased.
-            Every successful Bake thickens your Crust score. Four Keeper tiers reward loyalty:
-            Fresh Dough → Rising Dough (30d) → Golden Crust (90d) → Eternal Starter (365d).
+            Every successful Bake thickens your Crust score. Reputation (40%), Holding (30%), Diamond Hands (30%).
             Sell once and your tier resets to zero. Your Crust travels across every Oven SOUR deploys to.
           </p>
         </motion.div>
 
-        {/* Keeper Tiers */}
+        {/* Crust Tiers */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
           className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8"
         >
-          {[
-            { tier: "Fresh Dough", req: "Day 1", perk: "Community access", color: "border-cream/15 text-cream/50" },
-            { tier: "Rising Dough", req: "30 days", perk: "Harvest + DAO vote", color: "border-blue-500/30 text-blue-400" },
-            { tier: "Golden Crust", req: "90 days", perk: "1.5× Harvest", color: "border-gold/30 text-gold" },
-            { tier: "Eternal Starter", req: "365 days", perk: "2× Harvest + veto", color: "border-purple-500/30 text-purple-400" },
-          ].map((t) => (
-            <div key={t.tier} className={`rounded-xl border ${t.color} bg-black/30 p-3 text-center`}>
-              <p className="font-cinzel text-xs font-bold mb-1">{t.tier}</p>
-              <p className="text-cream/40 text-[10px]">{t.req}</p>
-              <p className="text-cream/30 text-[10px] mt-1">{t.perk}</p>
+          {CRUST_TIERS.slice().reverse().map((t) => (
+            <div key={t.name} className={`rounded-xl border ${t.borderColor} ${t.bgColor} p-3 text-center`}>
+              <p className={`font-cinzel text-xs font-bold mb-1 ${t.textColor}`}>{t.emoji} {t.name}</p>
+              <p className="text-cream/40 text-[10px]">{t.minScore}+ score</p>
+              <p className="text-cream/30 text-[10px] mt-1">Harvest: {t.harvestMultiplier}</p>
             </div>
           ))}
+        </motion.div>
+
+        {/* Navigation Links */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="flex justify-center gap-3 mb-8"
+        >
+          <Link
+            href="/crust/leaderboard"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gold/8 border border-gold/15 text-gold/70 text-xs font-medium hover:bg-gold/12 transition-colors"
+          >
+            <Trophy className="w-3.5 h-3.5" />
+            Leaderboard
+          </Link>
+          {connected && publicKey && (
+            <Link
+              href={`/crust/profile?address=${publicKey.toBase58()}`}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cream/5 border border-cream/10 text-cream/50 text-xs font-medium hover:bg-cream/8 transition-colors"
+            >
+              <User className="w-3.5 h-3.5" />
+              Public Profile
+            </Link>
+          )}
         </motion.div>
 
         {/* Not Connected */}
@@ -196,7 +232,7 @@ export default function CrustApp() {
         )}
 
         {/* Connected — Show Card */}
-        {connected && publicKey && holderInfo && !loading && (
+        {connected && publicKey && holderInfo && scoreBreakdown && !loading && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -225,6 +261,7 @@ export default function CrustApp() {
               bakerName={profile.name}
               bakerBio={profile.bio}
               avatar={profile.avatar}
+              scoreBreakdown={scoreBreakdown}
             />
 
             {/* Edit & Share */}
@@ -236,14 +273,35 @@ export default function CrustApp() {
                 onSave={handleSaveProfile}
               />
 
-              {tier && (
-                <ShareCard
-                  cardRef={cardRef}
-                  tierName={tier.name}
-                  daysFermenting={holderInfo.daysFermenting}
-                />
-              )}
+              <ShareCard
+                cardRef={cardRef}
+                tierName={scoreBreakdown.tier.name}
+                daysFermenting={holderInfo.daysFermenting}
+                crustScore={scoreBreakdown.total}
+              />
             </div>
+
+            {/* Badge Wall Toggle */}
+            <div className="text-center">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setShowBadges(!showBadges)}
+                className="text-cream/40 text-xs hover:text-cream/60 transition-colors underline underline-offset-2"
+              >
+                {showBadges ? "Hide Badges" : `View All Badges (${scoreBreakdown.badges.length} earned)`}
+              </motion.button>
+            </div>
+
+            {showBadges && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                transition={{ duration: 0.3 }}
+              >
+                <BadgeWall earnedBadges={scoreBreakdown.badges} />
+              </motion.div>
+            )}
           </motion.div>
         )}
       </div>
