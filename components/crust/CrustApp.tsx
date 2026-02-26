@@ -18,12 +18,12 @@ interface BakerProfile {
 }
 
 function loadProfile(wallet: string): BakerProfile {
-  if (typeof window === "undefined") return { name: "", bio: "", avatar: "/mascot.svg" };
+  if (typeof window === "undefined") return { name: "", bio: "", avatar: "/sour-logo.png" };
   try {
     const stored = localStorage.getItem(`sour-baker-${wallet}`);
     if (stored) return JSON.parse(stored);
   } catch { /* ignore */ }
-  return { name: "", bio: "", avatar: "/mascot.svg" };
+  return { name: "", bio: "", avatar: "/sour-logo.png" };
 }
 
 function saveProfile(wallet: string, profile: BakerProfile) {
@@ -38,7 +38,7 @@ export default function CrustApp() {
   const [holderInfo, setHolderInfo] = useState<SourHolderInfo | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [profile, setProfile] = useState<BakerProfile>({ name: "", bio: "", avatar: "/mascot.svg" });
+  const [profile, setProfile] = useState<BakerProfile>({ name: "", bio: "", avatar: "/sour-logo.png" });
   const cardRef = useRef<HTMLDivElement>(null);
 
   // Load on-chain data

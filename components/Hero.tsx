@@ -57,7 +57,7 @@ export default function Hero() {
           <div className="absolute inset-0 blur-3xl rounded-full scale-90" style={{ background: 'radial-gradient(circle, rgba(0, 212, 255, 0.3) 0%, rgba(139, 92, 246, 0.2) 40%, rgba(212, 175, 55, 0.15) 70%, transparent 100%)' }} />
           <div className="relative w-[240px] h-[240px] md:w-[320px] md:h-[320px] lg:w-[360px] lg:h-[360px]">
             <Image
-              src="/sour-logo.svg"
+              src="/sour-logo.png"
               alt="SOUR"
               fill
               className="object-contain drop-shadow-[0_0_50px_rgba(0,212,255,0.35)] drop-shadow-[0_0_100px_rgba(139,92,246,0.2)]"

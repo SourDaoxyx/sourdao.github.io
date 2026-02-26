@@ -55,7 +55,7 @@ export default function Navbar() {
           >
             <div className="relative w-9 h-9 rounded-full overflow-hidden">
               <Image
-                src="/sour-logo.svg"
+                src="/sour-logo.png"
                 alt="SOUR"
                 fill
                 className="object-contain"

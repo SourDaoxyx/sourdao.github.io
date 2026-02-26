@@ -13,7 +13,7 @@ interface EditProfileProps {
 }
 
 const AVATARS = [
-  "/mascot.svg",
+  "/sour-logo.png",
   "/mascot-sad.svg",
 ];
 

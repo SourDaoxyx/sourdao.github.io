@@ -66,7 +66,7 @@ export function getKeeperTier(daysFermenting: number): KeeperTier {
 
 // Default avatars for baker profiles
 export const BAKER_AVATARS = [
-  "/mascot.svg",
+  "/sour-logo.png",
   "/avatars/baker-1.svg",
   "/avatars/baker-2.svg",
   "/avatars/baker-3.svg",

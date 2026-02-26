@@ -179,7 +179,7 @@ export default function MascotGuide() {
           }
         >
           <Image
-            src="/mascot.svg"
+            src="/sour-logo.png"
             alt="Sour"
             fill
             className="object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
