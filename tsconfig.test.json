@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "noEmit": true,
+    "allowJs": true,
+    "types": ["mocha", "chai"]
+  },
+  "include": [
+    "tests/**/*.ts",
+    "target/types/**/*.ts"
+  ]
+}

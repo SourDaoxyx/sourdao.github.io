@@ -13,16 +13,17 @@ export default function Navbar() {
   const { t } = useLanguage();
 
   const navLinks = [
-    { name: t("nav.problem"), href: "#problem" },
-    { name: t("nav.manifesto"), href: "#manifesto" },
-    { name: t("nav.protocol"), href: "#protocol" },
-    { name: t("nav.value"), href: "#value" },
-    { name: t("nav.roadmap"), href: "#roadmap" },
-    { name: t("nav.community"), href: "#community" },
+    { name: t("nav.problem"), href: "/#problem" },
+    { name: t("nav.manifesto"), href: "/#manifesto" },
+    { name: t("nav.protocol"), href: "/#protocol" },
+    { name: t("nav.value"), href: "/#value" },
+    { name: t("nav.roadmap"), href: "/#roadmap" },
+    { name: t("nav.community"), href: "/#community" },
   ];
 
   const crustLink = { name: t("nav.crust"), href: "/crust" };
   const aboutLink = { name: t("nav.about"), href: "/about" };
+  const handshakeLink = { name: "Handshake", href: "/handshake" };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,7 +48,7 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           {/* Logo */}
           <motion.a
-            href="#"
+            href="/"
             className="flex items-center gap-2.5 group"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -85,6 +86,12 @@ export default function Navbar() {
 
           {/* Right Side - Crust + About + Buy Button */}
           <div className="hidden md:flex items-center gap-4">
+            <Link
+              href={handshakeLink.href}
+              className="relative text-gold/80 hover:text-gold transition-colors font-medium text-sm border border-gold/30 rounded-lg px-4 py-2 hover:border-gold/60"
+            >
+              {handshakeLink.name}
+            </Link>
             <Link
               href={aboutLink.href}
               className="relative text-cream/60 hover:text-cream transition-colors font-medium text-sm"
@@ -157,6 +164,14 @@ export default function Navbar() {
                 className="text-2xl font-cinzel text-cream/60 hover:text-cream transition-colors"
               >
                 {aboutLink.name}
+              </Link>
+
+              <Link
+                href={handshakeLink.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-2xl font-cinzel text-gold hover:text-amber transition-colors"
+              >
+                {handshakeLink.name}
               </Link>
 
               <Link

@@ -15,7 +15,7 @@ The SOUR civilization is built on three core products:
 | Pillar | Product | Status | Description |
 |--------|---------|--------|-------------|
 | 🍞 **Crust** | Baker Profile System | ✅ MVP Live | Connect wallet → read balance → determine tier → share card |
-| 🤝 **Handshake** | P2P Agreement System | 🔜 Coming Soon | Smart contract agreements between two wallets |
+| 🤝 **Handshake** | P2P Agreement System | 🧪 Beta Live | Smart contract escrow between two wallets (Anchor) |
 | 🌾 **Harvest** | Oven Dashboard | 📋 Planned | Burn tracker + community metrics |
 
 ---
@@ -43,6 +43,43 @@ https://sourdao.xyz/crust
 
 ---
 
+## 🤝 MVP 2: The Handshake (Beta)
+
+P2P Escrow Agreement System — trustless deals between two wallets, powered by Anchor.
+
+### Smart Contract
+
+| Detail | Value |
+|--------|-------|
+| Program ID | `HUAq4NFymfn4hNvs7RMNCC5uFEoRctkWDWCA9G7prxeF` |
+| Framework | Anchor 0.30.1 (@coral-xyz/anchor 0.32.1) |
+| Network | Solana (localnet tested, devnet next) |
+| Tests | 9/9 passing |
+
+### Instructions
+
+1. `init_config` — Initialize protocol config (admin, fee rate, treasury)
+2. `create_handshake` — Create escrow with SOL deposit + terms
+3. `accept_handshake` — Counterparty accepts and matches deposit
+4. `deliver` — Provider marks work as delivered
+5. `approve` — Client approves, releases escrow + collects Pinch
+6. `dispute` — Either party raises a dispute
+7. `cancel` — Cancel before acceptance (full refund)
+8. `resolve_dispute` — Admin resolves dispute with split ratio
+
+### Pinch Fee (Default 2%)
+
+- **50% Burn** — permanently removed from supply
+- **30% Keepers** — distributed to long-term holders
+- **20% Commons** — community treasury
+
+### Access
+```
+https://sourdao.xyz/handshake
+```
+
+---
+
 ## 🎨 Design Language
 
 | Feature | Detail |
@@ -63,6 +100,7 @@ https://sourdao.xyz/crust
 | Animation | Framer Motion |
 | Icons | Lucide React |
 | Blockchain | @solana/web3.js v1, @solana/spl-token |
+| Smart Contracts | Anchor 0.30.1 (Rust), @coral-xyz/anchor 0.32.1 |
 | Wallets | wallet-adapter-react (Phantom + Solflare) |
 | Export | html-to-image (PNG card) |
 | Deploy | Vercel (static export) |
@@ -98,6 +136,8 @@ SOUR/
 │   │   └── page.tsx            # About page
 │   ├── crust/
 │   │   └── page.tsx            # 🍞 Crust page (dynamic, ssr:false)
+│   ├── handshake/
+│   │   └── page.tsx            # 🤝 Handshake page (dynamic, ssr:false)
 │   └── whitepaper/
 │       └── page.tsx            # Whitepaper page
 ├── components/
@@ -108,7 +148,7 @@ SOUR/
 │   ├── Value.tsx               # Value proposition
 │   ├── Roadmap.tsx             # 3-phase roadmap
 │   ├── Community.tsx           # Community section
-│   ├── Navbar.tsx              # Navigation (incl. My Crust link)
+│   ├── Navbar.tsx              # Navigation (Crust + Handshake links)
 │   ├── Footer.tsx              # Footer + social links
 │   ├── crust/
 │   │   ├── CrustContent.tsx    # SolanaProvider + CrustApp wrapper
@@ -117,12 +157,25 @@ SOUR/
 │   │   ├── BakerCard.tsx       # Visual profile card + tier progress
 │   │   ├── EditProfile.tsx     # Name/bio/avatar editor
 │   │   └── ShareCard.tsx       # PNG export + Twitter sharing
+│   ├── handshake/
+│   │   ├── HandshakeContent.tsx # SolanaProvider + HandshakeApp wrapper
+│   │   └── HandshakeApp.tsx     # Handshake MVP UI (calculator, PDA preview)
 │   └── ...                     # Other components
 ├── lib/
 │   ├── constants.ts            # Token mint, tier definitions, RPC
 │   ├── solana.ts               # getSourBalance, getFirstSourTx, getSourHolderInfo
+│   ├── handshake-client.ts     # Handshake SDK (PDA helpers, fee calc, status)
 │   ├── translations.ts         # Translation keys (EN)
 │   └── LanguageContext.tsx      # Language context provider
+├── programs/
+│   └── sour-handshake/
+│       └── src/
+│           ├── lib.rs          # 8 instructions (Anchor program)
+│           ├── state.rs        # Config, Handshake account structs
+│           ├── errors.rs       # Custom error codes
+│           └── events.rs       # On-chain event definitions
+├── tests/
+│   └── sour-handshake.ts       # 9 integration tests (all passing)
 ├── public/
 │   ├── sour-logo.svg           # SOUR logo
 │   ├── mascot.svg              # Mascot visual
@@ -157,7 +210,9 @@ SOUR/
 - ⏳ $SOUR pump.fun launch
 
 ### Phase 2 — The Oven Heats (Next)
-- 🔜 The Handshake (P2P agreement system)
+- ✅ The Handshake smart contract (8 instructions, 9/9 tests)
+- ✅ Handshake Beta page live
+- ⏳ Handshake devnet deployment
 - 🔜 Keeper reward system
 - 🔜 Sour AI bot (Telegram)
 - 🔜 First artisan partnerships

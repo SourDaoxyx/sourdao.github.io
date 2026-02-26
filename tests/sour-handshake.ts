@@ -53,12 +53,15 @@ describe("sour-handshake", () => {
   const COMMONS_SHARE = 2000;   // 20% of fee
 
   before(async () => {
-    // Airdrop SOL to worker for tx fees
-    const airdropSig = await provider.connection.requestAirdrop(
-      worker.publicKey,
-      2 * anchor.web3.LAMPORTS_PER_SOL
+    // Transfer SOL to worker for tx fees (from authority wallet)
+    const transferTx = new anchor.web3.Transaction().add(
+      anchor.web3.SystemProgram.transfer({
+        fromPubkey: authority.publicKey,
+        toPubkey: worker.publicKey,
+        lamports: 2 * anchor.web3.LAMPORTS_PER_SOL,
+      })
     );
-    await provider.connection.confirmTransaction(airdropSig);
+    await provider.sendAndConfirm(transferTx);
 
     // Create $SOUR mint
     sourMint = await createMint(
@@ -69,33 +72,41 @@ describe("sour-handshake", () => {
       9     // 9 decimals
     );
 
-    // Create token accounts
+    // Create token accounts (with explicit keypairs to avoid ATA program)
+    const creatorTokenKp = anchor.web3.Keypair.generate();
     creatorTokenAccount = await createAccount(
       provider.connection,
       (authority as any).payer,
       sourMint,
-      authority.publicKey
+      authority.publicKey,
+      creatorTokenKp
     );
 
+    const workerTokenKp = anchor.web3.Keypair.generate();
     workerTokenAccount = await createAccount(
       provider.connection,
       (authority as any).payer,
       sourMint,
-      worker.publicKey
+      worker.publicKey,
+      workerTokenKp
     );
 
+    const keepersPoolKp = anchor.web3.Keypair.generate();
     keepersPool = await createAccount(
       provider.connection,
       (authority as any).payer,
       sourMint,
-      authority.publicKey // authority manages keepers pool
+      authority.publicKey, // authority manages keepers pool
+      keepersPoolKp
     );
 
+    const commonsTreasuryKp = anchor.web3.Keypair.generate();
     commonsTreasury = await createAccount(
       provider.connection,
       (authority as any).payer,
       sourMint,
-      authority.publicKey // authority manages commons
+      authority.publicKey, // authority manages commons
+      commonsTreasuryKp
     );
 
     // Mint $SOUR to creator

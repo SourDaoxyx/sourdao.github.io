@@ -40,3 +40,6 @@ next-env.d.ts
 !target/idl/
 !target/types/
 !target/deploy/sour_handshake-keypair.json
+
+# Solana test ledger (large files)
+/test-ledger/

@@ -9,40 +9,106 @@
   "instructions": [
     {
       "name": "initialize_config",
-      "discriminator": [],
+      "discriminator": [
+        208,
+        127,
+        21,
+        1,
+        194,
+        190,
+        196,
+        70
+      ],
       "accounts": [
         {
           "name": "config",
           "writable": true,
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [99, 111, 110, 102, 105, 103] }
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
             ]
           }
         },
-        { "name": "sour_mint", "writable": false },
-        { "name": "keepers_pool", "writable": false },
-        { "name": "commons_treasury", "writable": false },
-        { "name": "authority", "writable": true, "signer": true },
-        { "name": "system_program", "address": "11111111111111111111111111111111" }
+        {
+          "name": "sour_mint",
+          "writable": false
+        },
+        {
+          "name": "keepers_pool",
+          "writable": false
+        },
+        {
+          "name": "commons_treasury",
+          "writable": false
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
       ],
       "args": [
-        { "name": "pinch_bps", "type": "u16" },
-        { "name": "burn_share_bps", "type": "u16" },
-        { "name": "keepers_share_bps", "type": "u16" },
-        { "name": "commons_share_bps", "type": "u16" }
+        {
+          "name": "pinch_bps",
+          "type": "u16"
+        },
+        {
+          "name": "burn_share_bps",
+          "type": "u16"
+        },
+        {
+          "name": "keepers_share_bps",
+          "type": "u16"
+        },
+        {
+          "name": "commons_share_bps",
+          "type": "u16"
+        }
       ]
     },
     {
       "name": "create_handshake",
-      "discriminator": [],
+      "discriminator": [
+        195,
+        45,
+        213,
+        89,
+        226,
+        26,
+        9,
+        117
+      ],
       "accounts": [
         {
           "name": "config",
           "writable": true,
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [99, 111, 110, 102, 105, 103] }
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
             ]
           }
         },
@@ -51,8 +117,24 @@
           "writable": true,
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [104, 97, 110, 100, 115, 104, 97, 107, 101] },
-              { "kind": "account", "path": "config.handshake_count" }
+              {
+                "kind": "const",
+                "value": [
+                  104,
+                  97,
+                  110,
+                  100,
+                  115,
+                  104,
+                  97,
+                  107,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "config.handshake_count"
+              }
             ]
           }
         },
@@ -61,8 +143,20 @@
           "writable": true,
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [118, 97, 117, 108, 116] },
-              { "kind": "account", "path": "config.handshake_count" }
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "config.handshake_count"
+              }
             ]
           }
         },
@@ -70,71 +164,192 @@
           "name": "vault_authority",
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [118, 97, 117, 108, 116, 95, 97, 117, 116, 104] },
-              { "kind": "account", "path": "config.handshake_count" }
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "config.handshake_count"
+              }
             ]
           }
         },
-        { "name": "creator_token_account", "writable": true },
-        { "name": "worker" },
-        { "name": "sour_mint" },
-        { "name": "creator", "writable": true, "signer": true },
-        { "name": "token_program", "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA" },
-        { "name": "system_program", "address": "11111111111111111111111111111111" },
-        { "name": "rent", "address": "SysvarRent111111111111111111111111111111111" }
+        {
+          "name": "creator_token_account",
+          "writable": true
+        },
+        {
+          "name": "worker"
+        },
+        {
+          "name": "sour_mint"
+        },
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
       ],
       "args": [
-        { "name": "description", "type": "string" },
-        { "name": "amount", "type": "u64" },
-        { "name": "deadline_ts", "type": "i64" }
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "deadline_ts",
+          "type": "i64"
+        }
       ]
     },
     {
       "name": "accept_handshake",
-      "discriminator": [],
+      "discriminator": [
+        32,
+        64,
+        238,
+        176,
+        81,
+        129,
+        224,
+        151
+      ],
       "accounts": [
         {
           "name": "handshake",
           "writable": true,
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [104, 97, 110, 100, 115, 104, 97, 107, 101] },
-              { "kind": "account", "path": "handshake.id" }
+              {
+                "kind": "const",
+                "value": [
+                  104,
+                  97,
+                  110,
+                  100,
+                  115,
+                  104,
+                  97,
+                  107,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "handshake.id"
+              }
             ]
           }
         },
-        { "name": "worker", "signer": true }
+        {
+          "name": "worker",
+          "signer": true
+        }
       ],
       "args": []
     },
     {
       "name": "deliver",
-      "discriminator": [],
+      "discriminator": [
+        250,
+        131,
+        222,
+        57,
+        211,
+        229,
+        209,
+        147
+      ],
       "accounts": [
         {
           "name": "handshake",
           "writable": true,
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [104, 97, 110, 100, 115, 104, 97, 107, 101] },
-              { "kind": "account", "path": "handshake.id" }
+              {
+                "kind": "const",
+                "value": [
+                  104,
+                  97,
+                  110,
+                  100,
+                  115,
+                  104,
+                  97,
+                  107,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "handshake.id"
+              }
             ]
           }
         },
-        { "name": "worker", "signer": true }
+        {
+          "name": "worker",
+          "signer": true
+        }
       ],
       "args": []
     },
     {
       "name": "approve",
-      "discriminator": [],
+      "discriminator": [
+        69,
+        74,
+        217,
+        36,
+        115,
+        117,
+        97,
+        76
+      ],
       "accounts": [
         {
           "name": "config",
           "writable": true,
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [99, 111, 110, 102, 105, 103] }
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
             ]
           }
         },
@@ -143,8 +358,24 @@
           "writable": true,
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [104, 97, 110, 100, 115, 104, 97, 107, 101] },
-              { "kind": "account", "path": "handshake.id" }
+              {
+                "kind": "const",
+                "value": [
+                  104,
+                  97,
+                  110,
+                  100,
+                  115,
+                  104,
+                  97,
+                  107,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "handshake.id"
+              }
             ]
           }
         },
@@ -153,8 +384,20 @@
           "writable": true,
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [118, 97, 117, 108, 116] },
-              { "kind": "account", "path": "handshake.id" }
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "handshake.id"
+              }
             ]
           }
         },
@@ -162,30 +405,84 @@
           "name": "vault_authority",
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [118, 97, 117, 108, 116, 95, 97, 117, 116, 104] },
-              { "kind": "account", "path": "handshake.id" }
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "handshake.id"
+              }
             ]
           }
         },
-        { "name": "worker_token_account", "writable": true },
-        { "name": "keepers_pool", "writable": true },
-        { "name": "commons_treasury", "writable": true },
-        { "name": "sour_mint", "writable": true },
-        { "name": "creator", "signer": true },
-        { "name": "token_program", "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA" }
+        {
+          "name": "worker_token_account",
+          "writable": true
+        },
+        {
+          "name": "keepers_pool",
+          "writable": true
+        },
+        {
+          "name": "commons_treasury",
+          "writable": true
+        },
+        {
+          "name": "sour_mint",
+          "writable": true
+        },
+        {
+          "name": "creator",
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
       ],
       "args": []
     },
     {
       "name": "dispute",
-      "discriminator": [],
+      "discriminator": [
+        216,
+        92,
+        128,
+        146,
+        202,
+        85,
+        135,
+        73
+      ],
       "accounts": [
         {
           "name": "config",
           "writable": true,
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [99, 111, 110, 102, 105, 103] }
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
             ]
           }
         },
@@ -194,24 +491,62 @@
           "writable": true,
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [104, 97, 110, 100, 115, 104, 97, 107, 101] },
-              { "kind": "account", "path": "handshake.id" }
+              {
+                "kind": "const",
+                "value": [
+                  104,
+                  97,
+                  110,
+                  100,
+                  115,
+                  104,
+                  97,
+                  107,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "handshake.id"
+              }
             ]
           }
         },
-        { "name": "signer", "signer": true }
+        {
+          "name": "signer",
+          "signer": true
+        }
       ],
       "args": []
     },
     {
       "name": "cancel",
-      "discriminator": [],
+      "discriminator": [
+        232,
+        219,
+        223,
+        41,
+        219,
+        236,
+        220,
+        190
+      ],
       "accounts": [
         {
           "name": "config",
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [99, 111, 110, 102, 105, 103] }
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
             ]
           }
         },
@@ -220,8 +555,24 @@
           "writable": true,
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [104, 97, 110, 100, 115, 104, 97, 107, 101] },
-              { "kind": "account", "path": "handshake.id" }
+              {
+                "kind": "const",
+                "value": [
+                  104,
+                  97,
+                  110,
+                  100,
+                  115,
+                  104,
+                  97,
+                  107,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "handshake.id"
+              }
             ]
           }
         },
@@ -230,8 +581,20 @@
           "writable": true,
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [118, 97, 117, 108, 116] },
-              { "kind": "account", "path": "handshake.id" }
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "handshake.id"
+              }
             ]
           }
         },
@@ -239,27 +602,72 @@
           "name": "vault_authority",
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [118, 97, 117, 108, 116, 95, 97, 117, 116, 104] },
-              { "kind": "account", "path": "handshake.id" }
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "handshake.id"
+              }
             ]
           }
         },
-        { "name": "creator_token_account", "writable": true },
-        { "name": "creator", "signer": true },
-        { "name": "token_program", "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA" }
+        {
+          "name": "creator_token_account",
+          "writable": true
+        },
+        {
+          "name": "creator",
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
       ],
       "args": []
     },
     {
       "name": "resolve_dispute",
-      "discriminator": [],
+      "discriminator": [
+        231,
+        6,
+        202,
+        6,
+        96,
+        103,
+        12,
+        230
+      ],
       "accounts": [
         {
           "name": "config",
           "writable": true,
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [99, 111, 110, 102, 105, 103] }
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
             ]
           }
         },
@@ -268,8 +676,24 @@
           "writable": true,
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [104, 97, 110, 100, 115, 104, 97, 107, 101] },
-              { "kind": "account", "path": "handshake.id" }
+              {
+                "kind": "const",
+                "value": [
+                  104,
+                  97,
+                  110,
+                  100,
+                  115,
+                  104,
+                  97,
+                  107,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "handshake.id"
+              }
             ]
           }
         },
@@ -278,8 +702,20 @@
           "writable": true,
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [118, 97, 117, 108, 116] },
-              { "kind": "account", "path": "handshake.id" }
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "handshake.id"
+              }
             ]
           }
         },
@@ -287,187 +723,639 @@
           "name": "vault_authority",
           "pda": {
             "seeds": [
-              { "kind": "const", "value": [118, 97, 117, 108, 116, 95, 97, 117, 116, 104] },
-              { "kind": "account", "path": "handshake.id" }
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "handshake.id"
+              }
             ]
           }
         },
-        { "name": "creator_token_account", "writable": true },
-        { "name": "worker_token_account", "writable": true },
-        { "name": "keepers_pool", "writable": true },
-        { "name": "commons_treasury", "writable": true },
-        { "name": "sour_mint", "writable": true },
-        { "name": "authority", "signer": true },
-        { "name": "token_program", "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA" }
+        {
+          "name": "creator_token_account",
+          "writable": true
+        },
+        {
+          "name": "worker_token_account",
+          "writable": true
+        },
+        {
+          "name": "keepers_pool",
+          "writable": true
+        },
+        {
+          "name": "commons_treasury",
+          "writable": true
+        },
+        {
+          "name": "sour_mint",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
       ],
       "args": [
-        { "name": "ruling", "type": "u8" }
+        {
+          "name": "ruling",
+          "type": "u8"
+        }
       ]
     }
   ],
   "accounts": [
     {
       "name": "Handshake",
-      "discriminator": [],
-      "type": {
-        "kind": "struct",
-        "fields": [
-          { "name": "id", "type": "u64" },
-          { "name": "creator", "type": "pubkey" },
-          { "name": "worker", "type": "pubkey" },
-          { "name": "amount", "type": "u64" },
-          { "name": "description", "type": "string" },
-          { "name": "status", "type": { "defined": { "name": "HandshakeStatus" } } },
-          { "name": "created_at", "type": "i64" },
-          { "name": "deadline_ts", "type": "i64" },
-          { "name": "accepted_at", "type": "i64" },
-          { "name": "delivered_at", "type": "i64" },
-          { "name": "resolved_at", "type": "i64" },
-          { "name": "disputed_by", "type": "pubkey" },
-          { "name": "vault_bump", "type": "u8" },
-          { "name": "bump", "type": "u8" }
-        ]
-      }
+      "discriminator": [
+        82,
+        84,
+        135,
+        208,
+        39,
+        180,
+        221,
+        148
+      ]
     },
     {
       "name": "ProtocolConfig",
-      "discriminator": [],
-      "type": {
-        "kind": "struct",
-        "fields": [
-          { "name": "authority", "type": "pubkey" },
-          { "name": "sour_mint", "type": "pubkey" },
-          { "name": "keepers_pool", "type": "pubkey" },
-          { "name": "commons_treasury", "type": "pubkey" },
-          { "name": "pinch_bps", "type": "u16" },
-          { "name": "burn_share_bps", "type": "u16" },
-          { "name": "keepers_share_bps", "type": "u16" },
-          { "name": "commons_share_bps", "type": "u16" },
-          { "name": "handshake_count", "type": "u64" },
-          { "name": "total_burned", "type": "u64" },
-          { "name": "total_to_keepers", "type": "u64" },
-          { "name": "total_to_commons", "type": "u64" },
-          { "name": "total_completed", "type": "u64" },
-          { "name": "total_disputed", "type": "u64" },
-          { "name": "bump", "type": "u8" }
-        ]
-      }
+      "discriminator": [
+        207,
+        91,
+        250,
+        28,
+        152,
+        179,
+        215,
+        209
+      ]
     }
   ],
   "events": [
     {
       "name": "HandshakeCreated",
-      "discriminator": [],
-      "fields": [
-        { "name": "handshake_id", "type": "u64", "index": false },
-        { "name": "creator", "type": "pubkey", "index": false },
-        { "name": "worker", "type": "pubkey", "index": false },
-        { "name": "amount", "type": "u64", "index": false },
-        { "name": "deadline_ts", "type": "i64", "index": false },
-        { "name": "description", "type": "string", "index": false }
+      "discriminator": [
+        136,
+        126,
+        4,
+        139,
+        28,
+        40,
+        185,
+        224
       ]
     },
     {
       "name": "HandshakeAccepted",
-      "discriminator": [],
-      "fields": [
-        { "name": "handshake_id", "type": "u64", "index": false },
-        { "name": "worker", "type": "pubkey", "index": false },
-        { "name": "accepted_at", "type": "i64", "index": false }
+      "discriminator": [
+        144,
+        129,
+        58,
+        113,
+        136,
+        65,
+        102,
+        133
       ]
     },
     {
       "name": "WorkDelivered",
-      "discriminator": [],
-      "fields": [
-        { "name": "handshake_id", "type": "u64", "index": false },
-        { "name": "worker", "type": "pubkey", "index": false },
-        { "name": "delivered_at", "type": "i64", "index": false }
+      "discriminator": [
+        253,
+        153,
+        93,
+        38,
+        72,
+        231,
+        61,
+        157
       ]
     },
     {
       "name": "HandshakeApproved",
-      "discriminator": [],
-      "fields": [
-        { "name": "handshake_id", "type": "u64", "index": false },
-        { "name": "creator", "type": "pubkey", "index": false },
-        { "name": "worker", "type": "pubkey", "index": false },
-        { "name": "amount", "type": "u64", "index": false },
-        { "name": "pinch_total", "type": "u64", "index": false },
-        { "name": "burned", "type": "u64", "index": false },
-        { "name": "to_keepers", "type": "u64", "index": false },
-        { "name": "to_commons", "type": "u64", "index": false }
+      "discriminator": [
+        133,
+        103,
+        7,
+        174,
+        9,
+        201,
+        28,
+        249
       ]
     },
     {
       "name": "HandshakeCancelled",
-      "discriminator": [],
-      "fields": [
-        { "name": "handshake_id", "type": "u64", "index": false },
-        { "name": "creator", "type": "pubkey", "index": false },
-        { "name": "cancelled_at", "type": "i64", "index": false }
+      "discriminator": [
+        88,
+        112,
+        164,
+        45,
+        20,
+        30,
+        200,
+        45
       ]
     },
     {
       "name": "HandshakeDisputed",
-      "discriminator": [],
-      "fields": [
-        { "name": "handshake_id", "type": "u64", "index": false },
-        { "name": "disputed_by", "type": "pubkey", "index": false },
-        { "name": "disputed_at", "type": "i64", "index": false }
+      "discriminator": [
+        98,
+        171,
+        204,
+        73,
+        101,
+        185,
+        237,
+        251
       ]
     },
     {
       "name": "DisputeResolved",
-      "discriminator": [],
-      "fields": [
-        { "name": "handshake_id", "type": "u64", "index": false },
-        { "name": "ruling", "type": "u8", "index": false },
-        { "name": "resolved_at", "type": "i64", "index": false }
+      "discriminator": [
+        121,
+        64,
+        249,
+        153,
+        139,
+        128,
+        236,
+        187
       ]
     },
     {
       "name": "ConfigInitialized",
-      "discriminator": [],
-      "fields": [
-        { "name": "authority", "type": "pubkey", "index": false },
-        { "name": "sour_mint", "type": "pubkey", "index": false },
-        { "name": "pinch_bps", "type": "u16", "index": false }
+      "discriminator": [
+        181,
+        49,
+        200,
+        156,
+        19,
+        167,
+        178,
+        91
       ]
     }
   ],
   "errors": [
-    { "code": 6000, "name": "InvalidStatus", "msg": "Handshake is not in the expected status for this operation" },
-    { "code": 6001, "name": "NotCreator", "msg": "Only the handshake creator can perform this action" },
-    { "code": 6002, "name": "NotWorker", "msg": "Only the assigned worker can perform this action" },
-    { "code": 6003, "name": "NotParticipant", "msg": "Only the creator or worker can perform this action" },
-    { "code": 6004, "name": "SelfHandshake", "msg": "Worker address cannot be the same as the creator" },
-    { "code": 6005, "name": "ZeroAmount", "msg": "Escrow amount must be greater than zero" },
-    { "code": 6006, "name": "DescriptionTooLong", "msg": "Description is too long (max 280 characters)" },
-    { "code": 6007, "name": "DeadlineInPast", "msg": "Deadline must be in the future" },
-    { "code": 6008, "name": "HandshakeExpired", "msg": "Handshake has expired past its deadline" },
-    { "code": 6009, "name": "DeadlineNotReached", "msg": "Handshake deadline has not yet passed" },
-    { "code": 6010, "name": "InvalidFeeShares", "msg": "Fee shares must sum to 10000 basis points" },
-    { "code": 6011, "name": "InvalidPinchBps", "msg": "Pinch fee basis points must be between 0 and 5000 (50%)" },
-    { "code": 6012, "name": "InsufficientEscrow", "msg": "Insufficient escrow balance for transfer" },
-    { "code": 6013, "name": "InvalidRuling", "msg": "Invalid dispute ruling — must be 0 (refund) or 1 (pay worker)" },
-    { "code": 6014, "name": "NotAuthority", "msg": "Only the protocol authority can perform this action" },
-    { "code": 6015, "name": "MathOverflow", "msg": "Arithmetic overflow in fee calculation" }
+    {
+      "code": 6000,
+      "name": "InvalidStatus",
+      "msg": "Handshake is not in the expected status for this operation"
+    },
+    {
+      "code": 6001,
+      "name": "NotCreator",
+      "msg": "Only the handshake creator can perform this action"
+    },
+    {
+      "code": 6002,
+      "name": "NotWorker",
+      "msg": "Only the assigned worker can perform this action"
+    },
+    {
+      "code": 6003,
+      "name": "NotParticipant",
+      "msg": "Only the creator or worker can perform this action"
+    },
+    {
+      "code": 6004,
+      "name": "SelfHandshake",
+      "msg": "Worker address cannot be the same as the creator"
+    },
+    {
+      "code": 6005,
+      "name": "ZeroAmount",
+      "msg": "Escrow amount must be greater than zero"
+    },
+    {
+      "code": 6006,
+      "name": "DescriptionTooLong",
+      "msg": "Description is too long (max 280 characters)"
+    },
+    {
+      "code": 6007,
+      "name": "DeadlineInPast",
+      "msg": "Deadline must be in the future"
+    },
+    {
+      "code": 6008,
+      "name": "HandshakeExpired",
+      "msg": "Handshake has expired past its deadline"
+    },
+    {
+      "code": 6009,
+      "name": "DeadlineNotReached",
+      "msg": "Handshake deadline has not yet passed"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidFeeShares",
+      "msg": "Fee shares must sum to 10000 basis points"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidPinchBps",
+      "msg": "Pinch fee basis points must be between 0 and 5000 (50%)"
+    },
+    {
+      "code": 6012,
+      "name": "InsufficientEscrow",
+      "msg": "Insufficient escrow balance for transfer"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidRuling",
+      "msg": "Invalid dispute ruling — must be 0 (refund) or 1 (pay worker)"
+    },
+    {
+      "code": 6014,
+      "name": "NotAuthority",
+      "msg": "Only the protocol authority can perform this action"
+    },
+    {
+      "code": 6015,
+      "name": "MathOverflow",
+      "msg": "Arithmetic overflow in fee calculation"
+    }
   ],
   "types": [
+    {
+      "name": "Handshake",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "worker",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "HandshakeStatus"
+              }
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "deadline_ts",
+            "type": "i64"
+          },
+          {
+            "name": "accepted_at",
+            "type": "i64"
+          },
+          {
+            "name": "delivered_at",
+            "type": "i64"
+          },
+          {
+            "name": "resolved_at",
+            "type": "i64"
+          },
+          {
+            "name": "disputed_by",
+            "type": "pubkey"
+          },
+          {
+            "name": "vault_bump",
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProtocolConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "sour_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "keepers_pool",
+            "type": "pubkey"
+          },
+          {
+            "name": "commons_treasury",
+            "type": "pubkey"
+          },
+          {
+            "name": "pinch_bps",
+            "type": "u16"
+          },
+          {
+            "name": "burn_share_bps",
+            "type": "u16"
+          },
+          {
+            "name": "keepers_share_bps",
+            "type": "u16"
+          },
+          {
+            "name": "commons_share_bps",
+            "type": "u16"
+          },
+          {
+            "name": "handshake_count",
+            "type": "u64"
+          },
+          {
+            "name": "total_burned",
+            "type": "u64"
+          },
+          {
+            "name": "total_to_keepers",
+            "type": "u64"
+          },
+          {
+            "name": "total_to_commons",
+            "type": "u64"
+          },
+          {
+            "name": "total_completed",
+            "type": "u64"
+          },
+          {
+            "name": "total_disputed",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
     {
       "name": "HandshakeStatus",
       "type": {
         "kind": "enum",
         "variants": [
-          { "name": "Created" },
-          { "name": "Accepted" },
-          { "name": "Delivered" },
-          { "name": "Approved" },
-          { "name": "Disputed" },
-          { "name": "Cancelled" },
-          { "name": "Resolved" },
-          { "name": "Expired" }
+          {
+            "name": "Created"
+          },
+          {
+            "name": "Accepted"
+          },
+          {
+            "name": "Delivered"
+          },
+          {
+            "name": "Approved"
+          },
+          {
+            "name": "Disputed"
+          },
+          {
+            "name": "Cancelled"
+          },
+          {
+            "name": "Resolved"
+          },
+          {
+            "name": "Expired"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HandshakeCreated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "handshake_id",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "worker",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "deadline_ts",
+            "type": "i64"
+          },
+          {
+            "name": "description",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HandshakeAccepted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "handshake_id",
+            "type": "u64"
+          },
+          {
+            "name": "worker",
+            "type": "pubkey"
+          },
+          {
+            "name": "accepted_at",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WorkDelivered",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "handshake_id",
+            "type": "u64"
+          },
+          {
+            "name": "worker",
+            "type": "pubkey"
+          },
+          {
+            "name": "delivered_at",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HandshakeApproved",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "handshake_id",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "worker",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "pinch_total",
+            "type": "u64"
+          },
+          {
+            "name": "burned",
+            "type": "u64"
+          },
+          {
+            "name": "to_keepers",
+            "type": "u64"
+          },
+          {
+            "name": "to_commons",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HandshakeCancelled",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "handshake_id",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "cancelled_at",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HandshakeDisputed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "handshake_id",
+            "type": "u64"
+          },
+          {
+            "name": "disputed_by",
+            "type": "pubkey"
+          },
+          {
+            "name": "disputed_at",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DisputeResolved",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "handshake_id",
+            "type": "u64"
+          },
+          {
+            "name": "ruling",
+            "type": "u8"
+          },
+          {
+            "name": "resolved_at",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConfigInitialized",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "sour_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "pinch_bps",
+            "type": "u16"
+          }
         ]
       }
     }

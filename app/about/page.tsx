@@ -41,8 +41,8 @@ const pillars = [
   {
     icon: Handshake,
     name: "The Handshake",
-    status: "🔜 Coming Soon",
-    statusColor: "text-blue-400",
+    status: "🧪 Beta Live",
+    statusColor: "text-cyan-400",
     description:
       "P2P agreement system between two wallets. Smart contract escrow, milestone-based payments, dispute resolution. 50% of platform fees are burned.",
     features: [
@@ -52,8 +52,8 @@ const pillars = [
       "Dispute arbitration",
       "50% of fees burned",
     ],
-    link: null,
-    linkText: null,
+    link: "/handshake",
+    linkText: "Open Handshake →",
   },
   {
     icon: BarChart3,

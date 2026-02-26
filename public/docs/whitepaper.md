@@ -208,6 +208,71 @@ Baker A (Istanbul) ←→ Baker B (São Paulo)
 
 *"A handshake between bakers needs no middleman. The recipe is the contract."*
 
+### On-Chain Implementation (Beta)
+
+The Handshake smart contract is live on Solana, built with Anchor:
+
+| Detail | Value |
+|--------|-------|
+| Program ID | `HUAq4NFymfn4hNvs7RMNCC5uFEoRctkWDWCA9G7prxeF` |
+| Framework | Anchor 0.30.1 |
+| Language | Rust |
+| Tests | 9/9 passing (local validator) |
+
+#### Instructions
+
+| # | Instruction | Description |
+|---|------------|-------------|
+| 1 | `init_config` | Initialize protocol configuration (admin, fee rate, treasury) |
+| 2 | `create_handshake` | Create escrow — deposit SOL + define terms |
+| 3 | `accept_handshake` | Counterparty accepts and matches deposit |
+| 4 | `deliver` | Provider marks work as delivered |
+| 5 | `approve` | Client approves — releases escrow, collects Pinch fee |
+| 6 | `dispute` | Either party raises a dispute |
+| 7 | `cancel` | Cancel before acceptance — full refund |
+| 8 | `resolve_dispute` | Admin resolves with configurable split ratio |
+
+#### PDA (Program Derived Address) Structure
+
+```
+Config PDA:    seeds = ["config"]
+Handshake PDA: seeds = ["handshake", creator_pubkey, handshake_id]
+```
+
+#### Pinch Fee Flow (Default 2%)
+
+```
+Approval triggers:
+  Total Amount
+       │
+  Pinch (2%)
+       │
+  ┌────┴────────────────────────┐
+  │                              │
+  ├── 50% → BURN 🔥              │
+  ├── 30% → KEEPERS 🌾           │
+  └── 20% → COMMONS BAKERY 🏛️    │
+  ─────────────────────────────┘
+  Remainder → Provider wallet
+```
+
+#### Escrow Lifecycle
+
+```
+Created → Accepted → Delivered → Approved (complete)
+  │          │           │
+  └─Cancel   └─Dispute    └─Dispute
+    (refund)   └─Resolve    └─Resolve
+```
+
+#### Security
+
+- Self-handshake prevention (creator ≠ acceptor)
+- Zero-amount rejection
+- State machine enforcement (no invalid transitions)
+- PDA isolation (each handshake has its own escrow account)
+- All funds held in program-owned PDAs (non-custodial)*
+
 ---
 
 ## 7. Pillar III: The Harvest — Grow Together
@@ -450,9 +515,10 @@ The genesis moment. $SOUR launches with 100% community allocation. No insiders. 
 
 Protocol smart contracts. The Crust identity system. Handshake engine for agreements. First Pinch → first Burn. SDK & building blocks. The first Bakeries open.
 
-- ⬜ Protocol smart contracts on-chain
-- ⬜ Crust — soulbound identity & reputation
-- ⬜ Handshake — P2P agreement engine
+- ✅ The Crust — wallet-based Baker Profile System (MVP live)
+- ✅ Handshake — P2P escrow smart contract (8 instructions, 9/9 tests)
+- ✅ Handshake Beta page live at sourdao.xyz/handshake
+- ⏳ Handshake devnet/mainnet deployment
 - ⬜ First Pinch → first Feed the Oven 🔥
 - ⬜ SDK & no-code Bakery builder
 - ⬜ The Harvest begins — Keepers earn

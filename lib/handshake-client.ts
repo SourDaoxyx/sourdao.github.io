@@ -122,9 +122,10 @@ export function calculatePinch(
   burnShareBps: number = 5000,
   keepersShareBps: number = 3000,
 ): PinchBreakdown {
-  const pinchTotal = (amount * BigInt(pinchBps)) / 10_000n;
-  const burnAmount = (pinchTotal * BigInt(burnShareBps)) / 10_000n;
-  const keepersAmount = (pinchTotal * BigInt(keepersShareBps)) / 10_000n;
+  const bpsBase = BigInt(10_000);
+  const pinchTotal = (amount * BigInt(pinchBps)) / bpsBase;
+  const burnAmount = (pinchTotal * BigInt(burnShareBps)) / bpsBase;
+  const keepersAmount = (pinchTotal * BigInt(keepersShareBps)) / bpsBase;
   const commonsAmount = pinchTotal - burnAmount - keepersAmount;
   const workerAmount = amount - pinchTotal;
 
