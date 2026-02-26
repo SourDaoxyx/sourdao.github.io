@@ -102,11 +102,40 @@ export default function HandshakeApp() {
             THE HANDSHAKE · BETA
           </span>
           <h1 className="font-cinzel text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cream via-gold to-cream mb-4">
-            P2P Escrow Flow Preview
+            P2P Escrow Protocol
           </h1>
-          <p className="text-cream/60 max-w-2xl mx-auto">
-            Wallet bağlantısı, protokol fee hesaplaması ve PDA türetimi canlı. Üretimde zincire yazım akışı bir sonraki sprintte açılacak.
+          <p className="text-cream/60 max-w-2xl mx-auto mb-3">
+            Two people, one Recipe. No middleman, no borders, no waiting.
+            Code guards the deal, the Starter carries the payment.
           </p>
+          <p className="text-cream/40 max-w-2xl mx-auto text-sm">
+            The Handshake is SOUR&apos;s trustless P2P agreement engine built on Solana.
+            Every deal is a smart contract — deliverables, deadlines, and payment locked on-chain.
+            A 1-3% Pinch fuels the entire ecosystem: 50% burned forever, 30% to Keepers, 20% to Commons.
+          </p>
+        </motion.div>
+
+        {/* How It Works */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.05 }}
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-2"
+        >
+          {[
+            { step: "1", title: "Create", desc: "Define deliverables, deadline, and $SOUR amount. A Recipe (smart contract) is deployed on-chain." },
+            { step: "2", title: "Accept", desc: "Worker reviews terms and accepts. Funds are locked in escrow — untouchable until conditions are met." },
+            { step: "3", title: "Deliver", desc: "Worker submits deliverables. Client reviews. If approved, funds release instantly to the worker." },
+            { step: "4", title: "Resolve", desc: "Dispute? An arbiter resolves it. The 1-3% Pinch feeds burns, Keepers, and the Commons treasury." },
+          ].map((item) => (
+            <div key={item.step} className="rounded-xl border border-gold/15 bg-black/30 p-4">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gold to-amber flex items-center justify-center text-black font-bold text-sm mb-3">
+                {item.step}
+              </div>
+              <h3 className="font-cinzel text-cream font-bold text-sm mb-1">{item.title}</h3>
+              <p className="text-cream/45 text-xs leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-6">

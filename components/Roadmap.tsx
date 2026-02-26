@@ -224,8 +224,7 @@ export default function Roadmap() {
                     </span>
                     {getPhaseStatus(phase.status)}
                   </div>
-                  <h3 className="font-cinzel text-xl font-bold text-cream mb-1">{phase.title}</h3>
-                  <p className="text-cream/35 text-xs mb-3">{phase.subtitle}</p>
+                  <h3 className="font-cinzel text-xl font-bold text-cream mb-3">{phase.title}</h3>
 
                   {/* Description */}
                   <p className="text-cream/55 text-sm leading-relaxed mb-4">{phase.description}</p>

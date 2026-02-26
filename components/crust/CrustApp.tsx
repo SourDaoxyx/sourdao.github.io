@@ -111,9 +111,37 @@ export default function CrustApp() {
             Know Your Baker
           </h1>
 
-          <p className="text-cream/50 text-sm font-inter max-w-md mx-auto">
+          <p className="text-cream/50 text-sm font-inter max-w-md mx-auto mb-3">
             Connect your jar to see your Baker Card. Your reputation, on-chain, forever.
           </p>
+
+          <p className="text-cream/35 text-xs font-inter max-w-lg mx-auto leading-relaxed">
+            The Crust is your soulbound on-chain identity. It cannot be sold, transferred, or erased.
+            Every successful Bake thickens your Crust score. Four Keeper tiers reward loyalty:
+            Fresh Dough → Rising Dough (30d) → Golden Crust (90d) → Eternal Starter (365d).
+            Sell once and your tier resets to zero. Your Crust travels across every Oven SOUR deploys to.
+          </p>
+        </motion.div>
+
+        {/* Keeper Tiers */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8"
+        >
+          {[
+            { tier: "Fresh Dough", req: "Day 1", perk: "Community access", color: "border-cream/15 text-cream/50" },
+            { tier: "Rising Dough", req: "30 days", perk: "Harvest + DAO vote", color: "border-blue-500/30 text-blue-400" },
+            { tier: "Golden Crust", req: "90 days", perk: "1.5× Harvest", color: "border-gold/30 text-gold" },
+            { tier: "Eternal Starter", req: "365 days", perk: "2× Harvest + veto", color: "border-purple-500/30 text-purple-400" },
+          ].map((t) => (
+            <div key={t.tier} className={`rounded-xl border ${t.color} bg-black/30 p-3 text-center`}>
+              <p className="font-cinzel text-xs font-bold mb-1">{t.tier}</p>
+              <p className="text-cream/40 text-[10px]">{t.req}</p>
+              <p className="text-cream/30 text-[10px] mt-1">{t.perk}</p>
+            </div>
+          ))}
         </motion.div>
 
         {/* Not Connected */}

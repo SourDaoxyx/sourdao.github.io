@@ -104,16 +104,16 @@ const techStack = [
 
 const timeline = [
   {
-    date: "February 2026",
+    phase: "PHASE 1",
     title: "Project Launch",
     items: [
       "Site design and development",
       "Whitepaper written",
-      "3-Pillar vision established",
+      "4-Pillar vision established",
     ],
   },
   {
-    date: "February 2026",
+    phase: "PHASE 2",
     title: "MVP 1: The Crust",
     items: [
       "Baker Profile System developed",
@@ -123,7 +123,7 @@ const timeline = [
     ],
   },
   {
-    date: "March 2026",
+    phase: "PHASE 3",
     title: "Token Launch",
     items: [
       "$SOUR pump.fun launch",
@@ -132,7 +132,7 @@ const timeline = [
     ],
   },
   {
-    date: "March–April 2026",
+    phase: "PHASE 4",
     title: "MVP 2: The Handshake",
     items: [
       "P2P agreement smart contract",
@@ -141,7 +141,7 @@ const timeline = [
     ],
   },
   {
-    date: "Q2–Q3 2026",
+    phase: "PHASE 5",
     title: "The Mill (AI Marketplace)",
     items: [
       "Decentralized workflow marketplace",
@@ -429,7 +429,7 @@ export default function AboutPage() {
               >
                 <div className="absolute left-2.5 top-1 w-3 h-3 rounded-full bg-gold/60 border-2 border-black" />
                 <div className="text-gold/60 text-xs font-medium tracking-wider mb-1">
-                  {item.date}
+                  {item.phase}
                 </div>
                 <h3 className="font-cinzel text-lg font-bold text-cream mb-2">
                   {item.title}
