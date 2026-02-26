@@ -15,6 +15,7 @@ import {
   ArrowRight,
   Github,
   ExternalLink,
+  Factory,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -72,12 +73,30 @@ const pillars = [
     link: null,
     linkText: null,
   },
+  {
+    icon: Factory,
+    name: "The Mill",
+    status: "📋 Planned",
+    statusColor: "text-gold/60",
+    description:
+      "Decentralized AI Workflow Marketplace — buy, sell, and run automations powered by $SOUR. AI agents burn micro $SOUR on every execution. Creators earn perpetual royalties.",
+    features: [
+      "AI workflow & agent template marketplace",
+      "Creator royalties (10-20% per use)",
+      "Agent Fuel: micro $SOUR burn per execution",
+      "Sandbox testing before purchase",
+      "Crust-verified seller reputation",
+    ],
+    link: null,
+    linkText: null,
+  },
 ];
 
 const techStack = [
   { category: "Frontend", items: "Next.js 15, React 19, TypeScript" },
   { category: "Styling", items: "Tailwind CSS, Framer Motion" },
   { category: "Blockchain", items: "@solana/web3.js v1, SPL Token" },
+  { category: "Smart Contracts", items: "Anchor 0.30.1 (Rust)" },
   { category: "Wallets", items: "wallet-adapter (Phantom + Solflare)" },
   { category: "Export", items: "html-to-image (PNG card)" },
   { category: "Deploy", items: "Vercel (static export)" },
@@ -119,6 +138,16 @@ const timeline = [
       "P2P agreement smart contract",
       "Escrow system",
       "Dispute resolution mechanism",
+    ],
+  },
+  {
+    date: "Q2–Q3 2026",
+    title: "The Mill (AI Marketplace)",
+    items: [
+      "Decentralized workflow marketplace",
+      "AI agent templates",
+      "Creator royalties + Agent Fuel burns",
+      "Recipe Bounties & Mill Guilds",
     ],
   },
 ];

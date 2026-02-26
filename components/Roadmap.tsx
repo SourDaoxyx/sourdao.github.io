@@ -23,6 +23,9 @@ import {
   Server,
   MessageCircle,
   Crown,
+  Factory,
+  BadgeDollarSign,
+  Cog,
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 
@@ -68,6 +71,24 @@ export default function Roadmap() {
         { icon: Flame, text: t("roadmap.m2.6"), status: "pending" },
       ],
       highlight: t("roadmap.highlight2"),
+    },
+    {
+      phase: t("roadmap.label.mill"),
+      title: t("roadmap.phaseMill.title"),
+      subtitle: t("roadmap.phaseMill.period"),
+      icon: Factory,
+      status: "upcoming" as const,
+      color: "from-violet-500 to-purple-600",
+      glowColor: "shadow-violet-500/50",
+      description: t("roadmap.phaseMill.desc"),
+      milestones: [
+        { icon: Store, text: t("roadmap.mMill.1"), status: "pending" },
+        { icon: Bot, text: t("roadmap.mMill.2"), status: "pending" },
+        { icon: BadgeDollarSign, text: t("roadmap.mMill.3"), status: "pending" },
+        { icon: Flame, text: t("roadmap.mMill.4"), status: "pending" },
+        { icon: Cog, text: t("roadmap.mMill.5"), status: "pending" },
+      ],
+      highlight: t("roadmap.highlightMill"),
     },
     {
       phase: t("roadmap.label.future"),

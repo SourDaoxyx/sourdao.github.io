@@ -1,6 +1,6 @@
 # SOUR: The Civilization Protocol
 
-**Version 4.0 — February 2026**
+**Version 5.0 — February 2026**
 
 > *"10,000 years ago, a starter culture built civilization.*
 > *SOUR doesn't just make trades — it makes civilization possible again."*
@@ -12,17 +12,18 @@
 1. [Abstract](#1-abstract)
 2. [The Sourdough Thesis](#2-the-sourdough-thesis)
 3. [Problem Statement: Digital Feudalism](#3-problem-statement-digital-feudalism)
-4. [The Three Pillars](#4-the-three-pillars)
+4. [The Four Pillars](#4-the-four-pillars)
 5. [Pillar I: The Crust — Own Your Reputation](#5-pillar-i-the-crust--own-your-reputation)
 6. [Pillar II: The Handshake — Trade Without Walls](#6-pillar-ii-the-handshake--trade-without-walls)
 7. [Pillar III: The Harvest — Grow Together](#7-pillar-iii-the-harvest--grow-together)
-8. [The Civilizational Flywheel](#8-the-civilizational-flywheel)
-9. [Tokenomics: The Starter Economy](#9-tokenomics-the-starter-economy)
-10. [Keeper Tiers & Loyalty](#10-keeper-tiers--loyalty)
-11. [Revenue Model & Burn Mechanics](#11-revenue-model--burn-mechanics)
-12. [Commons Bakery & Governance](#12-commons-bakery--governance)
-13. [The Bake Plan (Roadmap)](#13-the-bake-plan-roadmap)
-14. [Security Architecture](#14-security-architecture)
+8. [Pillar IV: The Mill — Automate Everything](#8-pillar-iv-the-mill--automate-everything)
+9. [The Civilizational Flywheel](#9-the-civilizational-flywheel)
+10. [Tokenomics: The Starter Economy](#10-tokenomics-the-starter-economy)
+11. [Keeper Tiers & Loyalty](#11-keeper-tiers--loyalty)
+12. [Revenue Model & Burn Mechanics](#12-revenue-model--burn-mechanics)
+13. [Community Ownership & The Bakery DAO](#13-community-ownership--the-bakery-dao)
+14. [The Bake Plan (Roadmap)](#14-the-bake-plan-roadmap)
+15. [Security Architecture](#15-security-architecture)
 
 **Appendices**
 - [A: Deflationary Math](#appendix-a-deflationary-math)
@@ -32,12 +33,13 @@
 
 ## 1. Abstract
 
-SOUR is a civilization protocol built on Solana. Three pillars — identity, agreements, and shared prosperity — form the foundation for an economy that serves its participants, not its operators.
+SOUR is a civilization protocol built on Solana. Four pillars — identity, agreements, shared prosperity, and automation — form the foundation for an economy that serves its participants, not its operators.
 
 **What makes SOUR different from every other crypto project:**
 
 - **Your reputation is yours** — on-chain, portable, unsellable, undeletable
 - **Trade with anyone, anywhere** — code guards the deal, not a middleman
+- **Automate your work** — decentralized AI workflow marketplace, no middleman tax
 - **50% of all fees are burned** — permanent deflation, not token inflation
 - **30% flows to Keepers** — hold to earn, all in $SOUR
 - **20% funds the Commons** — community treasury for collective growth
@@ -95,14 +97,17 @@ The internet promised freedom. It delivered feudalism.
 
 What if your reputation was yours forever? What if agreements were code, not contracts? What if every transaction made the economy stronger for everyone?
 
-**Three pillars. One civilization.**
+**Four pillars. One civilization.**
 
 ---
 
-## 4. The Three Pillars
+## 4. The Four Pillars
 
 ```
 ┌───────────────────────────────────────────────────────────┐
+│            PILLAR IV — THE MILL                           │
+│   AI Workflow Marketplace · Agent Fuel · Creator Royalty  │
+├───────────────────────────────────────────────────────────┤
 │            PILLAR III — THE HARVEST                       │
 │   50% Burn · 30% Keepers · 20% Commons Bakery            │
 ├───────────────────────────────────────────────────────────┤
@@ -117,7 +122,7 @@ What if your reputation was yours forever? What if agreements were code, not con
 └───────────────────────────────────────────────────────────┘
 ```
 
-Each pillar feeds the others. Reputation (Crust) enables trust. Trust enables trade (Handshake). Trade generates value (Harvest). Value attracts more participants. The civilization grows itself.
+Each pillar feeds the others. Reputation (Crust) enables trust. Trust enables trade (Handshake). Trade generates value (Harvest). Automation (Mill) scales everything. The civilization grows itself.
 
 ---
 
@@ -328,7 +333,110 @@ Paying rewards in $SOUR creates a virtuous cycle: protocol revenue → buy $SOUR
 
 ---
 
-## 8. The Civilizational Flywheel
+## 8. Pillar IV: The Mill — Automate Everything
+
+### The Problem
+
+Automation tools today are centralized, expensive, and extractive:
+
+| Platform | What You Pay | What You Own | Lock-in |
+|----------|-------------|-------------|--------|
+| Zapier | $20-600/mo | 0% of workflows | Trapped in their ecosystem |
+| Make.com | $9-299/mo | 0% of automations | Platform-locked |
+| n8n | Free/self-host | Your workflows | No marketplace, no monetization |
+| AI Agent platforms | Token-gated | Fragmented | Each has its own token |
+
+Freelancers spend hours on repetitive tasks. Small businesses can't afford enterprise automation. AI agent frameworks exist but there's no decentralized marketplace to buy, sell, and share them.
+
+### The Mill
+
+The Mill is SOUR's decentralized AI workflow marketplace — where Bakers create, sell, and run automations powered by $SOUR.
+
+```
+┌──────────────────────────────────────────────────────────┐
+│                    🏭 THE MILL                           │
+│                                                          │
+│  Creator uploads workflow/agent template                 │
+│       │                                                  │
+│       ▼                                                  │
+│  Listed on marketplace (Crust score visible)             │
+│       │                                                  │
+│       ▼                                                  │
+│  Buyer pays $SOUR → Handshake escrow                     │
+│       │                                                  │
+│       ▼                                                  │
+│  Workflow deployed to buyer's environment                 │
+│       │                                                  │
+│       ▼                                                  │
+│  Every execution → micro $SOUR burn (Agent Fuel)         │
+│  Every sale → Creator royalty (10-20%)                   │
+│  Every transaction → Pinch fee (2%)                      │
+│       │                                                  │
+│       ▼                                                  │
+│  50% Burn 🔥 · 30% Keepers 🌾 · 20% Commons 🏛️          │
+└──────────────────────────────────────────────────────────┘
+```
+
+### What Gets Sold?
+
+| Category | Examples |
+|----------|--------|
+| **Business Automation** | Order management, inventory alerts, invoice generation, CRM sync |
+| **AI Agents** | Content writer, customer support responder, lead qualifier, code reviewer |
+| **Social Media** | Auto-reply bots, content scheduler, analytics aggregator |
+| **DeFi Workflows** | Portfolio rebalancer, yield optimizer, whale tracker alerts |
+| **Creator Tools** | Newsletter automation, thumbnail generator, SEO optimizer |
+
+### Key Properties
+
+- **Decentralized**: No central platform takes a 30% cut — only the 2% Pinch
+- **Creator-owned**: Sell once, earn royalties forever (10-20% per use)
+- **Trust-verified**: Seller's Crust score visible — higher score = more trust
+- **Sandbox testing**: Buyers can test workflows for 5 minutes before purchase
+- **Agent Fuel**: AI agents consume micro $SOUR per execution — creating constant demand
+- **$SOUR native**: All transactions in $SOUR — direct token utility
+
+### Revenue Streams
+
+```
+Mill Revenue Sources:
+│
+├── 1. Workflow Sales
+│      Buyer pays $SOUR → Creator receives payment
+│      Pinch (2%) → 50% burn / 30% keepers / 20% commons
+│
+├── 2. Creator Royalties
+│      Every re-use/execution → 10-20% to original creator
+│      Passive income for builders
+│
+├── 3. Agent Fuel Burns
+│      Every AI agent execution → micro $SOUR burned
+│      Constant deflationary pressure
+│
+├── 4. Premium Access (Mill Staking)
+│      Lock $SOUR → early access to new workflows
+│      Lock $SOUR → discounted purchases
+│
+└── 5. Subscription Tiers
+       Monthly $SOUR for unlimited basic workflows
+       Enterprise tiers for heavy automation users
+```
+
+### How It Connects to Other Pillars
+
+| Pillar | Connection to The Mill |
+|--------|----------------------|
+| **Crust** | Seller's Crust score = trust indicator. More successful sales = higher Crust. "Golden Workflow" badge for top-rated automations. |
+| **Handshake** | Every purchase uses Handshake escrow. Built-in dispute resolution if workflow doesn't work as described. |
+| **Harvest** | Mill fees flow through the same Pinch mechanism. More Mill activity = more burns = more Keeper rewards. |
+
+### The Sourdough Metaphor
+
+*"The Mill grinds the grain. Without it, there is no flour — and without flour, no bread. Every Baker needs a Mill."*
+
+---
+
+## 9. The Civilizational Flywheel
 
 ```
        ┌─── Bake ◄────────────────────┐
@@ -357,7 +465,7 @@ Each step feeds the next. No step requires outside intervention. The flywheel is
 
 ---
 
-## 9. Tokenomics: The Starter Economy
+## 10. Tokenomics: The Starter Economy
 
 ### Token Details
 
@@ -384,13 +492,16 @@ Buy/sell taxes punish traders and reduce liquidity. SOUR generates revenue from 
 $SOUR is not a speculative token — it is the currency of a civilization:
 - **Fee currency**: All Pinch fees flow through $SOUR
 - **Keeper rewards**: 30% of all fees distributed in $SOUR
+- **Mill fuel**: AI agents burn $SOUR on every execution
+- **Workflow purchases**: Buy and sell automations in $SOUR
+- **Creator royalties**: Earn recurring $SOUR from your workflows
 - **Governance**: Voting power in the Bakery DAO
 - **Identity bond**: Your Keeper tier is tied to $SOUR holdings
-- **Deflationary**: 50% of all fees burned, permanently reducing supply
+- **Deflationary**: 50% of all fees + agent fuel burned, permanently reducing supply
 
 ---
 
-## 10. Keeper Tiers & Loyalty
+## 11. Keeper Tiers & Loyalty
 
 ### The Tier System
 
@@ -420,7 +531,7 @@ The Starter rewards patience. Diamond hands aren't a meme here — they're the e
 
 ---
 
-## 11. Revenue Model & Burn Mechanics
+## 12. Revenue Model & Burn Mechanics
 
 ### Revenue Distribution
 
@@ -460,7 +571,81 @@ SOUR has a fixed supply of 1 billion tokens with **no minting capability**. Ever
 
 ---
 
-## 12. Commons Bakery & Governance
+## 13. Community Ownership & The Bakery DAO
+
+### Progressive Decentralization
+
+SOUR follows a phased approach to community ownership. No protocol can decentralize on day one — but every protocol should have a plan to get there.
+
+```
+Phase 1 — Founder-Builder (Now)
+├── Core team builds the foundation
+├── Open source from day one
+└── Community feedback through Telegram/Discord polls
+
+Phase 2 — Guided DAO (Post-Token, Month 2-4)
+├── Commons Treasury spending via community vote
+├── Snapshot.org for off-chain governance  
+├── Recipe Bounties launched (earn $SOUR for contributions)
+└── Pinch rate changes require DAO approval
+
+Phase 3 — Full DAO (Month 6-12)
+├── Smart contract upgrade authority → multisig
+├── On-chain governance via Solana Realms
+├── Founder = one vote (with Eternal Starter bonus)
+└── "Ownerless" becomes reality
+```
+
+### Recipe Bounties
+
+The Recipe Bounty system lets anyone contribute to the protocol and earn $SOUR:
+
+| Bounty Tier | Type | Reward Range |
+|-------------|------|-------------|
+| 🫏 Mini Bake | Translation, typo fix, small docs | 100-500 $SOUR |
+| 🍞 Standard Bake | New feature, UI improvement, tutorial | 1K-10K $SOUR |
+| 🥐 Golden Bake | Smart contract, protocol integration | 10K-100K $SOUR |
+| 👑 Eternal Bake | Core protocol contribution, audit | 100K+ $SOUR |
+
+Bounties are paid through Handshake escrow — SOUR uses its own infrastructure for development.
+
+### Mill Guilds
+
+As the protocol grows, specialized guilds emerge:
+
+| Guild | Focus | Requirements |
+|-------|-------|-------------|
+| ⚒️ Forge Guild | Smart contract development | Golden Crust+ tier |
+| 🎨 Crust Guild | UI/UX design, branding | Rising Dough+ tier |
+| 🤖 Mill Guild | AI workflow & agent development | Rising Dough+ tier |
+| 📣 Sourdough Circle | Marketing, community | Any tier |
+| 🔍 Audit Guild | Security reviews, testing | Golden Crust+ tier |
+
+Each guild has its own Commons budget, elected leadership, and contribution tracking. Guild work builds Crust score.
+
+### How New Protocols Get Added
+
+Community members can propose and build new smart contracts for the SOUR ecosystem:
+
+```
+PROPOSE (Golden Crust+ required)
+    │  Submit spec + design document
+    ▼
+REVIEW (DAO vote, 60%+ approval)
+    │  Quadratic voting, tier-weighted
+    ▼
+BUILD (Bounty activated)
+    │  Developer builds, Audit Guild reviews
+    ▼
+AUDIT (2+ independent reviews)
+    │  Test coverage 90%+, 2-week bug bounty
+    ▼
+DEPLOY (Multisig approval)
+    │  Integrated into protocol
+    └── Creator earns 5-10% royalty from usage
+```
+
+This mechanism lets the protocol grow organically — new modules, new contracts, new capabilities — all community-proposed and community-built.
 
 ### The Community Treasury
 
@@ -495,7 +680,7 @@ A whale with 10,000 tokens gets 100 votes, not 10,000. **Democracy, not plutocra
 
 ---
 
-## 13. The Bake Plan (Roadmap)
+## 14. The Bake Plan (Roadmap)
 
 ### First Rise — NOW
 
@@ -523,6 +708,21 @@ Protocol smart contracts. The Crust identity system. Handshake engine for agreem
 - ⬜ SDK & no-code Bakery builder
 - ⬜ The Harvest begins — Keepers earn
 
+### The Mill — NEXT
+
+**Grinding the Grain**
+
+The AI workflow marketplace opens. Bakers create and sell automations. Agent fuel creates constant token demand. The first Guilds form. Community begins building its own protocols.
+
+- ⬜ The Mill MVP — first 50 workflows listed
+- ⬜ AI agent template marketplace
+- ⬜ Creator royalty system (10-20% per use)
+- ⬜ Agent Fuel burn mechanism
+- ⬜ Sandbox testing environment
+- ⬜ Mill Staking — premium access tiers
+- ⬜ Recipe Bounties — earn $SOUR for contributions
+- ⬜ First Mill Guilds formed
+
 ### Every Oven — FUTURE
 
 **Every Oven, Every Flame**
@@ -531,13 +731,15 @@ Multichain deployment — every blockchain is an Oven. No-code platform builder 
 
 - ⬜ Multichain — Solana, Ethereum, and beyond
 - ⬜ No-code Bakery builder for all
-- ⬜ The Bakery DAO — community governance
+- ⬜ The Bakery DAO — full community governance
+- ⬜ Forge DAO — Bakers collectively build new AI tools
+- ⬜ Visual workflow builder (drag & drop)
 - ⬜ Sovereign chain exploration
 - ⬜ The Civilization — global economic network
 
 ---
 
-## 14. Security Architecture
+## 15. Security Architecture
 
 ### Smart Contracts
 - Isolated contract per Handshake — no shared pool risk

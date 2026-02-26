@@ -13,6 +13,9 @@ import {
   Coins,
   Flame,
   Users,
+  Factory,
+  Bot,
+  BadgeDollarSign,
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 
@@ -67,6 +70,21 @@ export default function Protocol() {
         { icon: Coins, text: t("protocol.pillar3.f3") },
       ],
     },
+    {
+      icon: Factory,
+      title: t("protocol.pillar4.title"),
+      subtitle: t("protocol.pillar4.subtitle"),
+      desc: t("protocol.pillar4.desc"),
+      highlight: t("protocol.pillar4.highlight"),
+      color: "from-violet-500 to-purple-500",
+      bg: "bg-violet-500/5",
+      border: "border-violet-500/20",
+      features: [
+        { icon: Bot, text: t("protocol.pillar4.f1") },
+        { icon: BadgeDollarSign, text: t("protocol.pillar4.f2") },
+        { icon: Flame, text: t("protocol.pillar4.f3") },
+      ],
+    },
   ];
 
   return (
@@ -102,8 +120,8 @@ export default function Protocol() {
           </p>
         </motion.div>
 
-        {/* 3 Pillars */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-12">
+        {/* 4 Pillars */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
           {pillars.map((pillar, i) => (
             <motion.div
               key={i}
@@ -156,14 +174,15 @@ export default function Protocol() {
               { label: t("protocol.flywheel.step3"), cls: "bg-orange-500/10 border-orange-500/20 text-orange-400" },
               { label: t("protocol.flywheel.step4"), cls: "bg-green-500/10 border-green-500/20 text-green-400" },
               { label: t("protocol.flywheel.step5"), cls: "bg-cyan-500/10 border-cyan-500/20 text-cyan-400" },
-              { label: t("protocol.flywheel.step6"), cls: "bg-blue-500/10 border-blue-500/20 text-blue-400" },
-              { label: t("protocol.flywheel.step7"), cls: "bg-purple-500/10 border-purple-500/20 text-purple-400" },
+              { label: t("protocol.flywheel.step6"), cls: "bg-violet-500/10 border-violet-500/20 text-violet-400" },
+              { label: t("protocol.flywheel.step7"), cls: "bg-blue-500/10 border-blue-500/20 text-blue-400" },
+              { label: t("protocol.flywheel.step8"), cls: "bg-purple-500/10 border-purple-500/20 text-purple-400" },
             ].map((step, i) => (
               <div key={i} className="flex items-center gap-2">
                 <span className={`px-3 py-1.5 rounded-lg border text-xs font-medium ${step.cls}`}>
                   {step.label}
                 </span>
-                {i < 6 && <ArrowRight className="w-3 h-3 text-gold/30" />}
+                {i < 7 && <ArrowRight className="w-3 h-3 text-gold/30" />}
               </div>
             ))}
           </div>

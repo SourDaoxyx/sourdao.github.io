@@ -8,15 +8,16 @@ SOUR is not a memecoin — it is a Web3 protocol founded with the vision of an *
 
 ---
 
-## 🏛️ Three Pillars
+## 🏛️ Four Pillars
 
-The SOUR civilization is built on three core products:
+The SOUR civilization is built on four core products:
 
 | Pillar | Product | Status | Description |
 |--------|---------|--------|-------------|
 | 🍞 **Crust** | Baker Profile System | ✅ MVP Live | Connect wallet → read balance → determine tier → share card |
 | 🤝 **Handshake** | P2P Agreement System | 🧪 Beta Live | Smart contract escrow between two wallets (Anchor) |
 | 🌾 **Harvest** | Oven Dashboard | 📋 Planned | Burn tracker + community metrics |
+| 🏭 **Mill** | AI Workflow Marketplace | 📋 Planned | Decentralized automation marketplace powered by $SOUR |
 
 ---
 
@@ -80,7 +81,53 @@ https://sourdao.xyz/handshake
 
 ---
 
-## 🎨 Design Language
+## � The Mill (Planned)
+
+Decentralized AI Workflow Marketplace — where Bakers create, sell, and run automations.
+
+### Concept
+- **Workflow Marketplace** — Buy/sell AI automations & agent templates with $SOUR
+- **Creator Royalties** — Earn 10-20% on every re-use of your workflow
+- **Agent Fuel** — AI agents burn micro $SOUR per execution (constant deflationary pressure)
+- **Sandbox Testing** — Try before you buy (5 min free test)
+- **Crust Integration** — Seller reputation visible, "Golden Workflow" badge for top automations
+- **Handshake Escrow** — All purchases secured by existing smart contract infrastructure
+
+### Example Workflows
+- 📦 Order management → inventory alert → invoice generation
+- 🤖 AI content writer → social scheduler → analytics
+- 💰 DeFi portfolio rebalancer → yield optimizer
+- 📧 Customer support AI → CRM sync → follow-up
+
+---
+
+## 🏛️ Community Ownership
+
+SOUR follows progressive decentralization:
+
+| Phase | Timeline | Model |
+|-------|----------|-------|
+| Builder | Now | Founder builds core, open source from day one |
+| Guided DAO | Month 2-4 | Snapshot voting, Recipe Bounties, Commons spending |
+| Full DAO | Month 6-12 | On-chain governance (Solana Realms), multisig contracts |
+
+### Recipe Bounties
+Earn $SOUR by contributing:
+- 🫏 Mini Bake (100-500 $SOUR) — translations, docs, small fixes
+- 🍞 Standard Bake (1K-10K $SOUR) — features, UI, tutorials
+- 🥐 Golden Bake (10K-100K $SOUR) — smart contracts, integrations
+- 👑 Eternal Bake (100K+ $SOUR) — core protocol, security audits
+
+### Mill Guilds
+- ⚒️ Forge Guild — Smart contract developers
+- 🎨 Crust Guild — UI/UX design
+- 🤖 Mill Guild — AI workflow & agent development
+- 📣 Sourdough Circle — Marketing & community
+- 🔍 Audit Guild — Security & testing
+
+---
+
+## �🎨 Design Language
 
 | Feature | Detail |
 |---------|--------|
@@ -214,14 +261,22 @@ SOUR/
 - ✅ Handshake Beta page live
 - ⏳ Handshake devnet deployment
 - 🔜 Keeper reward system
-- 🔜 Sour AI bot (Telegram)
+- 🔜 Recipe Bounties launch
 - 🔜 First artisan partnerships
 
-### Phase 3 — The Bread Spreads (Future)
+### Phase 3 — The Mill Grinds (Q2-Q3 2026)
+- 📋 The Mill MVP (first 50 workflows)
+- 📋 AI agent template marketplace
+- 📋 Creator royalty system
+- 📋 Agent Fuel burn mechanism
+- 📋 Mill Guilds formed
+
+### Phase 4 — The Bread Spreads (Future)
 - 📋 The Harvest (Oven Dashboard)
+- 📋 Bakery DAO — full community governance
+- 📋 Visual workflow builder
 - 📋 Multi-chain expansion
-- 📋 DAO governance
-- 📋 Real-world integration
+- 📋 Forge DAO — community-built AI tools
 
 ---
 
