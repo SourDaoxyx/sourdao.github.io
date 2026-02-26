@@ -6,6 +6,7 @@ import {
   Fingerprint,
   Handshake,
   Flame,
+  Factory,
   Download,
   ExternalLink,
   ChevronDown,
@@ -18,6 +19,7 @@ import {
   TrendingDown,
   Crown,
   Timer,
+  Bot,
 } from "lucide-react";
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -145,6 +147,21 @@ export default function Whitepaper() {
       borderColor: "border-orange-500/10",
       phase: "PILLAR III",
     },
+    {
+      icon: Factory,
+      title: "The Mill — Automate Everything",
+      description: "A decentralized marketplace for AI workflows, agents, and automations. Creators list, buyers purchase via Handshake, reputation builds on Crust.",
+      howItWorks: [
+        "Creators upload AI workflows — prompt chains, automations, agent configs",
+        "Every purchase = a Handshake smart contract — trustless, escrowed",
+        "Crust-verified creators get priority listing and trust badges",
+        "Revenue: creator royalties + subscription tiers + agent fuel ($SOUR)",
+        "Sandbox environment for testing workflows before buying",
+      ],
+      color: "from-violet-500 to-purple-500",
+      borderColor: "border-violet-500/10",
+      phase: "PILLAR IV",
+    },
     // ECONOMICS
     {
       icon: TrendingDown,
@@ -210,16 +227,31 @@ export default function Whitepaper() {
     {
       icon: Users,
       title: "The Bakery DAO",
-      description: "Progressive decentralization toward full community governance. From multisig to DAO — the Bakers take control.",
+      description: "Progressive decentralization toward full community governance. Recipe Bounties reward builders. Mill Guilds organize talent. The Bakers run everything.",
       howItWorks: [
-        "Phase 1: Squads Protocol 3-of-5 multisig for treasury",
-        "Phase 2: Community proposals + voting on spending",
-        "Phase 3: Full on-chain governance — Bakery DAO",
-        "Tier-gated participation prevents governance attacks",
-        "Transparent — all movements visible on-chain, always",
+        "Phase 1: Snapshot.org off-chain voting + multisig treasury",
+        "Phase 2: On-chain Solana Realms governance + community proposals",
+        "Phase 3: Full Bakery DAO — Bakers control all protocol parameters",
+        "Recipe Bounties: Mini Bake (100 $SOUR) → Eternal Bake (50K+ $SOUR)",
+        "5 Mill Guilds: Protocol, Frontend, Design, Community, Security",
       ],
       color: "from-indigo-500 to-blue-500",
       borderColor: "border-indigo-500/10",
+      phase: "GOVERNANCE",
+    },
+    {
+      icon: Bot,
+      title: "Community Ownership",
+      description: "Open source. Open recipes. Anyone can propose new protocols. The community votes, builds, audits, and deploys.",
+      howItWorks: [
+        "PROPOSE: Any Rising Dough+ Keeper can submit a protocol idea",
+        "REVIEW: Community discussion + technical feasibility check",
+        "BUILD: Recipe Bounty posted, builders compete or collaborate",
+        "AUDIT: Security Guild reviews code, community tests on devnet",
+        "DEPLOY: DAO vote to merge — approved protocols go live",
+      ],
+      color: "from-teal-500 to-emerald-500",
+      borderColor: "border-teal-500/10",
       phase: "GOVERNANCE",
     },
     // INFRASTRUCTURE
@@ -276,7 +308,7 @@ export default function Whitepaper() {
             className="inline-block px-4 py-2 rounded-full glass-gold text-gold text-sm font-medium tracking-wider mb-6"
             whileHover={{ scale: 1.05 }}
           >
-            📜 WHITEPAPER v4.0
+            📜 WHITEPAPER v5.0
           </motion.span>
 
           <h2 className="font-cinzel text-4xl md:text-6xl font-bold mb-6">
@@ -286,8 +318,9 @@ export default function Whitepaper() {
           </h2>
 
           <p className="font-inter text-cream/50 max-w-3xl mx-auto text-base mb-4">
-            Three pillars. One civilization. The Crust protects your identity.
+            Four pillars. One civilization. The Crust protects your identity.
             The Handshake enables trustless trade. The Harvest rewards everyone who builds.
+            The Mill automates everything.
           </p>
           <p className="font-inter text-gold/50 max-w-xl mx-auto text-sm italic">
             Click &ldquo;How it works&rdquo; on any card for step-by-step mechanics.
@@ -331,6 +364,7 @@ export default function Whitepaper() {
 
           <div className="space-y-2.5">
             {[
+              { label: "PILLAR IV — THE MILL", bgOuter: "bg-violet-500/5 border-violet-500/15", textLabel: "text-violet-400", bgTag: "bg-violet-500/10 text-violet-300", items: ["AI Workflows 🤖", "Agent Marketplace", "Creator Royalties", "Sandbox"] },
               { label: "PILLAR III — THE HARVEST", bgOuter: "bg-orange-500/5 border-orange-500/15", textLabel: "text-orange-400", bgTag: "bg-orange-500/10 text-orange-300", items: ["50% Burn 🔥", "30% Keepers 🌾", "20% Commons 🏛️"] },
               { label: "PILLAR II — THE HANDSHAKE", bgOuter: "bg-blue-500/5 border-blue-500/15", textLabel: "text-blue-400", bgTag: "bg-blue-500/10 text-blue-300", items: ["Smart Contracts", "Borderless Settlement", "1-3% Pinch"] },
               { label: "PILLAR I — THE CRUST", bgOuter: "bg-amber-500/5 border-amber-500/15", textLabel: "text-amber-400", bgTag: "bg-amber-500/10 text-amber-300", items: ["Soulbound Identity", "Portable Reputation", "On-Chain Crust"] },
@@ -359,6 +393,8 @@ export default function Whitepaper() {
             <span className="text-amber-400">30% Keepers</span>
             <span>+</span>
             <span className="text-purple-400">20% Commons</span>
+            <ArrowRight className="w-3 h-3" />
+            <span className="text-violet-400">Mill Scales</span>
           </div>
         </motion.div>
 
