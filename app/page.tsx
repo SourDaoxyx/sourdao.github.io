@@ -19,11 +19,11 @@ export default function Home() {
       <Navbar />
       <ParticleField />
       <Hero />
-      <Problem />
-      <Manifesto />
       <Protocol />
+      <Problem />
       <Value />
       <Roadmap />
+      <Manifesto />
       <LiveFeed />
       <WhitepaperCTA />
       <Community />

@@ -34,6 +34,9 @@ export default function Protocol() {
       color: "from-cyan-500 to-blue-500",
       bg: "bg-cyan-500/5",
       border: "border-cyan-500/20",
+      badge: "LIVE",
+      badgeColor: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+      href: "/crust",
       features: [
         { icon: ShieldCheck, text: t("protocol.pillar1.f1") },
         { icon: Sparkles, text: t("protocol.pillar1.f2") },
@@ -49,6 +52,9 @@ export default function Protocol() {
       color: "from-emerald-500 to-teal-500",
       bg: "bg-emerald-500/5",
       border: "border-emerald-500/20",
+      badge: "BETA",
+      badgeColor: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30",
+      href: "/handshake",
       features: [
         { icon: ShieldCheck, text: t("protocol.pillar2.f1") },
         { icon: Globe, text: t("protocol.pillar2.f2") },
@@ -64,6 +70,9 @@ export default function Protocol() {
       color: "from-amber-500 to-orange-500",
       bg: "bg-amber-500/5",
       border: "border-amber-500/20",
+      badge: "SOON",
+      badgeColor: "bg-amber-500/15 text-amber-400/70 border-amber-500/20",
+      dimmed: true,
       features: [
         { icon: Coins, text: t("protocol.pillar3.f1") },
         { icon: Users, text: t("protocol.pillar3.f2") },
@@ -79,6 +88,9 @@ export default function Protocol() {
       color: "from-violet-500 to-purple-500",
       bg: "bg-violet-500/5",
       border: "border-violet-500/20",
+      badge: "SOON",
+      badgeColor: "bg-violet-500/15 text-violet-400/70 border-violet-500/20",
+      dimmed: true,
       features: [
         { icon: Bot, text: t("protocol.pillar4.f1") },
         { icon: BadgeDollarSign, text: t("protocol.pillar4.f2") },
@@ -122,40 +134,62 @@ export default function Protocol() {
 
         {/* 4 Pillars */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
-          {pillars.map((pillar, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 25 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.15 + i * 0.15, duration: 0.7 }}
-              className={`relative p-6 rounded-2xl ${pillar.bg} border ${pillar.border} hover:border-gold/30 transition-all duration-500 flex flex-col`}
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${pillar.color} flex items-center justify-center`}>
-                  <pillar.icon className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-cinzel text-lg font-bold text-cream">{pillar.title}</h3>
-                  <p className="text-cream/40 text-xs">{pillar.subtitle}</p>
-                </div>
-              </div>
+          {pillars.map((pillar, i) => {
+            const CardWrapper = pillar.href ? motion.a : motion.div;
+            const wrapperProps = pillar.href
+              ? { href: pillar.href }
+              : {};
 
-              <p className="text-cream/55 text-sm leading-relaxed mb-5">{pillar.desc}</p>
+            return (
+              <CardWrapper
+                key={i}
+                {...(wrapperProps as Record<string, string>)}
+                initial={{ opacity: 0, y: 25 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.15 + i * 0.15, duration: 0.7 }}
+                whileHover={pillar.dimmed ? undefined : { y: -4, scale: 1.02 }}
+                className={`relative p-6 rounded-2xl ${pillar.bg} border ${pillar.border} ${
+                  pillar.dimmed
+                    ? "opacity-60 hover:opacity-80"
+                    : "hover:border-gold/30 cursor-pointer"
+                } transition-all duration-500 flex flex-col`}
+              >
+                {/* Badge */}
+                <div className="absolute top-4 right-4">
+                  <span
+                    className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${pillar.badgeColor}`}
+                  >
+                    {pillar.badge}
+                  </span>
+                </div>
 
-              <div className="space-y-2.5 mb-5 flex-1">
-                {pillar.features.map((f, j) => (
-                  <div key={j} className="flex items-start gap-2.5">
-                    <f.icon className="w-4 h-4 text-gold/50 mt-0.5 flex-shrink-0" />
-                    <span className="text-cream/60 text-sm">{f.text}</span>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${pillar.color} flex items-center justify-center ${pillar.dimmed ? "grayscale-[30%]" : ""}`}>
+                    <pillar.icon className="w-6 h-6 text-white" />
                   </div>
-                ))}
-              </div>
+                  <div>
+                    <h3 className="font-cinzel text-lg font-bold text-cream">{pillar.title}</h3>
+                    <p className="text-cream/40 text-xs">{pillar.subtitle}</p>
+                  </div>
+                </div>
 
-              <div className={`mt-auto px-3 py-2 rounded-lg bg-gradient-to-r ${pillar.color} bg-opacity-5 border border-white/5`}>
-                <p className="text-xs font-medium text-cream/70 italic">&ldquo;{pillar.highlight}&rdquo;</p>
-              </div>
-            </motion.div>
-          ))}
+                <p className="text-cream/55 text-sm leading-relaxed mb-5">{pillar.desc}</p>
+
+                <div className="space-y-2.5 mb-5 flex-1">
+                  {pillar.features.map((f, j) => (
+                    <div key={j} className="flex items-start gap-2.5">
+                      <f.icon className="w-4 h-4 text-gold/50 mt-0.5 flex-shrink-0" />
+                      <span className="text-cream/60 text-sm">{f.text}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className={`mt-auto px-3 py-2 rounded-lg bg-gradient-to-r ${pillar.color} bg-opacity-5 border border-white/5`}>
+                  <p className="text-xs font-medium text-cream/70 italic">&ldquo;{pillar.highlight}&rdquo;</p>
+                </div>
+              </CardWrapper>
+            );
+          })}
         </div>
 
         {/* Flywheel */}

@@ -20,7 +20,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "nav.buy": "Buy $SOUR",
 
     // Hero
-    "hero.tagline": "The Civilization Protocol",
+    "hero.tagline": "Finance. Fermented.",
     "hero.subtitle1": "The protocol that turns",
     "hero.subtitle2": "communities into civilizations.",
     "hero.vision": "Your dough. Your bread. Your economy. No banks. No bosses. No borders.",
@@ -28,8 +28,8 @@ export const translations: Record<Language, Record<string, string>> = {
     "hero.pill.tax": "0% Tax",
     "hero.pill.lp": "Protocol-Owned LP",
     "hero.pill.fairLaunch": "Mint Revoked",
-    "hero.cta.bakery": "Enter the Bakery",
-    "hero.cta.protocol": "Read the Manifesto",
+    "hero.cta.bakery": "Start Baking",
+    "hero.cta.protocol": "Join the Bakery",
     "hero.cta.watch": "Watch the Ritual",
     "hero.scrollHint": "Scroll to explore",
 
