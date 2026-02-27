@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { motion } from "framer-motion";
-import { Download, Share2, Copy, Check, Image as ImageIcon } from "lucide-react";
+import { Download, Share2, Copy, Check } from "lucide-react";
 import { toPng } from "html-to-image";
 
 interface ShareCardProps {

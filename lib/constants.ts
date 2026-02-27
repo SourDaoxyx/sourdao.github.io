@@ -1,11 +1,11 @@
 import { PublicKey } from "@solana/web3.js";
 
-// SOUR Token Mint Address on Solana (UPDATE THIS after pump.fun launch)
-const SOUR_TOKEN_MINT_STRING = "11111111111111111111111111111111"; // Placeholder — replace with real mint after launch
+// SOUR Token Mint Address on Solana
+const SOUR_TOKEN_MINT_STRING = "2spRmiYSWyqFB5XhqnbSkAKH6b2sKpchjVgzYajmpump";
 export const SOUR_TOKEN_MINT = new PublicKey(SOUR_TOKEN_MINT_STRING);
 
-// Pre-launch detection: true when the mint is still the placeholder
-export const IS_TOKEN_LAUNCHED = SOUR_TOKEN_MINT_STRING !== "11111111111111111111111111111111";
+// Pre-launch detection
+export const IS_TOKEN_LAUNCHED = (SOUR_TOKEN_MINT_STRING as string) !== "11111111111111111111111111111111";
 
 // Solana RPC endpoint (mainnet)
 export const SOLANA_RPC_ENDPOINT = "https://api.mainnet-beta.solana.com";
