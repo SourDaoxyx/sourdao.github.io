@@ -40,6 +40,13 @@ export default function Footer() {
       color: "from-cyan-400 to-blue-500",
     },
     {
+      icon: Coins,
+      name: "Pump.fun",
+      url: "https://pump.fun/coin/2spRmiYSWyqFB5XhqnbSkAKH6b2sKpchjVgzYajmpump",
+      handle: "Buy $SOUR",
+      color: "from-green-400 to-emerald-500",
+    },
+    {
       icon: Github,
       name: "GitHub",
       url: "https://github.com/SourDaoxyx",

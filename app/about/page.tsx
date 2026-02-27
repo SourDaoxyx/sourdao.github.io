@@ -126,7 +126,7 @@ const timeline = [
     phase: "PHASE 3",
     title: "Token Launch",
     items: [
-      "$SOUR pump.fun launch",
+      "$SOUR launched on pump.fun ✅",
       "Community growth campaign",
       "First Keeper rewards",
     ],

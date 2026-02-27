@@ -59,7 +59,7 @@ export default function ContractAddress({ address, label }: ContractAddressProps
           )}
         </motion.button>
 
-        {/* External Link */}
+        {/* External Link — Solscan */}
         <motion.a
           href={`https://solscan.io/token/${address}`}
           target="_blank"
@@ -70,6 +70,19 @@ export default function ContractAddress({ address, label }: ContractAddressProps
           aria-label="View on Solscan"
         >
           <ExternalLink className="w-5 h-5 text-gold" />
+        </motion.a>
+
+        {/* External Link — Pump.fun */}
+        <motion.a
+          href={`https://pump.fun/coin/${address}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="p-2 rounded-lg hover:bg-green-500/20 transition-colors"
+          aria-label="Buy on Pump.fun"
+        >
+          <span className="text-green-400 text-sm font-bold">P</span>
         </motion.a>
       </div>
 

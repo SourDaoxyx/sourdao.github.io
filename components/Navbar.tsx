@@ -405,7 +405,7 @@ export default function Navbar() {
               My Crust
             </Link>
             <motion.a
-              href="https://t.me/sourdaoxyz"
+              href="https://pump.fun/coin/2spRmiYSWyqFB5XhqnbSkAKH6b2sKpchjVgzYajmpump"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
@@ -474,7 +474,7 @@ export default function Navbar() {
                   Handshake
                 </Link>
                 <motion.a
-                  href="https://t.me/sourdaoxyz"
+                  href="https://pump.fun/coin/2spRmiYSWyqFB5XhqnbSkAKH6b2sKpchjVgzYajmpump"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setIsMobileMenuOpen(false)}

@@ -28,7 +28,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "hero.pill.tax": "0% Tax",
     "hero.pill.lp": "Protocol-Owned LP",
     "hero.pill.fairLaunch": "Mint Revoked",
-    "hero.cta.bakery": "Start Baking",
+    "hero.cta.bakery": "Buy $SOUR",
     "hero.cta.protocol": "Join the Bakery",
     "hero.cta.watch": "Watch the Ritual",
     "hero.scrollHint": "Scroll to explore",
