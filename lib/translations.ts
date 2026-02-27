@@ -20,7 +20,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "nav.buy": "Buy $SOUR",
 
     // Hero
-    "hero.tagline": "Finance. Fermented.",
+    "hero.tagline": "The Civilization Protocol",
     "hero.subtitle1": "The protocol that turns",
     "hero.subtitle2": "communities into civilizations.",
     "hero.vision": "Your dough. Your bread. Your economy. No banks. No bosses. No borders.",
@@ -211,10 +211,6 @@ export const translations: Record<Language, Record<string, string>> = {
     "value.tier4.b3": "Elder Baker status",
     "value.tier4.b4": "Founding privileges",
     "value.burn.title": "Feed the Oven — Buyback + LP Growth",
-    "value.burn.launch": "Launch",
-    "value.burn.year1": "Year 1",
-    "value.burn.year3": "Year 3",
-    "value.burn.year5": "Year 5",
     "value.burn.desc": "50% of all protocol fees buy back $SOUR and deepen protocol-owned liquidity. More volume = deeper LP = more stable price. Just math.",
     "value.sellReset.title": "Sell = Reset",
     "value.sellReset.desc": "Sell your Starter → tier resets, Harvest stops, Crust thins. The Starter rewards patience.",

@@ -207,21 +207,6 @@ export default function Value() {
             <h3 className="font-cinzel text-xl font-bold text-cream">{t("value.burn.title")}</h3>
           </div>
 
-          <div className="grid grid-cols-4 gap-3 mb-4">
-            {[
-              { year: t("value.burn.launch"), supply: "$0", your: "Genesis" },
-              { year: t("value.burn.year1"), supply: "~$120K", your: "LP depth" },
-              { year: t("value.burn.year3"), supply: "~$500K", your: "LP depth" },
-              { year: t("value.burn.year5"), supply: "~$2M+", your: "LP depth" },
-            ].map((item, i) => (
-              <div key={i} className="text-center p-3 rounded-xl bg-black/30 border border-cream/5">
-                <p className="text-cream/30 text-[11px] mb-1">{item.year}</p>
-                <p className="text-cream/60 font-mono text-sm font-medium">{item.supply}</p>
-                <p className="text-gold text-xs font-medium mt-1">{item.your}</p>
-              </div>
-            ))}
-          </div>
-
           <div className="flex items-center gap-3 p-3 rounded-xl bg-green-500/5 border border-green-500/10">
             <TrendingUp className="w-4 h-4 text-green-400 flex-shrink-0" />
             <p className="text-cream/50 text-sm">
