@@ -177,9 +177,10 @@ function LeaderboardClient() {
           <p className="text-cream/40 text-sm max-w-md mx-auto">
             The most trusted Bakers in the SOUR ecosystem, ranked by Crust Score.
           </p>
-          <p className="text-cream/20 text-xs mt-2 italic">
-            Demo data — real rankings activate post-launch
-          </p>
+          <div className="inline-flex items-center gap-2 mt-3 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20">
+            <span className="text-amber-400 text-xs">🧪</span>
+            <span className="text-amber-400/80 text-xs font-medium">Demo Data — Real rankings activate post-launch</span>
+          </div>
         </motion.div>
 
         {/* Tier Distribution */}

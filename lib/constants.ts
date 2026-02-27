@@ -1,11 +1,13 @@
 import { PublicKey } from "@solana/web3.js";
 
 // SOUR Token Mint Address on Solana (UPDATE THIS after pump.fun launch)
-export const SOUR_TOKEN_MINT = new PublicKey(
-  "11111111111111111111111111111111" // Placeholder — replace with real mint after launch
-);
+const SOUR_TOKEN_MINT_STRING = "11111111111111111111111111111111"; // Placeholder — replace with real mint after launch
+export const SOUR_TOKEN_MINT = new PublicKey(SOUR_TOKEN_MINT_STRING);
 
-// Solana RPC endpoint
+// Pre-launch detection: true when the mint is still the placeholder
+export const IS_TOKEN_LAUNCHED = SOUR_TOKEN_MINT_STRING !== "11111111111111111111111111111111";
+
+// Solana RPC endpoint (mainnet)
 export const SOLANA_RPC_ENDPOINT = "https://api.mainnet-beta.solana.com";
 
 // Keeper Tier definitions (in days)

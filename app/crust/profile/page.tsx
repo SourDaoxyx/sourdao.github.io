@@ -181,6 +181,9 @@ function ProfileContent() {
             <p className="text-cream/30 text-xs mt-2">
               Harvest Weight: <span className={`${tier.textColor} font-bold`}>{tier.harvestMultiplier}</span>
             </p>
+            <div className="inline-flex items-center gap-1.5 mt-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20">
+              <span className="text-amber-400/80 text-[10px] font-medium">🧪 Demo Preview — Real data post-launch</span>
+            </div>
           </div>
         </motion.div>
 

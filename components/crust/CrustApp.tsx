@@ -4,10 +4,11 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import { Wallet, Loader2, LogOut, Fingerprint, Trophy, User } from "lucide-react";
+import { Wallet, Loader2, LogOut, Fingerprint, Trophy, User, FlaskConical } from "lucide-react";
 import Link from "next/link";
 import { getSourHolderInfo, type SourHolderInfo } from "@/lib/solana";
 import { calculateCrustScore, CRUST_TIERS, type CrustScoreBreakdown, type CrustScoreInput } from "@/lib/crust-score";
+import { IS_TOKEN_LAUNCHED } from "@/lib/constants";
 import BakerCard from "./BakerCard";
 import BadgeWall from "./BadgeWall";
 import EditProfile from "./EditProfile";
@@ -251,6 +252,32 @@ export default function CrustApp() {
                 Disconnect
               </motion.button>
             </div>
+
+            {/* Pre-Launch Banner */}
+            {!IS_TOKEN_LAUNCHED && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="rounded-xl border border-gold/20 bg-gold/5 p-5 text-center"
+              >
+                <div className="flex items-center justify-center gap-2 mb-3">
+                  <FlaskConical className="w-5 h-5 text-gold" />
+                  <span className="font-cinzel text-sm font-bold text-gold">Pre-Launch Preview</span>
+                </div>
+                <p className="text-cream/50 text-xs leading-relaxed mb-3">
+                  Your jar is connected! $SOUR token has not launched yet.
+                  Once the token is live, your Crust Score will be calculated from real on-chain data.
+                </p>
+                <div className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-black/30 border border-cream/10">
+                  <Wallet className="w-3.5 h-3.5 text-gold/60" />
+                  <span className="text-cream/40 text-[11px] font-mono tracking-tight">
+                    {publicKey.toBase58().slice(0, 4)}...{publicKey.toBase58().slice(-4)}
+                  </span>
+                  <span className="text-emerald-400/70 text-[10px] ml-1">● Connected</span>
+                </div>
+              </motion.div>
+            )}
 
             {/* Baker Card */}
             <BakerCard

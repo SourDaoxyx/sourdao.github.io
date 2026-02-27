@@ -1,8 +1,11 @@
 import { Connection, PublicKey } from "@solana/web3.js";
 import { getAccount, getAssociatedTokenAddress } from "@solana/spl-token";
-import { SOLANA_RPC_ENDPOINT, SOUR_TOKEN_MINT } from "./constants";
+import { SOLANA_RPC_ENDPOINT, SOUR_TOKEN_MINT, IS_TOKEN_LAUNCHED } from "./constants";
 
-const connection = new Connection(SOLANA_RPC_ENDPOINT, "confirmed");
+const connection = new Connection(SOLANA_RPC_ENDPOINT, {
+  commitment: "confirmed",
+  confirmTransactionInitialTimeout: 30_000,
+});
 
 export interface SourHolderInfo {
   balance: number;
@@ -11,9 +14,20 @@ export interface SourHolderInfo {
 }
 
 /**
+ * Pre-launch: return zero data immediately without hitting RPC.
+ * This avoids errors when SOUR_TOKEN_MINT is a placeholder.
+ */
+const PRE_LAUNCH_INFO: SourHolderInfo = {
+  balance: 0,
+  firstTxDate: null,
+  daysFermenting: 0,
+};
+
+/**
  * Get SOUR token balance for a wallet
  */
 export async function getSourBalance(walletAddress: PublicKey): Promise<number> {
+  if (!IS_TOKEN_LAUNCHED) return 0;
   try {
     const tokenAccount = await getAssociatedTokenAddress(
       SOUR_TOKEN_MINT,
@@ -33,6 +47,7 @@ export async function getSourBalance(walletAddress: PublicKey): Promise<number> 
  * (approximation: uses the token account creation time)
  */
 export async function getFirstSourTx(walletAddress: PublicKey): Promise<Date | null> {
+  if (!IS_TOKEN_LAUNCHED) return null;
   try {
     const tokenAccount = await getAssociatedTokenAddress(
       SOUR_TOKEN_MINT,
@@ -60,9 +75,12 @@ export async function getFirstSourTx(walletAddress: PublicKey): Promise<Date | n
 }
 
 /**
- * Get complete holder info
+ * Get complete holder info.
+ * Pre-launch mode returns zeros instantly (no RPC calls).
  */
 export async function getSourHolderInfo(walletAddress: PublicKey): Promise<SourHolderInfo> {
+  if (!IS_TOKEN_LAUNCHED) return PRE_LAUNCH_INFO;
+
   const [balance, firstTxDate] = await Promise.all([
     getSourBalance(walletAddress),
     getFirstSourTx(walletAddress),
