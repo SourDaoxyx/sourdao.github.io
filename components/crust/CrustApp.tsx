@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import { Wallet, Loader2, LogOut, Fingerprint, Trophy, User, FlaskConical } from "lucide-react";
+import { Wallet, Loader2, LogOut, Fingerprint, Trophy, User, FlaskConical, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { getSourHolderInfo, type SourHolderInfo } from "@/lib/solana";
 import { calculateCrustScore, CRUST_TIERS, type CrustScoreBreakdown, type CrustScoreInput } from "@/lib/crust-score";
@@ -206,6 +206,36 @@ export default function CrustApp() {
             <p className="text-cream/30 text-xs mt-4">
               Supports Phantom &amp; Solflare
             </p>
+
+            {/* Wallet install guide */}
+            <div className="mt-6 p-4 rounded-xl border border-cream/8 bg-cream/[0.02] max-w-sm mx-auto">
+              <p className="text-cream/40 text-xs mb-3">
+                Don&apos;t have a wallet? Install one first:
+              </p>
+              <div className="flex justify-center gap-3">
+                <a
+                  href="https://phantom.app/download"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-medium hover:bg-purple-500/20 transition-colors"
+                >
+                  <ExternalLink className="w-3 h-3" />
+                  Phantom
+                </a>
+                <a
+                  href="https://solflare.com/download"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-300 text-xs font-medium hover:bg-orange-500/20 transition-colors"
+                >
+                  <ExternalLink className="w-3 h-3" />
+                  Solflare
+                </a>
+              </div>
+              <p className="text-cream/25 text-[10px] mt-3 leading-relaxed">
+                Install the browser extension → refresh this page → click &quot;Connect Jar&quot; → approve in wallet popup
+              </p>
+            </div>
           </motion.div>
         )}
 
