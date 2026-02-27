@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { type CrustTier, type Badge, type CrustScoreBreakdown } from "@/lib/crust-score";
-import Image from "next/image";
 
 interface BakerCardProps {
   walletAddress: string;
@@ -156,21 +155,20 @@ export default function BakerCard({
 
   return (
     <motion.div
-      ref={cardRef}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
       className="relative w-full max-w-sm mx-auto"
     >
+      {/* Static wrapper for image capture — no transforms */}
+      <div ref={cardRef}>
       {/* Holographic animated border for Eternal tier */}
       {cardStyle.animate && (
-        <motion.div
+        <div
           className="absolute -inset-[2px] rounded-2xl opacity-60"
           style={{
             background: "conic-gradient(from 0deg, #a855f7, #ec4899, #8b5cf6, #6366f1, #a855f7)",
           }}
-          animate={{ rotate: [0, 360] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
         />
       )}
 
@@ -203,7 +201,8 @@ export default function BakerCard({
           {/* Avatar + Name */}
           <div className="flex items-center gap-4 mb-5">
             <div className={`w-16 h-16 rounded-full overflow-hidden border-2 ${tier.borderColor} bg-black/30 flex-shrink-0`}>
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={avatar}
                 alt={bakerName || "Baker"}
                 width={64}
@@ -273,6 +272,7 @@ export default function BakerCard({
           </div>
         </div>
       </div>
+      </div>{/* end capture wrapper */}
     </motion.div>
   );
 }

@@ -1,10 +1,9 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { motion } from "framer-motion";
-import { Download, Share2, Copy, Check } from "lucide-react";
+import { Download, Share2, Copy, Check, Image as ImageIcon } from "lucide-react";
 import { toPng } from "html-to-image";
-import { useState } from "react";
 
 interface ShareCardProps {
   cardRef: React.RefObject<HTMLDivElement | null>;
@@ -21,38 +20,88 @@ export default function ShareCard({
 }: ShareCardProps) {
   const [copied, setCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [imageCopied, setImageCopied] = useState(false);
 
-  const generateImage = useCallback(async () => {
+  const generateImage = useCallback(async (): Promise<string | null> => {
     if (!cardRef.current) return null;
     try {
+      // Run toPng twice — first call warms up fonts/images, second gives clean output
+      await toPng(cardRef.current, { cacheBust: true, pixelRatio: 1 });
       const dataUrl = await toPng(cardRef.current, {
         cacheBust: true,
         pixelRatio: 2,
         backgroundColor: "#000000",
+        style: {
+          transform: "none",
+          opacity: "1",
+        },
       });
       return dataUrl;
-    } catch {
-      console.error("Failed to generate card image");
+    } catch (err) {
+      console.error("Failed to generate card image", err);
       return null;
     }
   }, [cardRef]);
+
+  const dataUrlToBlob = async (dataUrl: string): Promise<Blob> => {
+    const res = await fetch(dataUrl);
+    return res.blob();
+  };
 
   const handleDownload = async () => {
     setDownloading(true);
     const dataUrl = await generateImage();
     if (dataUrl) {
       const link = document.createElement("a");
-      link.download = `sour-baker-card.png`;
+      link.download = "sour-baker-card.png";
       link.href = dataUrl;
       link.click();
     }
     setDownloading(false);
   };
 
-  const handleTwitterShare = () => {
+  const handleTwitterShare = async () => {
     const scoreText = crustScore ? `\nCrust Score: ${crustScore}/1000` : "";
     const text = `I'm a ${tierName} Baker 🍞\nFermenting for ${daysFermenting} days.${scoreText}\n\nYour dough. Your bread. Your economy.\n\n#SOUR #TheBakers #CivilizationProtocol`;
-    const url = `https://sourdao.xyz/crust`;
+    const url = "https://sourdao.xyz/crust";
+
+    // Generate card image
+    const dataUrl = await generateImage();
+
+    if (dataUrl) {
+      const blob = await dataUrlToBlob(dataUrl);
+      const file = new File([blob], "sour-baker-card.png", { type: "image/png" });
+
+      // Try Web Share API (mobile + modern desktop: shares image directly)
+      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+        try {
+          await navigator.share({
+            text: `${text}\n${url}`,
+            files: [file],
+          });
+          return;
+        } catch {
+          // User cancelled or share failed — fall through to Twitter intent
+        }
+      }
+
+      // Fallback: copy image to clipboard, then open Twitter
+      try {
+        await navigator.clipboard.write([
+          new ClipboardItem({ "image/png": blob }),
+        ]);
+        setImageCopied(true);
+        setTimeout(() => setImageCopied(false), 4000);
+      } catch {
+        // Clipboard write not supported — just download the image instead
+        const link = document.createElement("a");
+        link.download = "sour-baker-card.png";
+        link.href = dataUrl;
+        link.click();
+      }
+    }
+
+    // Open Twitter compose
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       text
     )}&url=${encodeURIComponent(url)}`;
@@ -60,7 +109,7 @@ export default function ShareCard({
   };
 
   const handleCopyLink = async () => {
-    const profileUrl = `https://sourdao.xyz/crust`;
+    const profileUrl = "https://sourdao.xyz/crust";
     try {
       await navigator.clipboard.writeText(profileUrl);
       setCopied(true);
@@ -92,7 +141,7 @@ export default function ShareCard({
         className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium hover:bg-blue-500/15 transition-colors"
       >
         <Share2 className="w-4 h-4" />
-        Share on X
+        {imageCopied ? "Card Copied! Paste in tweet →" : "Share on X"}
       </motion.button>
 
       {/* Copy Link */}
