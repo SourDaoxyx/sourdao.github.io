@@ -20,7 +20,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "nav.buy": "Buy $SOUR",
 
     // Hero
-    "hero.tagline": "The Civilization Protocol",
+    "hero.tagline": "P2P Escrow & On-Chain Reputation on Solana",
     "hero.subtitle1": "The protocol that turns",
     "hero.subtitle2": "communities into civilizations.",
     "hero.vision": "Your dough. Your bread. Your economy. No banks. No bosses. No borders.",

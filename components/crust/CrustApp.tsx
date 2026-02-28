@@ -352,6 +352,49 @@ export default function CrustApp() {
               scoreBreakdown={scoreBreakdown}
             />
 
+            {/* Tier Progression */}
+            {scoreBreakdown.tier.name !== "Eternal Starter" && (() => {
+              const currentScore = scoreBreakdown.total;
+              const nextTier = CRUST_TIERS.slice().reverse().find(t => t.minScore > currentScore);
+              if (!nextTier) return null;
+              const prevMin = CRUST_TIERS.slice().reverse().find(t => t.minScore <= currentScore)?.minScore || 0;
+              const progress = ((currentScore - prevMin) / (nextTier.minScore - prevMin)) * 100;
+              return (
+                <div className="p-4 rounded-xl border border-cream/10 bg-black/30">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-cream/40 text-[10px] uppercase tracking-wider">Next Tier</span>
+                    <span className={`text-xs font-bold ${nextTier.textColor}`}>{nextTier.emoji} {nextTier.name}</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-cream/5 overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${Math.min(progress, 100)}%` }}
+                      transition={{ duration: 1, ease: "easeOut" }}
+                      className="h-full rounded-full bg-gradient-to-r from-gold to-amber-500"
+                    />
+                  </div>
+                  <p className="text-cream/30 text-[10px] mt-1.5">
+                    {nextTier.minScore - currentScore} more points needed
+                  </p>
+                </div>
+              );
+            })()}
+
+            {/* Buy More CTA (for low balance) */}
+            {holderInfo.balance === 0 && (
+              <motion.a
+                href="https://pump.fun/coin/2spRmiYSWyqFB5XhqnbSkAKH6b2sKpchjVgzYajmpump"
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-center justify-center gap-2 p-4 rounded-xl border border-gold/20 bg-gold/5 text-gold text-sm font-medium hover:bg-gold/10 transition-colors"
+              >
+                <Wallet className="w-4 h-4" />
+                Buy $SOUR to start building your Crust Score
+              </motion.a>
+            )}
+
             {/* Edit & Share */}
             <div className="flex flex-col items-center gap-4">
               <EditProfile
