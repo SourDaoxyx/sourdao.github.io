@@ -10,7 +10,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "nav.manifesto": "Manifesto",
     "nav.problem": "The Problem",
     "nav.protocol": "Protocol",
-    "nav.liveFeed": "Live Feed",
+
     "nav.roadmap": "Bake Plan",
     "nav.tokenomics": "Tokenomics",
     "nav.value": "Value",
@@ -236,7 +236,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "roadmap.m1.1": "Fair launch — no presale, no insiders",
     "roadmap.m1.2": "The First Bakers community",
     "roadmap.m1.3": "SOUR brand & meme culture",
-    "roadmap.m1.4": "Live baking sessions (24/7 stream)",
+    "roadmap.m1.4": "Community events & AMAs",
     "roadmap.m1.5": "Genesis Keeper recognition",
     "roadmap.phaseNext.desc": "Protocol smart contracts. The Crust identity system. Handshake engine for agreements. First Pinch → first Buyback. SDK & building blocks. The first Bakeries open.",
     "roadmap.m2.1": "Protocol smart contracts on-chain",
@@ -266,16 +266,7 @@ export const translations: Record<Language, Record<string, string>> = {
 
 
 
-    // Live Feed
-    "live.title": "The Observation Deck",
-    "live.badge": "LIVE",
-    "live.description": "Watch the genesis starter come alive. 24/7 live fermentation. No cuts. No edits. Pure organic growth.",
-    "live.stream": "[ 24/7 Live Stream ]",
-    "live.comingSoon": "Coming Soon",
-    "live.ph": "pH Level",
-    "live.temp": "Temperature",
-    "live.holders": "Holders",
-    "live.fermentation": "Fermentation",
+
 
     // Whitepaper
     "whitepaper.title": "Read the Whitepaper",
@@ -294,11 +285,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "community.twitter.name": "X (Twitter)",
     "community.twitter.desc": "Latest updates, memes, and announcements",
     "community.twitter.cta": "Follow",
-    "community.stream.name": "Live Stream",
-    "community.stream.handle": "24/7 Fermentation",
-    "community.stream.desc": "Watch the Genesis Starter live — proof of authenticity",
-    "community.stream.cta": "Watch Now",
-    "community.alwaysOn": "Always On",
+
     "community.stat.members": "Community Members",
     "community.stat.countries": "Countries",
     "community.stat.worldwide": "Worldwide",
@@ -374,7 +361,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "mascot.section.protocol": "The protocol is the yeast of change 🧬",
     "mascot.section.value": "True value rises slowly, like sourdough 🌾",
     "mascot.section.roadmap": "Every great bread has a recipe... and timing ⏳",
-    "mascot.section.live-feed": "Watch the culture grow in real time! 📡",
+
     "mascot.section.whitepaper": "The full recipe is in the whitepaper 📖",
     "mascot.section.community": "Stronger together. Every starter needs a colony 🫂",
     "mascot.section.faq": "Got questions? The culture has answers 💡",

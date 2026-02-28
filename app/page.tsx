@@ -3,7 +3,6 @@ import Problem from "@/components/Problem";
 import Manifesto from "@/components/Manifesto";
 import Protocol from "@/components/Protocol";
 import Value from "@/components/Value";
-import LiveFeed from "@/components/LiveFeed";
 import Roadmap from "@/components/Roadmap";
 import WhitepaperCTA from "@/components/WhitepaperCTA";
 import Community from "@/components/Community";
@@ -24,7 +23,6 @@ export default function Home() {
       <Value />
       <Roadmap />
       <Manifesto />
-      <LiveFeed />
       <WhitepaperCTA />
       <Community />
       <FAQ />

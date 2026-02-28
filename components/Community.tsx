@@ -6,7 +6,6 @@ import { useRef } from 'react';
 import { 
   MessageCircle, 
   Users, 
-  Radio,
   Sparkles,
   ArrowRight,
   Heart,
@@ -62,22 +61,13 @@ export default function Community() {
       members: t("community.growing"),
       cta: t("community.twitter.cta"),
     },
-    {
-      platform: t("community.stream.name"),
-      handle: t("community.stream.handle"),
-      description: t("community.stream.desc"),
-      icon: Radio,
-      url: "#live-feed",
-      color: "from-red-500 to-pink-500",
-      members: t("community.alwaysOn"),
-      cta: t("community.stream.cta"),
-    },
+
   ];
 
   const stats = [
     { label: t("community.stat.members"), value: t("community.growing"), icon: Users },
     { label: t("community.stat.countries"), value: t("community.stat.worldwide"), icon: Globe },
-    { label: t("community.stat.daily"), value: "24/7", icon: Sparkles },
+    { label: t("community.stat.daily"), value: t("community.growing"), icon: Sparkles },
     { label: t("community.stat.passion"), value: "∞", icon: Heart },
   ];
 
@@ -146,7 +136,7 @@ export default function Community() {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto"
         >
           {communityLinks.map((link, index) => (
             <motion.a

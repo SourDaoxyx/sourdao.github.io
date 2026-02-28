@@ -17,7 +17,6 @@ import {
   BarChart3,
   Info,
   Trophy,
-  Radio,
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import Image from "next/image";
@@ -318,12 +317,7 @@ export default function Navbar() {
           href: "/crust/leaderboard",
           description: "Top Bakers by Crust score",
         },
-        {
-          icon: Radio,
-          label: t("nav.liveFeed"),
-          href: "/#community",
-          description: "Live protocol activity",
-        },
+
         {
           icon: BarChart3,
           label: "Whitepaper",

@@ -19,6 +19,7 @@ const cinzel = Cinzel({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://sourdao.xyz"),
   title: "SOUR: The Genesis Starter | Organic Finance Revolution",
   description: "Modern finance went stale. We came to ferment. The decentralized sourdough revolution against dollar hegemony.",
   keywords: ["SOUR", "Genesis Starter", "Organic Finance", "Web3", "DeFi", "Cryptocurrency", "Pump.fun", "Sourdough", "SourDAO"],

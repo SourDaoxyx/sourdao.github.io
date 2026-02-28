@@ -11,7 +11,7 @@ export default function Hero() {
   return (
     <section id="hero" className="min-h-screen flex flex-col items-center justify-center px-4 py-20 relative overflow-hidden">
       {/* Animated Background Rings */}
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         {[...Array(5)].map((_, i) => (
           <motion.div
             key={i}
@@ -34,7 +34,7 @@ export default function Hero() {
 
       {/* Central Glow - Cyan + Gold dual glow */}
       <motion.div
-        className="absolute w-[600px] h-[600px] rounded-full"
+        className="absolute w-[600px] h-[600px] rounded-full pointer-events-none"
         style={{
           background: "radial-gradient(circle, rgba(0, 212, 255, 0.2) 0%, rgba(139, 92, 246, 0.1) 25%, rgba(212, 175, 55, 0.08) 50%, transparent 70%)",
         }}

@@ -42,7 +42,7 @@ const pillars = [
   {
     icon: Handshake,
     name: "The Handshake",
-    status: "🧪 Beta Live",
+    status: "✅ Live",
     statusColor: "text-cyan-400",
     description:
       "P2P agreement system between two wallets. Smart contract escrow, milestone-based payments, dispute resolution. 50% of platform fees fund buyback+LP.",

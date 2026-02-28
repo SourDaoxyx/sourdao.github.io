@@ -6,9 +6,11 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ExternalLink, Copy, Check } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { PublicKey } from "@solana/web3.js";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BadgeWall from "@/components/crust/BadgeWall";
+import { getSourHolderInfo, type SourHolderInfo } from "@/lib/solana";
 import {
   calculateCrustScore,
   type CrustScoreInput,
@@ -20,24 +22,14 @@ function shortenAddress(addr: string): string {
   return addr.slice(0, 6) + "..." + addr.slice(-4);
 }
 
-// Until real indexer, generate demo data for any address
-function getDemoInput(address: string): CrustScoreInput & { name: string } {
-  let seed = 0;
-  for (let i = 0; i < address.length; i++) seed += address.charCodeAt(i);
-
-  const balance = Math.round((seed % 5000) * 1000 + 100_000);
-  const days = (seed % 300) + 10;
-  const hs = (seed % 40) + 1;
-
-  return {
-    balance,
-    daysFermenting: days,
-    handshakesCompleted: hs,
-    disputesLost: seed % 20 === 0 ? 1 : 0,
-    handshakesCancelled: seed % 10 === 0 ? 1 : 0,
-    handshakesTotal: hs + (seed % 10 === 0 ? 1 : 0),
-    name: `Baker_${address.slice(0, 6)}`,
-  };
+// Load profile from localStorage (same as CrustApp)
+function loadProfile(wallet: string): { name: string; bio: string; avatar: string } {
+  if (typeof window === "undefined") return { name: "", bio: "", avatar: "/sour-logo.png" };
+  try {
+    const stored = localStorage.getItem(`sour-baker-${wallet}`);
+    if (stored) return JSON.parse(stored);
+  } catch { /* ignore */ }
+  return { name: "", bio: "", avatar: "/sour-logo.png" };
 }
 
 function formatBalance(balance: number): string {
@@ -87,15 +79,56 @@ function ProfileContent() {
   const searchParams = useSearchParams();
   const address = searchParams.get("address") || "";
   const [scoreBreakdown, setScoreBreakdown] = useState<CrustScoreBreakdown | null>(null);
-  const [demoData, setDemoData] = useState<ReturnType<typeof getDemoInput> | null>(null);
+  const [holderInfo, setHolderInfo] = useState<SourHolderInfo | null>(null);
+  const [profileName, setProfileName] = useState<string>("");
   const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!address) return;
-    const data = getDemoInput(address);
-    setDemoData(data);
-    const breakdown = calculateCrustScore(data);
-    setScoreBreakdown(breakdown);
+
+    // Load saved profile from localStorage
+    const savedProfile = loadProfile(address);
+    setProfileName(savedProfile.name || `Baker_${address.slice(0, 6)}`);
+
+    // Fetch real on-chain data
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const pubkey = new PublicKey(address);
+        const info = await getSourHolderInfo(pubkey);
+        setHolderInfo(info);
+
+        const input: CrustScoreInput = {
+          balance: info.balance,
+          daysFermenting: info.daysFermenting,
+          handshakesCompleted: 0,
+          disputesLost: 0,
+          handshakesCancelled: 0,
+          handshakesTotal: 0,
+        };
+        const breakdown = calculateCrustScore(input);
+        setScoreBreakdown(breakdown);
+      } catch (err) {
+        console.error("[SOUR] Failed to fetch profile data:", err);
+        // Fallback to zero data
+        const fallbackInfo: SourHolderInfo = { balance: 0, firstTxDate: null, daysFermenting: 0 };
+        setHolderInfo(fallbackInfo);
+        const breakdown = calculateCrustScore({
+          balance: 0,
+          daysFermenting: 0,
+          handshakesCompleted: 0,
+          disputesLost: 0,
+          handshakesCancelled: 0,
+          handshakesTotal: 0,
+        });
+        setScoreBreakdown(breakdown);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [address]);
 
   const handleCopy = async () => {
@@ -117,10 +150,11 @@ function ProfileContent() {
     );
   }
 
-  if (!scoreBreakdown || !demoData) {
+  if (!scoreBreakdown || !holderInfo || loading) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center">
+      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-3">
         <div className="w-8 h-8 border-2 border-gold/30 border-t-gold rounded-full animate-spin" />
+        <p className="text-cream/30 text-xs">Reading on-chain data...</p>
       </div>
     );
   }
@@ -159,7 +193,7 @@ function ProfileContent() {
 
           {/* Info */}
           <div className="text-center sm:text-left">
-            <h1 className="font-cinzel text-2xl font-bold text-cream">{demoData.name}</h1>
+            <h1 className="font-cinzel text-2xl font-bold text-cream">{profileName}</h1>
             <div className="flex items-center gap-2 mt-1">
               <span className="text-cream/30 text-xs font-mono">{shortenAddress(address)}</span>
               <button onClick={handleCopy} className="text-cream/20 hover:text-cream/40 transition-colors">
@@ -181,9 +215,6 @@ function ProfileContent() {
             <p className="text-cream/30 text-xs mt-2">
               Harvest Weight: <span className={`${tier.textColor} font-bold`}>{tier.harvestMultiplier}</span>
             </p>
-            <div className="inline-flex items-center gap-1.5 mt-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20">
-              <span className="text-amber-400/80 text-[10px] font-medium">🧪 Demo Preview — Real data post-launch</span>
-            </div>
           </div>
         </motion.div>
 
@@ -196,8 +227,8 @@ function ProfileContent() {
         >
           {[
             { label: "Reputation", value: scoreBreakdown.reputationScore, max: 400, desc: "Handshake history" },
-            { label: "Holding Power", value: scoreBreakdown.holdingScore, max: 300, desc: `${formatBalance(demoData.balance)} $SOUR` },
-            { label: "Diamond Hands", value: scoreBreakdown.diamondScore, max: 300, desc: `${demoData.daysFermenting} days` },
+            { label: "Holding Power", value: scoreBreakdown.holdingScore, max: 300, desc: `${formatBalance(holderInfo.balance)} $SOUR` },
+            { label: "Diamond Hands", value: scoreBreakdown.diamondScore, max: 300, desc: `${holderInfo.daysFermenting} days` },
           ].map((item) => (
             <div key={item.label} className="p-4 rounded-xl border border-cream/10 bg-black/30">
               <p className="text-cream/40 text-[10px] font-medium uppercase tracking-wider mb-1">{item.label}</p>
@@ -224,10 +255,10 @@ function ProfileContent() {
           className="grid grid-cols-4 gap-3 mb-8"
         >
           {[
-            { label: "Holding", value: formatBalance(demoData.balance) },
-            { label: "Days", value: String(demoData.daysFermenting) },
-            { label: "Bakes", value: String(demoData.handshakesCompleted) },
-            { label: "Disputes", value: String(demoData.disputesLost) },
+            { label: "Holding", value: formatBalance(holderInfo.balance) },
+            { label: "Days", value: String(holderInfo.daysFermenting) },
+            { label: "Bakes", value: "0" },
+            { label: "Disputes", value: "0" },
           ].map((s) => (
             <div key={s.label} className="p-3 rounded-xl border border-cream/8 bg-cream/[0.02] text-center">
               <p className="text-cream/35 text-[9px] font-medium uppercase tracking-wider">{s.label}</p>

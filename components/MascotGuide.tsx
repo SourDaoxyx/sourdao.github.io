@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useLanguage } from "@/lib/LanguageContext";
 
 // Section IDs in order of appearance
-const SECTIONS = ["hero", "problem", "manifesto", "protocol", "value", "roadmap", "live-feed", "whitepaper", "community", "faq"] as const;
+const SECTIONS = ["hero", "problem", "manifesto", "protocol", "value", "roadmap", "whitepaper", "community", "faq"] as const;
 type SectionId = typeof SECTIONS[number];
 
 // Click reaction pool

@@ -55,27 +55,42 @@ export default function CrustApp() {
     // Load profile from localStorage
     setProfile(loadProfile(publicKey.toBase58()));
 
+    let cancelled = false;
     const fetchData = async () => {
       setLoading(true);
       setError(null);
       try {
-        const info = await getSourHolderInfo(publicKey);
-        setHolderInfo(info);
+        // Race against a 15s timeout
+        const info = await Promise.race([
+          getSourHolderInfo(publicKey),
+          new Promise<never>((_, reject) =>
+            setTimeout(() => reject(new Error("timeout")), 15_000)
+          ),
+        ]);
+        if (!cancelled) setHolderInfo(info);
       } catch (err) {
-        console.error("Failed to fetch holder info:", err);
-        setError("Failed to read on-chain data. Please try again.");
-        // Fallback: show card with 0 balance for demo purposes
-        setHolderInfo({
-          balance: 0,
-          firstTxDate: null,
-          daysFermenting: 0,
-        });
+        console.error("[SOUR] Failed to fetch holder info:", err);
+        if (!cancelled) {
+          const isTimeout = err instanceof Error && err.message === "timeout";
+          setError(
+            isTimeout
+              ? "RPC request timed out. Public Solana RPC can be slow — please try again."
+              : "Failed to read on-chain data. Please try again."
+          );
+          // Fallback: show card with 0 balance
+          setHolderInfo({
+            balance: 0,
+            firstTxDate: null,
+            daysFermenting: 0,
+          });
+        }
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchData();
+    return () => { cancelled = true; };
   }, [publicKey]);
 
   const handleSaveProfile = useCallback(
@@ -256,9 +271,25 @@ export default function CrustApp() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center mb-4"
+            className="text-center mb-4 p-4 rounded-xl border border-orange-500/20 bg-orange-500/5"
           >
-            <p className="text-orange-400/80 text-xs">{error}</p>
+            <p className="text-orange-400/80 text-xs mb-2">{error}</p>
+            <button
+              onClick={() => {
+                setError(null);
+                setHolderInfo(null);
+                setLoading(true);
+                if (publicKey) {
+                  getSourHolderInfo(publicKey)
+                    .then((info) => setHolderInfo(info))
+                    .catch(() => setError("Still failing. Try again later."))
+                    .finally(() => setLoading(false));
+                }
+              }}
+              className="text-gold text-xs underline underline-offset-2 hover:text-amber-400 transition-colors"
+            >
+              Retry
+            </button>
           </motion.div>
         )}
 
