@@ -17,6 +17,15 @@ import {
   Plus,
   Loader2,
   ExternalLink,
+  Code,
+  Palette,
+  GraduationCap,
+  Globe,
+  ShoppingCart,
+  FileText,
+  DollarSign,
+  Lock,
+  Zap,
 } from "lucide-react";
 
 import {
@@ -418,15 +427,23 @@ export default function HandshakeApp() {
           <h1 className="font-cinzel text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cream via-gold to-cream mb-4">
             P2P Escrow Protocol
           </h1>
-          <p className="text-cream/60 max-w-2xl mx-auto mb-3">
-            Two people, one Recipe. No middleman, no borders, no waiting. Code
-            guards the deal, the Starter carries the payment.
+          <p className="text-cream/60 max-w-2xl mx-auto mb-3 text-lg">
+            Hire a freelancer. Sell a service. Close a deal — with no middleman.
+            $SOUR is locked in a smart contract until both sides agree the work is done.
           </p>
-          <p className="text-cream/40 max-w-2xl mx-auto text-sm">
-            Trustless P2P agreements on Solana. Every deal is a smart contract
-            — deliverables, deadlines, and payment locked on-chain. A 2% Pinch
-            fuels the ecosystem: 50% buyback+LP, 30% Keepers, 20% Commons.
-          </p>
+          <div className="flex flex-wrap justify-center gap-4 mt-4">
+            {[
+              { icon: Lock, text: "Funds locked on-chain" },
+              { icon: Zap, text: "Instant settlement" },
+              { icon: DollarSign, text: "Only 2% fee" },
+              { icon: Globe, text: "Borderless" },
+            ].map((item, i) => (
+              <div key={i} className="flex items-center gap-1.5 text-cream/50 text-sm">
+                <item.icon className="w-3.5 h-3.5 text-gold/70" />
+                <span>{item.text}</span>
+              </div>
+            ))}
+          </div>
         </motion.div>
 
         {/* ---- How It Works ---- */}
@@ -434,45 +451,121 @@ export default function HandshakeApp() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.05 }}
-          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-2"
         >
-          {[
-            {
-              step: "1",
-              title: "Create",
-              desc: "Define deliverables, deadline, and $SOUR amount. Funds lock on-chain.",
-            },
-            {
-              step: "2",
-              title: "Accept",
-              desc: "Worker reviews and accepts. Escrow is untouchable until conditions are met.",
-            },
-            {
-              step: "3",
-              title: "Deliver",
-              desc: "Worker submits. Creator reviews. Approved? Funds release instantly.",
-            },
-            {
-              step: "4",
-              title: "Resolve",
-              desc: "Dispute? An arbiter resolves. The 2% Pinch feeds buyback, Keepers & Commons.",
-            },
-          ].map((it) => (
-            <div
-              key={it.step}
-              className="rounded-xl border border-gold/15 bg-black/30 p-4"
-            >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gold to-amber flex items-center justify-center text-black font-bold text-sm mb-3">
-                {it.step}
+          <h2 className="font-cinzel text-xl font-bold text-cream mb-4 text-center">How It Works</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-2">
+            {[
+              {
+                step: "1",
+                title: "Create",
+                desc: "Define what needs to be done, set a deadline, and lock your $SOUR payment.",
+                example: "\"Design a logo — 500 $SOUR, 7 days\"",
+              },
+              {
+                step: "2",
+                title: "Accept",
+                desc: "The worker reviews the deal and accepts. Funds are locked — no one can touch them.",
+                example: "Worker sees the scope and clicks Accept",
+              },
+              {
+                step: "3",
+                title: "Deliver",
+                desc: "Worker marks the job delivered. Creator reviews the work and approves.",
+                example: "Logo delivered → Creator approves → funds released",
+              },
+              {
+                step: "4",
+                title: "Resolve",
+                desc: "Not satisfied? Open a dispute. An arbiter reviews. 2% Pinch feeds the ecosystem.",
+                example: "50% buyback · 30% Keepers · 20% Commons",
+              },
+            ].map((it) => (
+              <div
+                key={it.step}
+                className="rounded-xl border border-gold/15 bg-black/30 p-5 flex flex-col"
+              >
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gold to-amber flex items-center justify-center text-black font-bold text-sm mb-3">
+                  {it.step}
+                </div>
+                <h3 className="font-cinzel text-cream font-bold text-sm mb-1">
+                  {it.title}
+                </h3>
+                <p className="text-cream/50 text-xs leading-relaxed mb-2">
+                  {it.desc}
+                </p>
+                <p className="text-gold/40 text-[11px] italic mt-auto">
+                  {it.example}
+                </p>
               </div>
-              <h3 className="font-cinzel text-cream font-bold text-sm mb-1">
-                {it.title}
-              </h3>
-              <p className="text-cream/45 text-xs leading-relaxed">
-                {it.desc}
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
+        </motion.div>
+
+        {/* ---- Use Cases ---- */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          <h2 className="font-cinzel text-xl font-bold text-cream mb-4 text-center">Who Is This For?</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-2">
+            {[
+              {
+                icon: Code,
+                title: "Freelance Development",
+                desc: "Smart contracts, bots, dApps — pay a developer with escrow protection. Both sides are covered.",
+                example: "\"Build a Telegram bot — 2,000 $SOUR\"",
+              },
+              {
+                icon: Palette,
+                title: "Design & Creative Work",
+                desc: "Logos, branding, NFT art, illustrations. Lock payment, get the deliverable, release funds.",
+                example: "\"Brand identity package — 1,500 $SOUR\"",
+              },
+              {
+                icon: FileText,
+                title: "Content & Marketing",
+                desc: "Articles, threads, video scripts. Define the scope, lock the payment, approve on delivery.",
+                example: "\"10 Twitter threads — 800 $SOUR\"",
+              },
+              {
+                icon: GraduationCap,
+                title: "Consulting & Tutoring",
+                desc: "1-on-1 Sessions, code reviews, strategy calls. Pay per session with on-chain guarantees.",
+                example: "\"Solana smart contract audit — 3,000 $SOUR\"",
+              },
+              {
+                icon: ShoppingCart,
+                title: "OTC & P2P Trades",
+                desc: "Token swaps, NFT deals, bulk purchases. No trust needed — the smart contract is the escrow.",
+                example: "\"OTC: 50K $SOUR for 2 SOL\"",
+              },
+              {
+                icon: Globe,
+                title: "Cross-Border Services",
+                desc: "Work with anyone, anywhere. No banks, no Swift delays. Settle in seconds on Solana.",
+                example: "\"Translation: EN→TR — 600 $SOUR\"",
+              },
+            ].map((uc, i) => (
+              <div
+                key={i}
+                className="rounded-xl border border-gold/15 bg-black/30 p-5 hover:border-gold/30 transition-colors group"
+              >
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gold/20 to-amber-500/10 flex items-center justify-center mb-3 group-hover:from-gold/30 group-hover:to-amber-500/20 transition-colors">
+                  <uc.icon className="w-5 h-5 text-gold" />
+                </div>
+                <h3 className="font-cinzel text-cream font-bold text-sm mb-1.5">
+                  {uc.title}
+                </h3>
+                <p className="text-cream/50 text-xs leading-relaxed mb-2">
+                  {uc.desc}
+                </p>
+                <p className="text-gold/40 text-[11px] italic">
+                  {uc.example}
+                </p>
+              </div>
+            ))}
+          </div>
         </motion.div>
 
         {/* ---- Main Grid ---- */}
