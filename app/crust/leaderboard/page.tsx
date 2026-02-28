@@ -1,16 +1,18 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Trophy, TrendingUp, Clock, Handshake } from "lucide-react";
+import { ArrowLeft, Trophy, TrendingUp, Clock, Handshake, RefreshCw } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
-  generateDemoLeaderboard,
+  calculateCrustScore,
+  getCrustTier,
   type LeaderboardEntry,
+  type CrustScoreInput,
 } from "@/lib/crust-score";
+import { getTopHolders, getDaysFermenting } from "@/lib/solana";
 
 type SortKey = "score" | "holding" | "days" | "handshakes";
 
@@ -45,7 +47,7 @@ function LeaderboardRow({ entry, rank, sortKey }: { entry: LeaderboardEntry; ran
   const sortValue = (() => {
     switch (sortKey) {
       case "holding": return formatBalance(entry.balance);
-      case "days": return `${entry.daysFermenting}d`;
+      case "days": return entry.daysFermenting > 0 ? `${entry.daysFermenting}d` : "—";
       case "handshakes": return String(entry.handshakesCompleted);
       default: return String(entry.crustScore);
     }
@@ -74,15 +76,15 @@ function LeaderboardRow({ entry, rank, sortKey }: { entry: LeaderboardEntry; ran
           )}
         </div>
 
-        {/* Avatar */}
-        <div className={`w-9 h-9 rounded-full overflow-hidden border ${tier.borderColor} shrink-0`}>
-          <Image src={entry.avatar} alt={entry.displayName} width={36} height={36} className="w-full h-full object-cover" />
+        {/* Avatar — tier emoji */}
+        <div className={`w-9 h-9 rounded-full overflow-hidden border ${tier.borderColor} shrink-0 flex items-center justify-center bg-cream/5`}>
+          <span className="text-lg">{tier.emoji}</span>
         </div>
 
-        {/* Name & Address */}
+        {/* Address */}
         <div className="min-w-0 flex-1">
-          <p className="text-cream text-sm font-medium truncate">{entry.displayName}</p>
-          <p className="text-cream/25 text-[10px] font-mono">{shortenAddress(entry.address)}</p>
+          <p className="text-cream text-sm font-medium font-mono">{shortenAddress(entry.address)}</p>
+          <p className="text-cream/25 text-[10px]">{formatBalance(entry.balance)} $SOUR</p>
         </div>
 
         {/* Tier badge */}
@@ -113,15 +115,83 @@ function LeaderboardClient() {
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [activeTab, setActiveTab] = useState<SortKey>("score");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [daysLoaded, setDaysLoaded] = useState(0);
+  const totalEntries = entries.length;
+
+  /** Build a LeaderboardEntry from holder data */
+  const buildEntry = useCallback(
+    (address: string, balance: number, daysFermenting: number): LeaderboardEntry => {
+      const input: CrustScoreInput = {
+        balance,
+        daysFermenting,
+        handshakesCompleted: 0, // Handshake protocol not live yet
+        disputesLost: 0,
+        handshakesCancelled: 0,
+        handshakesTotal: 0,
+      };
+      const score = calculateCrustScore(input);
+      return {
+        address,
+        displayName: address.slice(0, 4) + "..." + address.slice(-4),
+        avatar: "",
+        crustScore: score.total,
+        tier: score.tier,
+        daysFermenting,
+        handshakesCompleted: 0,
+        balance,
+        badges: score.badges,
+      };
+    },
+    []
+  );
+
+  /** Fetch top holders and build initial leaderboard */
+  const fetchLeaderboard = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    setDaysLoaded(0);
+
+    try {
+      const holders = await getTopHolders(20);
+
+      if (holders.length === 0) {
+        setEntries([]);
+        setLoading(false);
+        return;
+      }
+
+      // Initial render: balance-only scores (fast)
+      const initial = holders.map((h) => buildEntry(h.address, h.balance, 0));
+      setEntries(initial);
+      setLoading(false);
+
+      // Progressive enrichment: fetch daysFermenting for each holder
+      for (let i = 0; i < holders.length; i++) {
+        try {
+          const days = await getDaysFermenting(holders[i].address);
+          if (days > 0) {
+            setEntries((prev) =>
+              prev.map((e) =>
+                e.address === holders[i].address ? buildEntry(e.address, e.balance, days) : e
+              )
+            );
+          }
+        } catch {
+          // Skip this holder's daysFermenting on error
+        }
+        setDaysLoaded(i + 1);
+      }
+    } catch (err) {
+      console.error("[SOUR] Leaderboard fetch error:", err);
+      setError("Failed to load leaderboard data. Please try again.");
+      setLoading(false);
+    }
+  }, [buildEntry]);
 
   useEffect(() => {
-    // Simulate loading
-    const timer = setTimeout(() => {
-      setEntries(generateDemoLeaderboard());
-      setLoading(false);
-    }, 400);
-    return () => clearTimeout(timer);
-  }, []);
+    fetchLeaderboard();
+  }, [fetchLeaderboard]);
 
   const sortedEntries = useMemo(() => {
     const sorted = [...entries];
@@ -226,14 +296,44 @@ function LeaderboardClient() {
         {loading ? (
           <div className="flex flex-col items-center gap-3 py-16">
             <div className="w-8 h-8 border-2 border-gold/30 border-t-gold rounded-full animate-spin" />
-            <p className="text-cream/40 text-sm">Loading rankings...</p>
+            <p className="text-cream/40 text-sm">Fetching on-chain data...</p>
+          </div>
+        ) : error ? (
+          <div className="flex flex-col items-center gap-4 py-16">
+            <p className="text-red-400/70 text-sm">{error}</p>
+            <button
+              onClick={fetchLeaderboard}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gold/10 border border-gold/20 text-gold text-sm hover:bg-gold/15 transition-colors"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              Retry
+            </button>
+          </div>
+        ) : entries.length === 0 ? (
+          <div className="flex flex-col items-center gap-3 py-16">
+            <p className="text-cream/30 text-sm">No holders found yet.</p>
           </div>
         ) : (
-          <div className="space-y-2">
-            {sortedEntries.map((entry, i) => (
-              <LeaderboardRow key={entry.address} entry={entry} rank={i + 1} sortKey={activeTab} />
-            ))}
-          </div>
+          <>
+            {/* Progressive loading indicator */}
+            {daysLoaded < totalEntries && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex items-center justify-center gap-2 mb-4 px-3 py-2 rounded-lg bg-gold/5 border border-gold/10"
+              >
+                <div className="w-3 h-3 border border-gold/30 border-t-gold rounded-full animate-spin" />
+                <p className="text-cream/30 text-xs">
+                  Loading holder history... {daysLoaded}/{totalEntries}
+                </p>
+              </motion.div>
+            )}
+            <div className="space-y-2">
+              {sortedEntries.map((entry, i) => (
+                <LeaderboardRow key={entry.address} entry={entry} rank={i + 1} sortKey={activeTab} />
+              ))}
+            </div>
+          </>
         )}
 
         {/* Footer note */}
@@ -244,7 +344,7 @@ function LeaderboardClient() {
           className="mt-10 text-center"
         >
           <p className="text-cream/20 text-xs">
-            Rankings update in real-time once the Handshake protocol and on-chain indexer are live.
+            Live on-chain data. Reputation scores will update once the Handshake protocol launches.
           </p>
         </motion.div>
       </div>

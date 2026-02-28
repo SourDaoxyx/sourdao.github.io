@@ -1,4 +1,4 @@
-import { Connection, PublicKey } from "@solana/web3.js";
+import { Connection, PublicKey, ParsedAccountData } from "@solana/web3.js";
 import { getAccount, getAssociatedTokenAddress, getMint } from "@solana/spl-token";
 import { SOLANA_RPC_ENDPOINT, SOUR_TOKEN_MINT, IS_TOKEN_LAUNCHED } from "./constants";
 
@@ -125,4 +125,71 @@ export async function getSourHolderInfo(walletAddress: PublicKey): Promise<SourH
     firstTxDate,
     daysFermenting,
   };
+}
+
+// ---------------------------------------------------------------------------
+// Top Holders (Leaderboard)
+// ---------------------------------------------------------------------------
+
+export interface TopHolder {
+  /** Wallet address (owner) */
+  address: string;
+  /** SOUR balance (UI amount, already divided by decimals) */
+  balance: number;
+}
+
+/**
+ * Get the top SOUR holders by balance using getTokenLargestAccounts.
+ * Returns up to `limit` holders (max 20 from RPC).
+ */
+export async function getTopHolders(limit: number = 20): Promise<TopHolder[]> {
+  if (!IS_TOKEN_LAUNCHED) return [];
+
+  try {
+    console.log("[SOUR] Fetching top holders...");
+    const largest = await connection.getTokenLargestAccounts(SOUR_TOKEN_MINT);
+
+    // Resolve owner wallet addresses from token accounts
+    const accountKeys = largest.value.slice(0, limit).map((a) => a.address);
+    const accountInfos = await Promise.all(
+      accountKeys.map((key) => connection.getParsedAccountInfo(key))
+    );
+
+    const holders: TopHolder[] = [];
+    for (let i = 0; i < accountInfos.length; i++) {
+      const info = accountInfos[i];
+      const tokenAccount = largest.value[i];
+
+      if (info.value && "parsed" in info.value.data) {
+        const parsed = info.value.data as ParsedAccountData;
+        const owner: string | undefined = parsed.parsed?.info?.owner;
+        const uiAmount = tokenAccount.uiAmount ?? 0;
+
+        if (owner && uiAmount > 0) {
+          holders.push({ address: owner, balance: uiAmount });
+        }
+      }
+    }
+
+    console.log(`[SOUR] Found ${holders.length} holders`);
+    return holders.sort((a, b) => b.balance - a.balance);
+  } catch (err) {
+    console.error("[SOUR] getTopHolders error:", err);
+    return [];
+  }
+}
+
+/**
+ * Get daysFermenting for a wallet address string.
+ * Convenience wrapper around getFirstSourTx for leaderboard use.
+ */
+export async function getDaysFermenting(walletAddress: string): Promise<number> {
+  try {
+    const pubkey = new PublicKey(walletAddress);
+    const firstTx = await getFirstSourTx(pubkey);
+    if (!firstTx) return 0;
+    return Math.floor((Date.now() - firstTx.getTime()) / (1000 * 60 * 60 * 24));
+  } catch {
+    return 0;
+  }
 }
