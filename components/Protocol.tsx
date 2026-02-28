@@ -52,7 +52,7 @@ export default function Protocol() {
       color: "from-emerald-500 to-teal-500",
       bg: "bg-emerald-500/5",
       border: "border-emerald-500/20",
-      badge: "BETA",
+      badge: "DEVNET",
       badgeColor: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30",
       href: "/handshake",
       features: [

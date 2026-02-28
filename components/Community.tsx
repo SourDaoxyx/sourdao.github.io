@@ -9,7 +9,8 @@ import {
   Sparkles,
   ArrowRight,
   Heart,
-  Globe
+  Globe,
+  Github,
 } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
 
@@ -61,13 +62,22 @@ export default function Community() {
       members: t("community.growing"),
       cta: t("community.twitter.cta"),
     },
-
+    {
+      platform: "GitHub",
+      handle: "SourDaoxyx",
+      description: "Open source — all smart contracts, website, and SDK. Verify everything on-chain.",
+      icon: Github,
+      url: "https://github.com/SourDaoxyx",
+      color: "from-gray-400 to-gray-700",
+      members: "Open Source",
+      cta: "View Code",
+    },
   ];
 
   const stats = [
     { label: t("community.stat.members"), value: t("community.growing"), icon: Users },
-    { label: t("community.stat.countries"), value: t("community.stat.worldwide"), icon: Globe },
-    { label: t("community.stat.daily"), value: t("community.growing"), icon: Sparkles },
+    { label: "Open Source", value: "100%", icon: Globe },
+    { label: "On-chain Products", value: "2", icon: Sparkles },
     { label: t("community.stat.passion"), value: "∞", icon: Heart },
   ];
 
@@ -136,7 +146,7 @@ export default function Community() {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
         >
           {communityLinks.map((link, index) => (
             <motion.a
@@ -152,7 +162,7 @@ export default function Community() {
               <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${link.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
                 {link.icon === "twitter" ? (
                   <TwitterIcon />
-                ) : (
+                ) : typeof link.icon === "string" ? null : (
                   <link.icon className="w-8 h-8 text-white" />
                 )}
               </div>

@@ -1,14 +1,15 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Wheat, Sparkles, Infinity, Fingerprint, Sprout } from "lucide-react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
+import { Wheat, Sparkles, Infinity, Fingerprint, Sprout, ChevronDown } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 
 export default function Manifesto() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const { t } = useLanguage();
+  const [expanded, setExpanded] = useState(false);
 
   const doctrines = [
     {
@@ -84,7 +85,7 @@ export default function Manifesto() {
 
         {/* Doctrines Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {doctrines.map((d, i) => (
+          {doctrines.slice(0, 3).map((d, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
@@ -108,19 +109,74 @@ export default function Manifesto() {
             </motion.div>
           ))}
 
-          {/* Sixth card — The Oath */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.6, duration: 0.6 }}
-            className="p-6 rounded-xl border border-gold/20 bg-gradient-to-br from-gold/5 to-amber-500/5 flex flex-col justify-center text-center"
-          >
-            <p className="font-cinzel text-lg text-gold/80 italic mb-2">
-              &ldquo;{t("manifesto.oath.quote")}&rdquo;
-            </p>
-            <p className="text-cream/30 text-xs">{t("manifesto.oath.label")}</p>
-          </motion.div>
+          <AnimatePresence>
+            {expanded && (
+              <>
+                {doctrines.slice(3).map((d, i) => (
+                  <motion.div
+                    key={`expanded-${i}`}
+                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    transition={{ delay: i * 0.1, duration: 0.5 }}
+                    className="p-6 rounded-xl glass-gold border border-gold/15 hover:border-gold/30 transition-all duration-500"
+                  >
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${d.color} flex items-center justify-center`}>
+                        <d.icon className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <span className={`font-cinzel text-xs font-bold bg-gradient-to-r ${d.color} bg-clip-text text-transparent`}>
+                          {t("manifesto.doctrineLabel")} {d.number}
+                        </span>
+                        <h3 className="font-cinzel text-base font-bold text-cream leading-tight">{d.title}</h3>
+                      </div>
+                    </div>
+                    <p className="text-cream/50 text-sm leading-relaxed">{d.text}</p>
+                    <p className="text-gold/30 text-xs mt-2 italic">{d.subtitle}</p>
+                  </motion.div>
+                ))}
+
+                {/* The Oath — always last */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                  className="p-6 rounded-xl border border-gold/20 bg-gradient-to-br from-gold/5 to-amber-500/5 flex flex-col justify-center text-center"
+                >
+                  <p className="font-cinzel text-lg text-gold/80 italic mb-2">
+                    &ldquo;{t("manifesto.oath.quote")}&rdquo;
+                  </p>
+                  <p className="text-cream/30 text-xs">{t("manifesto.oath.label")}</p>
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
         </div>
+
+        {/* Expand / Collapse toggle */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className="flex justify-center mt-6"
+        >
+          <motion.button
+            onClick={() => setExpanded(!expanded)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            className="flex items-center gap-2 px-6 py-3 rounded-full border border-gold/30 text-gold/80 hover:text-gold hover:bg-gold/5 transition-all text-sm font-cinzel font-medium"
+          >
+            {expanded ? t("manifesto.showLess") : t("manifesto.showMore")}
+            <motion.span
+              animate={{ rotate: expanded ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ChevronDown className="w-4 h-4" />
+            </motion.span>
+          </motion.button>
+        </motion.div>
       </div>
     </section>
   );

@@ -84,7 +84,7 @@ export default function Footer() {
       title: "Build",
       links: [
         { label: "Crust", href: "/crust", icon: Fingerprint, badge: "Live" },
-        { label: "Handshake", href: "/handshake", icon: Handshake, badge: "Beta" },
+        { label: "Handshake", href: "/handshake", icon: Handshake, badge: "Devnet" },
         { label: "Harvest", href: "/#value", icon: Wheat, badge: "Soon" },
         { label: "Mill", href: "/#protocol", icon: Factory, badge: "Soon" },
       ],

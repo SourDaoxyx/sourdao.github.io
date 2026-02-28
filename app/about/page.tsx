@@ -42,10 +42,10 @@ const pillars = [
   {
     icon: Handshake,
     name: "The Handshake",
-    status: "✅ Live",
+    status: "✅ Devnet Live",
     statusColor: "text-cyan-400",
     description:
-      "P2P agreement system between two wallets. Smart contract escrow, milestone-based payments, dispute resolution. 50% of platform fees fund buyback+LP.",
+      "P2P agreement system between two wallets. Smart contract escrow deployed on Solana devnet. Milestone-based payments, dispute resolution. 50% of platform fees fund buyback+LP.",
     features: [
       "Direct wallet-to-wallet agreements",
       "Escrow-based secure payments",

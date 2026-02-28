@@ -8,6 +8,7 @@ import Roadmap from "@/components/Roadmap";
 import WhitepaperCTA from "@/components/WhitepaperCTA";
 import Community from "@/components/Community";
 import FAQ from "@/components/FAQ";
+import CTABanner from "@/components/CTABanner";
 import Footer from "@/components/Footer";
 import ParticleField from "@/components/ParticleField";
 import Navbar from "@/components/Navbar";
@@ -28,6 +29,7 @@ export default function Home() {
       <WhitepaperCTA />
       <Community />
       <FAQ />
+      <CTABanner />
       <Footer />
       <MascotGuide />
     </main>

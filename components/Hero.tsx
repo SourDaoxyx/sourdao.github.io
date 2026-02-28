@@ -1,12 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles, Flame, ArrowDown, Shield, Coins, Zap, Send, Twitter } from "lucide-react";
+import { Sparkles, Flame, ArrowDown, Shield, Coins, Zap, Send, Twitter, Copy, Check } from "lucide-react";
 import Image from "next/image";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useState } from "react";
 
 export default function Hero() {
   const { t } = useLanguage();
+  const [copied, setCopied] = useState(false);
+  const CA = "2spRmiYSWyqFB5XhqnbSkAKH6b2sKpchjVgzYajmpump";
+
+  const handleCopy = async () => {
+    try { await navigator.clipboard.writeText(CA); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch {}
+  };
 
   return (
     <section id="hero" className="min-h-screen flex flex-col items-center justify-center px-4 py-20 relative overflow-hidden">
@@ -207,6 +214,39 @@ export default function Hero() {
             {t("hero.cta.protocol")}
           </span>
         </motion.a>
+      </motion.div>
+
+      {/* Contract Address — Quick Copy */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.1 }}
+        className="mt-6 w-full max-w-md"
+      >
+        <p className="text-cream/30 text-xs text-center mb-1.5 tracking-wider uppercase">Contract Address</p>
+        <button
+          onClick={handleCopy}
+          className="w-full flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl bg-gold/5 border border-gold/15 hover:border-gold/40 hover:bg-gold/10 transition-all group cursor-pointer"
+        >
+          <code className="text-gold/80 font-mono text-xs">
+            <span className="hidden sm:inline">{CA}</span>
+            <span className="sm:hidden">{CA.slice(0, 6)}...{CA.slice(-6)}</span>
+          </code>
+          {copied ? (
+            <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+          ) : (
+            <Copy className="w-4 h-4 text-gold/50 group-hover:text-gold flex-shrink-0 transition-colors" />
+          )}
+        </button>
+        {copied && (
+          <motion.p
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-emerald-400 text-xs text-center mt-1"
+          >
+            Copied!
+          </motion.p>
+        )}
       </motion.div>
 
       {/* Social Links Row */}

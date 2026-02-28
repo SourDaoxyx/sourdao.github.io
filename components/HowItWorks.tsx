@@ -2,49 +2,49 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Coins, Fingerprint, Handshake, TrendingUp, ArrowRight } from "lucide-react";
+import { Wallet, Coins, Fingerprint, Handshake, ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 const steps = [
   {
     step: "01",
-    icon: Coins,
-    title: "Buy $SOUR",
-    desc: "Get $SOUR on Pump.fun. Fair launch — no presale, no insiders.",
-    color: "from-green-400 to-emerald-500",
-    border: "border-green-500/20",
-    bg: "bg-green-500/5",
-    cta: { label: "Buy Now", href: "https://pump.fun/coin/2spRmiYSWyqFB5XhqnbSkAKH6b2sKpchjVgzYajmpump", external: true },
-  },
-  {
-    step: "02",
-    icon: Fingerprint,
-    title: "Build Your Crust",
-    desc: "Connect wallet → see your Baker Card. Hold longer, score higher.",
+    icon: Wallet,
+    title: "Connect Wallet",
+    desc: "Join the bakery in seconds. Phantom or Solflare — your keys, your identity.",
+    example: "No email, no passwords. Just your wallet.",
     color: "from-cyan-400 to-blue-500",
     border: "border-cyan-500/20",
     bg: "bg-cyan-500/5",
-    cta: { label: "My Crust", href: "/crust", external: false },
+  },
+  {
+    step: "02",
+    icon: Coins,
+    title: "Hold $SOUR",
+    desc: "Your stake. Your voice. Your score. The longer you hold, the stronger your reputation.",
+    example: "Fair launch on Pump.fun — 0% tax, no insiders.",
+    color: "from-green-400 to-emerald-500",
+    border: "border-green-500/20",
+    bg: "bg-green-500/5",
   },
   {
     step: "03",
-    icon: Handshake,
-    title: "Make Handshakes",
-    desc: "P2P escrow agreements. Complete deals, earn reputation.",
+    icon: Fingerprint,
+    title: "Build Reputation",
+    desc: "Every action is recorded on-chain. Your Baker Card evolves as you grow in the ecosystem.",
+    example: "4 tiers: Fresh Dough → Eternal Starter",
     color: "from-purple-400 to-violet-500",
     border: "border-purple-500/20",
     bg: "bg-purple-500/5",
-    cta: { label: "Coming Soon", href: "/handshake", external: false },
   },
   {
     step: "04",
-    icon: TrendingUp,
-    title: "Earn & Govern",
-    desc: "Higher Crust = higher harvest share. Your reputation is your yield.",
+    icon: Handshake,
+    title: "Trade P2P",
+    desc: "Trustless escrow. Zero middlemen. Complete deals, earn reputation, feed the flywheel.",
+    example: "2% Pinch → 50% burn, 30% keepers, 20% commons",
     color: "from-gold to-amber-500",
     border: "border-gold/20",
     bg: "bg-gold/5",
-    cta: null,
   },
 ];
 
@@ -98,30 +98,10 @@ export default function HowItWorks() {
                 <h3 className="font-cinzel text-lg font-bold text-cream mb-2">{item.title}</h3>
 
                 {/* Description */}
-                <p className="text-cream/50 text-sm font-inter leading-relaxed mb-4">{item.desc}</p>
+                <p className="text-cream/50 text-sm font-inter leading-relaxed mb-2">{item.desc}</p>
 
-                {/* CTA */}
-                {item.cta && (
-                  item.cta.external ? (
-                    <a
-                      href={item.cta.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-gold text-xs font-medium hover:text-amber-400 transition-colors"
-                    >
-                      {item.cta.label}
-                      <ArrowRight className="w-3 h-3" />
-                    </a>
-                  ) : (
-                    <Link
-                      href={item.cta.href}
-                      className="inline-flex items-center gap-1.5 text-gold text-xs font-medium hover:text-amber-400 transition-colors"
-                    >
-                      {item.cta.label}
-                      <ArrowRight className="w-3 h-3" />
-                    </Link>
-                  )
-                )}
+                {/* Real-world example */}
+                <p className="text-gold/40 text-xs font-inter italic">{item.example}</p>
 
                 {/* Connector line (not on last) */}
                 {i < steps.length - 1 && (
@@ -131,6 +111,23 @@ export default function HowItWorks() {
             );
           })}
         </div>
+
+        {/* Single CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.7 }}
+          className="mt-10 text-center"
+        >
+          <Link
+            href="/crust"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-gold to-amber text-black text-sm font-bold hover:scale-105 transition-transform"
+          >
+            <Sparkles className="w-4 h-4" />
+            Get Started
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

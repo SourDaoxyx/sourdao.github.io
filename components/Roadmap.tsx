@@ -46,10 +46,10 @@ export default function Roadmap() {
       description: t("roadmap.phase1.desc"),
       milestones: [
         { icon: Rocket, text: t("roadmap.m1.1"), status: "completed" },
-        { icon: Users, text: t("roadmap.m1.2"), status: "in-progress" },
+        { icon: Users, text: t("roadmap.m1.2"), status: "completed" },
         { icon: Sparkles, text: t("roadmap.m1.3"), status: "in-progress" },
-        { icon: ShieldCheck, text: t("roadmap.m1.4"), status: "pending" },
-        { icon: Handshake, text: t("roadmap.m1.5"), status: "pending" },
+        { icon: ShieldCheck, text: t("roadmap.m1.4"), status: "in-progress" },
+        { icon: Handshake, text: t("roadmap.m1.5"), status: "completed" },
       ],
       highlight: t("roadmap.highlight1"),
     },
@@ -63,9 +63,9 @@ export default function Roadmap() {
       glowColor: "shadow-blue-500/50",
       description: t("roadmap.phaseNext.desc"),
       milestones: [
-        { icon: Store, text: t("roadmap.m2.1"), status: "pending" },
-        { icon: Fingerprint, text: t("roadmap.m2.2"), status: "pending" },
-        { icon: Bot, text: t("roadmap.m2.3"), status: "pending" },
+        { icon: Store, text: t("roadmap.m2.1"), status: "completed" },
+        { icon: Fingerprint, text: t("roadmap.m2.2"), status: "completed" },
+        { icon: Bot, text: t("roadmap.m2.3"), status: "in-progress" },
         { icon: Building2, text: t("roadmap.m2.4"), status: "pending" },
         { icon: HeartHandshake, text: t("roadmap.m2.5"), status: "pending" },
         { icon: Flame, text: t("roadmap.m2.6"), status: "pending" },
@@ -218,11 +218,14 @@ export default function Roadmap() {
               <div className={`ml-24 md:ml-0 md:w-[calc(50%-3rem)] ${index % 2 === 0 ? "md:pr-14" : "md:pl-14"}`}>
                 <div className="p-6 rounded-2xl glass-gold border border-gold/15 hover:border-gold/30 transition-all duration-500">
                   {/* Phase Header */}
-                  <div className="flex items-center gap-3 mb-1">
+                  <div className="flex items-center gap-3 mb-1 flex-wrap">
                     <span className={`text-sm font-bold tracking-wider bg-gradient-to-r ${phase.color} bg-clip-text text-transparent`}>
                       {phase.phase}
                     </span>
                     {getPhaseStatus(phase.status)}
+                    {phase.subtitle && (
+                      <span className="text-cream/25 text-xs font-mono">{phase.subtitle}</span>
+                    )}
                   </div>
                   <h3 className="font-cinzel text-xl font-bold text-cream mb-3">{phase.title}</h3>
 
