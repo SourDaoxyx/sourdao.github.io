@@ -12,6 +12,9 @@ export const SOLANA_RPC_ENDPOINT =
   process.env.NEXT_PUBLIC_SOLANA_RPC ||
   "https://mainnet.helius-rpc.com/?api-key=a30ba17f-17c2-4c98-aabc-57310c15b731";
 
+// Devnet RPC endpoint (for Handshake program)
+export const DEVNET_RPC_ENDPOINT = "https://api.devnet.solana.com";
+
 // Keeper Tier definitions (in days)
 export const KEEPER_TIERS = [
   {
