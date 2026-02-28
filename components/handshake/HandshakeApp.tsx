@@ -47,7 +47,7 @@ import {
 // Helpers
 // ---------------------------------------------------------------------------
 
-function parseSourToUnits(value: string, decimals = 9): bigint {
+function parseSourToUnits(value: string, decimals = 6): bigint {
   if (!value.trim()) return BigInt(0);
   const [wholePart, fracPart = ""] = value.split(".");
   const whole = BigInt(wholePart || "0");

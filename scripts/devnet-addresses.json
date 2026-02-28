@@ -1,0 +1,13 @@
+{
+  "programId": "HUAq4NFymfn4hNvs7RMNCC5uFEoRctkWDWCA9G7prxeF",
+  "configPda": "8J4LASiHtF4ke8Jq6hMHeztW7h93vNcLPFj2E39XJptu",
+  "sourMintDevnet": "FfYBzvoPfG2TVUPD13SwbWedAgwBZk6UAqVkKriHhx1v",
+  "keepersPool": "6n1aoakN1kpBiztzwfQV4r2xU8tyiyW4mzfDKFTczLhw",
+  "commonsTreasury": "7mdpKvbjHf8m7XxqNrcM4A2pU8qMewQbyJpRKqxA1SHT",
+  "buybackTreasury": "8DbkZzEnu1BTVNwNPtvjSKiTb9parcuWDMs2HJgERGFW",
+  "authority": "FYEv3rTMkajxvYb1qMz2es39ujVjGQxKe7LH5KQwG2Bo",
+  "pinchBps": 200,
+  "treasuryShareBps": 5000,
+  "keepersShareBps": 3000,
+  "commonsShareBps": 2000
+}

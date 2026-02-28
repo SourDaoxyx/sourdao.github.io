@@ -15,6 +15,9 @@ export const SOLANA_RPC_ENDPOINT =
 // Devnet RPC endpoint (for Handshake program)
 export const DEVNET_RPC_ENDPOINT = "https://api.devnet.solana.com";
 
+// Devnet SOUR test mint
+export const DEVNET_SOUR_MINT = new PublicKey("FfYBzvoPfG2TVUPD13SwbWedAgwBZk6UAqVkKriHhx1v");
+
 // Keeper Tier definitions (in days)
 export const KEEPER_TIERS = [
   {

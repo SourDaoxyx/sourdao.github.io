@@ -178,7 +178,7 @@ export function getStatusColor(status: HandshakeStatus): string {
   return map[status] ?? "text-cream/50";
 }
 
-export function formatSourAmount(amount: bigint, decimals = 9): string {
+export function formatSourAmount(amount: bigint, decimals = 6): string {
   const whole = amount / BigInt(10 ** decimals);
   const frac = amount % BigInt(10 ** decimals);
   const fracStr = frac.toString().padStart(decimals, "0").replace(/0+$/, "");
