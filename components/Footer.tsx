@@ -47,6 +47,13 @@ export default function Footer() {
       color: "from-green-400 to-emerald-500",
     },
     {
+      icon: Coins,
+      name: "Dexscreener",
+      url: "https://dexscreener.com/solana/2spRmiYSWyqFB5XhqnbSkAKH6b2sKpchjVgzYajmpump",
+      handle: "Chart",
+      color: "from-emerald-400 to-green-600",
+    },
+    {
       icon: Github,
       name: "GitHub",
       url: "https://github.com/SourDaoxyx",
@@ -154,7 +161,7 @@ export default function Footer() {
             <div className="flex items-center gap-3 mb-6">
               <div className="w-9 h-9 rounded-full overflow-hidden relative">
                 <Image
-                  src="/sour-logo.svg"
+                  src="/sour-logo.png"
                   alt="SOUR"
                   fill
                   className="object-contain"
@@ -264,7 +271,7 @@ export default function Footer() {
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full overflow-hidden relative">
                 <Image
-                  src="/sour-logo.svg"
+                  src="/sour-logo.png"
                   alt="SOUR"
                   fill
                   className="object-contain"

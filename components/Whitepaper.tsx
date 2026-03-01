@@ -336,20 +336,18 @@ export default function Whitepaper() {
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-gold to-amber text-black font-bold text-base shadow-lg shadow-gold/20"
             >
-              <Download className="w-5 h-5" />
+              <ExternalLink className="w-5 h-5" />
               Read Full Whitepaper
             </motion.a>
-            <motion.a
-              href="https://github.com/SourDaoxyx"
-              target="_blank"
-              rel="noopener noreferrer"
+            <motion.button
+              onClick={() => window.print()}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center gap-3 px-8 py-4 rounded-xl border border-gold/30 text-gold font-bold text-base hover:bg-gold/5 transition-colors"
             >
-              <ExternalLink className="w-5 h-5" />
-              GitHub
-            </motion.a>
+              <Download className="w-5 h-5" />
+              Save as PDF
+            </motion.button>
           </div>
         </motion.div>
 
