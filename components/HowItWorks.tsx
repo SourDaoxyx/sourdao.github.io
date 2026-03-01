@@ -70,7 +70,7 @@ export default function HowItWorks() {
             From Dough to Civilization
           </h2>
           <p className="text-cream/50 text-base max-w-2xl mx-auto font-inter">
-            Four steps to build your on-chain reputation and join the organic finance revolution.
+            Four steps to build your on-chain reputation and join the civilization protocol.
           </p>
         </motion.div>
 

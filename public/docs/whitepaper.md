@@ -510,7 +510,7 @@ Each step feeds the next. No step requires outside intervention. The flywheel is
 
 | Property | Value |
 |----------|-------|
-| Name | SOUR: The Genesis Starter |
+| Name | SOUR: The Civilization Protocol |
 | Ticker | $SOUR |
 | Chain | Solana |
 | Total Supply | 1,000,000,000 (1 Billion) |

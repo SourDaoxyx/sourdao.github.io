@@ -1,4 +1,4 @@
-# SOUR: The Genesis Starter 🫙
+# SOUR: The Civilization Protocol 🫙
 
 > **"Ownerless. There is only a beginning."**
 

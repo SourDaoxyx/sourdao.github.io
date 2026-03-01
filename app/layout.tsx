@@ -20,9 +20,9 @@ const cinzel = Cinzel({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://sourdao.xyz"),
-  title: "SOUR: The Genesis Starter | Organic Finance Revolution",
+  title: "SOUR: The Civilization Protocol",
   description: "Modern finance went stale. We came to ferment. The decentralized sourdough revolution against dollar hegemony.",
-  keywords: ["SOUR", "Genesis Starter", "Organic Finance", "Web3", "DeFi", "Cryptocurrency", "Pump.fun", "Sourdough", "SourDAO"],
+  keywords: ["SOUR", "Civilization Protocol", "Organic Finance", "Web3", "DeFi", "Cryptocurrency", "Pump.fun", "Sourdough", "SourDAO"],
   manifest: "/manifest.json",
   icons: {
     icon: "/sour-logo.png",
@@ -30,22 +30,22 @@ export const metadata: Metadata = {
     apple: "/sour-logo.png",
   },
   openGraph: {
-    title: "SOUR: The Genesis Starter",
+    title: "SOUR: The Civilization Protocol",
     description: "Modern finance went stale. We came to ferment.",
     type: "website",
-    siteName: "SOUR Genesis",
+    siteName: "SOUR Protocol",
     images: [
       {
         url: "/sour-logo.png",
         width: 1200,
         height: 1200,
-        alt: "SOUR Protocol - The Genesis Starter",
+        alt: "SOUR: The Civilization Protocol",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "SOUR: The Genesis Starter",
+    title: "SOUR: The Civilization Protocol",
     description: "Modern finance went stale. We came to ferment.",
     images: ["/sour-logo.png"],
   },

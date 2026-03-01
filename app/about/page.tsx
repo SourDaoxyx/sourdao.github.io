@@ -243,7 +243,7 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto">
           <SectionHeader
             badge="🌱 VISION"
-            title="Organic Finance Civilization"
+            title="The Civilization Protocol"
             subtitle="Modern finance is stale. We came to ferment."
           />
 

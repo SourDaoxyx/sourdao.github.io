@@ -330,7 +330,7 @@ export const translations: Record<Language, Record<string, string>> = {
     // CTA Banner
     "ctaBanner.badge": "The Bakery is Open",
     "ctaBanner.title": "Start Baking Today",
-    "ctaBanner.subtitle": "Hold $SOUR. Build your Crust score. Trade with Handshake. The organic finance revolution starts with one jar.",
+    "ctaBanner.subtitle": "Hold $SOUR. Build your Crust score. Trade with Handshake. The civilization protocol starts with one jar.",
     "ctaBanner.cta.buy": "Buy $SOUR",
     "ctaBanner.cta.crust": "Build Your Crust",
     "ctaBanner.trust": "100% on-chain · Burned liquidity · Open source · Community owned",
@@ -351,7 +351,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "footer.constitution.a4": "I feed the Oven before I feast.",
     "footer.constitution.a5": "I rise with my fellow Bakers.",
     "footer.constitution.note": "Every Keeper who holds $SOUR joins this oath — a civilization's founding promise.",
-    "footer.copyright": "© 2026 SOUR: The Genesis Starter | Decentralized & Community-Owned",
+    "footer.copyright": "© 2026 SOUR: The Civilization Protocol | Decentralized & Community-Owned",
     "footer.whitepaperHandle": "Full Protocol Documentation",
 
     // 404
