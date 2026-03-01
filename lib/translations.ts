@@ -222,6 +222,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "roadmap.subtitle": "From genesis to civilization. Watch the culture grow.",
     "roadmap.description": "Four rises. One civilization.",
     "roadmap.label.now": "FIRST RISE",
+    "roadmap.label.active": "IN PROGRESS",
     "roadmap.label.next": "THE RECIPE",
     "roadmap.label.mill": "THE MILL",
     "roadmap.label.future": "EVERY OVEN",

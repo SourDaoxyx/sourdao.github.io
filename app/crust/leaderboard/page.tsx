@@ -111,12 +111,45 @@ function LeaderboardRow({ entry, rank, sortKey }: { entry: LeaderboardEntry; ran
   );
 }
 
+const CACHE_KEY = "sour_leaderboard_v1";
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+
+interface LeaderboardCache {
+  entries: LeaderboardEntry[];
+  timestamp: number;
+}
+
+function loadCache(): LeaderboardCache | null {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const data: LeaderboardCache = JSON.parse(raw);
+    if (Date.now() - data.timestamp > CACHE_TTL_MS) {
+      localStorage.removeItem(CACHE_KEY);
+      return null;
+    }
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+function saveCache(entries: LeaderboardEntry[]) {
+  try {
+    const data: LeaderboardCache = { entries, timestamp: Date.now() };
+    localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+  } catch {
+    // Storage full or unavailable — skip caching
+  }
+}
+
 function LeaderboardClient() {
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [activeTab, setActiveTab] = useState<SortKey>("score");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [daysLoaded, setDaysLoaded] = useState(0);
+  const [cacheAge, setCacheAge] = useState<number | null>(null);
   const totalEntries = entries.length;
 
   /** Build a LeaderboardEntry from holder data */
@@ -147,10 +180,23 @@ function LeaderboardClient() {
   );
 
   /** Fetch top holders and build initial leaderboard */
-  const fetchLeaderboard = useCallback(async () => {
-    setLoading(true);
+  const fetchLeaderboard = useCallback(async (force = false) => {
     setError(null);
     setDaysLoaded(0);
+
+    // Try cache first (unless forced refresh)
+    if (!force) {
+      const cached = loadCache();
+      if (cached) {
+        setEntries(cached.entries);
+        setCacheAge(Math.round((Date.now() - cached.timestamp) / 60000));
+        setLoading(false);
+        return;
+      }
+    }
+
+    setLoading(true);
+    setCacheAge(null);
 
     try {
       const holders = await getTopHolders(20);
@@ -182,6 +228,11 @@ function LeaderboardClient() {
         }
         setDaysLoaded(i + 1);
       }
+      // Save fully-enriched data to cache
+      setEntries((final) => {
+        saveCache(final);
+        return final;
+      });
     } catch (err) {
       console.error("[SOUR] Leaderboard fetch error:", err);
       setError("Failed to load leaderboard data. Please try again.");
@@ -247,6 +298,18 @@ function LeaderboardClient() {
           <p className="text-cream/40 text-sm max-w-md mx-auto">
             The most trusted Bakers in the SOUR ecosystem, ranked by Crust Score.
           </p>
+          {cacheAge !== null && (
+            <div className="flex items-center justify-center gap-2 mt-3">
+              <span className="text-cream/25 text-xs">Cached {cacheAge === 0 ? "just now" : `${cacheAge}m ago`}</span>
+              <button
+                onClick={() => fetchLeaderboard(true)}
+                className="flex items-center gap-1 text-gold/40 hover:text-gold/70 text-xs transition-colors"
+              >
+                <RefreshCw className="w-3 h-3" />
+                Refresh
+              </button>
+            </div>
+          )}
         </motion.div>
 
         {/* Tier Distribution */}
@@ -302,7 +365,7 @@ function LeaderboardClient() {
           <div className="flex flex-col items-center gap-4 py-16">
             <p className="text-red-400/70 text-sm">{error}</p>
             <button
-              onClick={fetchLeaderboard}
+              onClick={() => fetchLeaderboard(true)}
               className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gold/10 border border-gold/20 text-gold text-sm hover:bg-gold/15 transition-colors"
             >
               <RefreshCw className="w-3.5 h-3.5" />

@@ -106,6 +106,7 @@ const timeline = [
   {
     phase: "PHASE 1",
     title: "Project Launch",
+    status: "completed" as const,
     items: [
       "Site design and development",
       "Whitepaper written",
@@ -115,6 +116,7 @@ const timeline = [
   {
     phase: "PHASE 2",
     title: "MVP 1: The Crust",
+    status: "completed" as const,
     items: [
       "Baker Profile System developed",
       "Solana wallet integration",
@@ -125,6 +127,7 @@ const timeline = [
   {
     phase: "PHASE 3",
     title: "Token Launch",
+    status: "completed" as const,
     items: [
       "$SOUR launched on pump.fun ✅",
       "Community growth campaign",
@@ -134,15 +137,17 @@ const timeline = [
   {
     phase: "PHASE 4",
     title: "MVP 2: The Handshake",
+    status: "active" as const,
     items: [
-      "P2P agreement smart contract",
-      "Escrow system",
-      "Dispute resolution mechanism",
+      "P2P agreement smart contract ✅",
+      "Escrow system — Devnet live ✅",
+      "Mainnet deployment in progress",
     ],
   },
   {
     phase: "PHASE 5",
     title: "The Mill (AI Marketplace)",
+    status: "planned" as const,
     items: [
       "Decentralized workflow marketplace",
       "AI agent templates",
@@ -418,7 +423,23 @@ export default function AboutPage() {
           <div className="relative">
             <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-gold/40 via-gold/20 to-transparent" />
 
-            {timeline.map((item, i) => (
+            {timeline.map((item, i) => {
+                const dotColor = item.status === "completed"
+                  ? "bg-green-400 border-black"
+                  : item.status === "active"
+                  ? "bg-gold animate-pulse border-black"
+                  : "bg-cream/20 border-black";
+                const phaseColor = item.status === "completed"
+                  ? "text-green-400/70"
+                  : item.status === "active"
+                  ? "text-gold/80"
+                  : "text-cream/30";
+                const statusLabel = item.status === "completed"
+                  ? "✓ Done"
+                  : item.status === "active"
+                  ? "⚡ Active"
+                  : "⏳ Planned";
+                return (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, x: -20 }}
@@ -427,9 +448,16 @@ export default function AboutPage() {
                 transition={{ delay: i * 0.15, duration: 0.6 }}
                 className="relative pl-12 pb-10 last:pb-0"
               >
-                <div className="absolute left-2.5 top-1 w-3 h-3 rounded-full bg-gold/60 border-2 border-black" />
-                <div className="text-gold/60 text-xs font-medium tracking-wider mb-1">
-                  {item.phase}
+                <div className={`absolute left-2.5 top-1 w-3 h-3 rounded-full border-2 ${dotColor}`} />
+                <div className="flex items-center gap-2 mb-1">
+                  <span className={`text-xs font-medium tracking-wider ${phaseColor}`}>
+                    {item.phase}
+                  </span>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+                    item.status === "completed" ? "bg-green-500/10 text-green-400/60" :
+                    item.status === "active" ? "bg-gold/10 text-gold/60" :
+                    "bg-cream/5 text-cream/25"
+                  }`}>{statusLabel}</span>
                 </div>
                 <h3 className="font-cinzel text-lg font-bold text-cream mb-2">
                   {item.title}
@@ -443,7 +471,8 @@ export default function AboutPage() {
                   ))}
                 </ul>
               </motion.div>
-            ))}
+                );
+              })}
           </div>
         </div>
       </section>
