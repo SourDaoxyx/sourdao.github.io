@@ -8,7 +8,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
   calculateCrustScore,
-  getCrustTier,
   type LeaderboardEntry,
   type CrustScoreInput,
 } from "@/lib/crust-score";
