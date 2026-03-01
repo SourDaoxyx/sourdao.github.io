@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     description:
       "Ownerless. Community-owned. Four pillars building the infrastructure for an organic finance civilization on Solana.",
     url: "https://sourdao.xyz/about",
-    images: [{ url: "/sour-logo.png", width: 512, height: 512, alt: "SOUR Protocol — About" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "SOUR Protocol — About" }],
   },
   twitter: {
     card: "summary",

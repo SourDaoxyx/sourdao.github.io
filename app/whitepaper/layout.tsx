@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     description:
       "The complete SOUR Protocol documentation. Tokenomics, architecture, roadmap, and the philosophy of organic finance.",
     url: "https://sourdao.xyz/whitepaper",
-    images: [{ url: "/sour-logo.png", width: 512, height: 512, alt: "SOUR Whitepaper" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "SOUR Whitepaper" }],
   },
   twitter: {
     card: "summary",

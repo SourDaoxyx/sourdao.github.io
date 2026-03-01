@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     description:
       "Connect your wallet and build your on-chain reputation. 4 tiers, 17 badges, real Solana data.",
     url: "https://sourdao.xyz/crust",
-    images: [{ url: "/sour-logo.png", width: 512, height: 512, alt: "SOUR Crust — Baker Identity" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "SOUR Crust — Baker Identity" }],
   },
   twitter: {
     card: "summary",

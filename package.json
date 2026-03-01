@@ -1,5 +1,5 @@
 {
-  "name": "sour-genesis-starter",
+  "name": "sour-civilization-protocol",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "export": "next build && next export"
+    "export": "next build && next export",
+    "generate-og": "node scripts/generate-og.mjs"
   },
   "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@solana/spl-token": "^0.4.14",
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/wallet-adapter-phantom": "^0.9.28",

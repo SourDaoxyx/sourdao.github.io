@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     description:
       "Trustless P2P escrow powered by $SOUR on Solana. Create deals, lock funds, enforce agreements — on-chain.",
     url: "https://sourdao.xyz/handshake",
-    images: [{ url: "/sour-logo.png", width: 512, height: 512, alt: "SOUR Handshake — P2P Agreements" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "SOUR Handshake — P2P Agreements" }],
   },
   twitter: {
     card: "summary",

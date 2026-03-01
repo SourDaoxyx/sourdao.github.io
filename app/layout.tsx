@@ -37,9 +37,9 @@ export const metadata: Metadata = {
     siteName: "SOUR Protocol",
     images: [
       {
-        url: "/sour-logo.png",
+        url: "/og-image.png",
         width: 1200,
-        height: 1200,
+        height: 630,
         alt: "SOUR: The Civilization Protocol",
       },
     ],
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "SOUR: The Civilization Protocol",
     description: "Modern finance went stale. We came to ferment.",
-    images: ["/sour-logo.png"],
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
