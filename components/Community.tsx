@@ -47,7 +47,7 @@ export default function Community() {
       handle: "@sourdaoxyz",
       description: t("community.telegram.desc"),
       icon: MessageCircle,
-      url: "https://t.me/sourdaoxyz",
+      url: "https://t.me/sourdao",
       color: "from-blue-400 to-cyan-500",
       members: t("community.growing"),
       cta: t("community.telegram.cta"),

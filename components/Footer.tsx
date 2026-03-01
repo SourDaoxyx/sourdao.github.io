@@ -35,8 +35,8 @@ export default function Footer() {
     {
       icon: Send,
       name: "Telegram",
-      url: "https://t.me/sourdaoxyz",
-      handle: "t.me/sourdaoxyz",
+      url: "https://t.me/sourdao",
+      handle: "t.me/sourdao",
       color: "from-cyan-400 to-blue-500",
     },
     {

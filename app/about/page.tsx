@@ -523,7 +523,7 @@ export default function AboutPage() {
               Read Whitepaper
             </Link>
             <a
-              href="https://t.me/sourdaoxyz"
+              href="https://t.me/sourdao"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-cream/10 text-cream/50 font-medium text-sm hover:border-cream/30 transition-all"

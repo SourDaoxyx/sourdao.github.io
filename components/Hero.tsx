@@ -199,7 +199,7 @@ export default function Hero() {
         </motion.a>
 
         <motion.a
-          href="https://t.me/sourdaoxyz"
+          href="https://t.me/sourdao"
           target="_blank"
           rel="noopener noreferrer"
           whileHover={{ scale: 1.05 }}
@@ -259,7 +259,7 @@ export default function Hero() {
         <a href="https://x.com/sourdaoxyz" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-full bg-cream/5 border border-cream/10 hover:border-gold/30 hover:bg-gold/5 transition-all">
           <Twitter className="w-4 h-4 text-cream/40 hover:text-gold" />
         </a>
-        <a href="https://t.me/sourdaoxyz" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-full bg-cream/5 border border-cream/10 hover:border-gold/30 hover:bg-gold/5 transition-all">
+        <a href="https://t.me/sourdao" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-full bg-cream/5 border border-cream/10 hover:border-gold/30 hover:bg-gold/5 transition-all">
           <Send className="w-4 h-4 text-cream/40 hover:text-gold" />
         </a>
         <a href="https://pump.fun/coin/2spRmiYSWyqFB5XhqnbSkAKH6b2sKpchjVgzYajmpump" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-full bg-cream/5 border border-cream/10 hover:border-green-500/30 hover:bg-green-500/5 transition-all" title="Buy on Pump.fun">
