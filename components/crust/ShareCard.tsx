@@ -5,19 +5,22 @@ import { motion } from "framer-motion";
 import { Download, Share2, Copy, Check, Users, ArrowRight } from "lucide-react";
 import { toPng } from "html-to-image";
 import Link from "next/link";
+import { MAX_SCORE } from "@/lib/crust-score";
 
 interface ShareCardProps {
   cardRef: React.RefObject<HTMLDivElement | null>;
   tierName: string;
-  daysFermenting: number;
+  daysInProtocol: number;
   crustScore?: number;
+  overallGrade?: string;
 }
 
 export default function ShareCard({
   cardRef,
   tierName,
-  daysFermenting,
+  daysInProtocol,
   crustScore,
+  overallGrade,
 }: ShareCardProps) {
   const [copied, setCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
@@ -54,7 +57,7 @@ export default function ShareCard({
     const dataUrl = await generateImage();
     if (dataUrl) {
       const link = document.createElement("a");
-      link.download = "sour-baker-card.png";
+      link.download = "sour-civilization-id.png";
       link.href = dataUrl;
       link.click();
     }
@@ -62,8 +65,9 @@ export default function ShareCard({
   };
 
   const handleTwitterShare = async () => {
-    const scoreText = crustScore ? `\nCrust Score: ${crustScore}/1000` : "";
-    const text = `I'm a ${tierName} Baker 🍞\nFermenting for ${daysFermenting} days.${scoreText}\n\nYour dough. Your bread. Your economy.\n\n#SOUR #TheBakers #CivilizationProtocol`;
+    const gradeText = overallGrade ? ` (Grade: ${overallGrade})` : "";
+    const scoreText = crustScore ? `\nCivilization Score: ${crustScore}/${MAX_SCORE}${gradeText}` : "";
+    const text = `I'm ${tierName} in the SOUR Civilization 🫙${scoreText}\n\nYour dough. Your bread. Your economy.\nCA: 2spRmiYSWyqFB5XhqnbSkAKH6b2sKpchjVgzYajmpump\n\n#SOUR #CivilizationProtocol`;
     const url = "https://sourdao.xyz/crust";
 
     // Generate card image
@@ -71,7 +75,7 @@ export default function ShareCard({
 
     if (dataUrl) {
       const blob = await dataUrlToBlob(dataUrl);
-      const file = new File([blob], "sour-baker-card.png", { type: "image/png" });
+      const file = new File([blob], "sour-civilization-id.png", { type: "image/png" });
 
       // Try Web Share API (mobile + modern desktop: shares image directly)
       if (navigator.share && navigator.canShare?.({ files: [file] })) {
@@ -96,7 +100,7 @@ export default function ShareCard({
       } catch {
         // Clipboard write not supported — just download the image instead
         const link = document.createElement("a");
-        link.download = "sour-baker-card.png";
+        link.download = "sour-civilization-id.png";
         link.href = dataUrl;
         link.click();
       }
@@ -163,9 +167,10 @@ export default function ShareCard({
       <div className="rounded-xl border border-cream/8 bg-cream/[0.02] p-3">
         <p className="text-cream/30 text-[10px] mb-1.5">Tweet preview:</p>
         <p className="text-cream/50 text-xs leading-relaxed italic">
-          &ldquo;I&apos;m a {tierName} Baker 🍞 — Score: {crustScore ?? 0}/1000
-          {daysFermenting > 0 ? ` · ${daysFermenting} days fermenting` : ""}
-          {"\n"}@sourdaoxyz #SOUR #CrustScore&rdquo;
+          &ldquo;I&apos;m {tierName} in the SOUR Civilization 🫙 — Score: {crustScore ?? 0}/{MAX_SCORE}
+          {overallGrade ? ` (${overallGrade})` : ""}
+          {daysInProtocol > 0 ? ` · ${daysInProtocol} days in protocol` : ""}
+          {"\n"}@sourdaoxyz #SOUR #CivilizationProtocol&rdquo;
         </p>
       </div>
 
@@ -214,7 +219,7 @@ function CompareCard() {
         )}
       </div>
       <p className="text-cream/20 text-[10px] mt-2">
-        Enter any Solana wallet to see their Baker Card and Crust Score
+        Enter any Solana wallet to see their Civilization ID and Score
       </p>
     </div>
   );

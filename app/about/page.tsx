@@ -28,11 +28,11 @@ const pillars = [
     status: "✅ Live",
     statusColor: "text-green-400",
     description:
-      "Wallet-based Baker Profile System. Connect your wallet, your tier is automatically determined by $SOUR balance and holding duration. Download your Baker Card as PNG or share on Twitter.",
+      "Wallet-based Civilization ID System. Connect your wallet, your tier is automatically determined by $SOUR balance and holding duration. Download your Civilization Card as PNG or share on Twitter.",
     features: [
       "Phantom & Solflare wallet support",
       "On-chain balance + first TX date reading",
-      "4-tier Keeper system (Fresh → Eternal)",
+      "5-tier Civilization system (Unverified → Sovereign)",
       "Profile editing + localStorage",
       "PNG card export + social sharing",
     ],
@@ -62,10 +62,10 @@ const pillars = [
     status: "📋 Planned",
     statusColor: "text-gold/60",
     description:
-      "Oven Dashboard — community metrics, treasury tracker, keeper statistics. The central control panel that tracks the pulse of the SOUR ecosystem.",
+      "Oven Dashboard — community metrics, treasury tracker, citizen statistics. The central control panel that tracks the pulse of the SOUR ecosystem.",
     features: [
       "Real-time treasury & LP tracker",
-      "Keeper distribution map",
+      "Citizen distribution map",
       "Community growth metrics",
       "Agreement statistics",
       "Treasury management panel",
@@ -118,9 +118,9 @@ const timeline = [
     title: "MVP 1: The Crust",
     status: "completed" as const,
     items: [
-      "Baker Profile System developed",
+      "Civilization ID System developed",
       "Solana wallet integration",
-      "4-tier Keeper system",
+      "5-tier Civilization system",
       "PNG export + social sharing",
     ],
   },
@@ -131,7 +131,7 @@ const timeline = [
     items: [
       "$SOUR launched on pump.fun ✅",
       "Community growth campaign",
-      "First Keeper rewards",
+      "First Citizen rewards",
     ],
   },
   {
@@ -491,7 +491,7 @@ export default function AboutPage() {
               { label: "Total Supply", value: "1B", sub: "$SOUR" },
               { label: "Tax", value: "0%", sub: "Buy & sell" },
               { label: "Buyback+LP", value: "50%", sub: "From revenue" },
-              { label: "Keeper Share", value: "30%", sub: "From revenue" },
+              { label: "Citizen Share", value: "30%", sub: "From revenue" },
             ].map((stat, i) => (
               <motion.div
                 key={i}
@@ -517,7 +517,7 @@ export default function AboutPage() {
             className="mt-6 p-4 rounded-xl bg-gold/5 border border-gold/10 text-center"
           >
             <p className="text-cream/40 text-xs">
-              <strong className="text-cream/60">Revenue Formula:</strong> Platform revenue → 50% Buyback+LP 🏦 · 30% Keepers (tier-weighted) · 20% Commons
+              <strong className="text-cream/60">Revenue Formula:</strong> Platform revenue → 50% Buyback+LP 🏦 · 30% Citizens (tier-weighted) · 20% Commons
             </p>
           </motion.div>
         </div>
@@ -543,7 +543,7 @@ export default function AboutPage() {
               href="/crust"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-gold to-amber text-black font-bold text-sm hover:scale-105 transition-transform"
             >
-              Get Baker Card
+              Get Civilization ID
             </Link>
             <Link
               href="/whitepaper"

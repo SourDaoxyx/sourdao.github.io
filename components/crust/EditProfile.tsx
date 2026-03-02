@@ -55,7 +55,7 @@ export default function EditProfile({ name, bio, avatar, onSave }: EditProfilePr
       animate={{ opacity: 1, y: 0 }}
       className="w-full max-w-sm mx-auto p-5 rounded-2xl glass-gold border border-gold/20"
     >
-      <h4 className="font-cinzel text-sm font-bold text-gold mb-4">Edit Your Baker Profile</h4>
+      <h4 className="font-cinzel text-sm font-bold text-gold mb-4">Edit Your Profile</h4>
 
       {/* Avatar Selection */}
       <div className="mb-4">
@@ -82,13 +82,13 @@ export default function EditProfile({ name, bio, avatar, onSave }: EditProfilePr
       {/* Name */}
       <div className="mb-3">
         <label className="text-cream/40 text-xs font-medium uppercase tracking-wider mb-1.5 block">
-          Baker Name
+          Display Name
         </label>
         <input
           type="text"
           value={editName}
           onChange={(e) => setEditName(e.target.value.slice(0, 24))}
-          placeholder="Anonymous Baker"
+          placeholder="Anonymous Citizen"
           className="w-full px-3 py-2 rounded-lg bg-black/50 border border-cream/10 text-cream text-sm font-inter placeholder:text-cream/20 focus:border-gold/40 focus:outline-none transition-colors"
         />
         <p className="text-cream/20 text-[10px] mt-1 text-right">{editName.length}/24</p>

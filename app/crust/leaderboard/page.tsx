@@ -2,24 +2,25 @@
 
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Trophy, TrendingUp, Clock, Handshake, RefreshCw } from "lucide-react";
+import { ArrowLeft, Trophy, TrendingUp, Clock, Handshake, RefreshCw, Copy, Check } from "lucide-react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
   calculateCrustScore,
+  CRUST_TIERS,
   type LeaderboardEntry,
   type CrustScoreInput,
 } from "@/lib/crust-score";
-import { getTopHolders, getDaysFermenting } from "@/lib/solana";
+import { getTopHolders, getDaysInProtocol } from "@/lib/solana";
 
 type SortKey = "score" | "holding" | "days" | "handshakes";
 
 const TABS: { key: SortKey; label: string; icon: React.ReactNode }[] = [
   { key: "score", label: "Crust Score", icon: <Trophy className="w-3.5 h-3.5" /> },
   { key: "holding", label: "Holding", icon: <TrendingUp className="w-3.5 h-3.5" /> },
-  { key: "days", label: "Diamond Hands", icon: <Clock className="w-3.5 h-3.5" /> },
-  { key: "handshakes", label: "Bakes", icon: <Handshake className="w-3.5 h-3.5" /> },
+  { key: "days", label: "Time", icon: <Clock className="w-3.5 h-3.5" /> },
+  { key: "handshakes", label: "Deals", icon: <Handshake className="w-3.5 h-3.5" /> },
 ];
 
 function formatBalance(balance: number): string {
@@ -42,15 +43,26 @@ function getRankBadge(rank: number): string {
 
 function LeaderboardRow({ entry, rank, sortKey }: { entry: LeaderboardEntry; rank: number; sortKey: SortKey }) {
   const { tier } = entry;
+  const [copied, setCopied] = useState(false);
 
   const sortValue = (() => {
     switch (sortKey) {
       case "holding": return formatBalance(entry.balance);
-      case "days": return entry.daysFermenting > 0 ? `${entry.daysFermenting}d` : "—";
+      case "days": return entry.daysInProtocol > 0 ? `${entry.daysInProtocol}d` : "—";
       case "handshakes": return String(entry.handshakesCompleted);
       default: return String(entry.crustScore);
     }
   })();
+
+  const handleCopy = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(entry.address);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch { /* ignore */ }
+  };
 
   return (
     <motion.div
@@ -75,14 +87,19 @@ function LeaderboardRow({ entry, rank, sortKey }: { entry: LeaderboardEntry; ran
           )}
         </div>
 
-        {/* Avatar — tier emoji */}
+        {/* Tier emoji */}
         <div className={`w-9 h-9 rounded-full overflow-hidden border ${tier.borderColor} shrink-0 flex items-center justify-center bg-cream/5`}>
           <span className="text-lg">{tier.emoji}</span>
         </div>
 
-        {/* Address */}
+        {/* Address + Copy */}
         <div className="min-w-0 flex-1">
-          <p className="text-cream text-sm font-medium font-mono">{shortenAddress(entry.address)}</p>
+          <div className="flex items-center gap-1.5">
+            <p className="text-cream text-sm font-medium font-mono">{shortenAddress(entry.address)}</p>
+            <button onClick={handleCopy} className="text-cream/15 hover:text-cream/40 transition-colors">
+              {copied ? <Check className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3" />}
+            </button>
+          </div>
           <p className="text-cream/25 text-[10px]">{formatBalance(entry.balance)} $SOUR</p>
         </div>
 
@@ -92,10 +109,17 @@ function LeaderboardRow({ entry, rank, sortKey }: { entry: LeaderboardEntry; ran
           <span className={`text-[9px] font-bold tracking-wider ${tier.textColor}`}>{tier.name}</span>
         </div>
 
-        {/* Badges (top 3) */}
+        {/* Grade */}
+        <div className="hidden md:block">
+          <span className={`text-sm font-bold ${rank <= 3 ? tier.textColor : "text-cream/50"}`}>
+            {entry.overallGrade}
+          </span>
+        </div>
+
+        {/* Stamps (top 3) */}
         <div className="hidden md:flex gap-0.5">
-          {entry.badges.slice(0, 3).map((b) => (
-            <span key={b.id} className="text-xs" title={b.name}>{b.emoji}</span>
+          {entry.stamps.slice(0, 3).map((s) => (
+            <span key={s.id} className="text-xs" title={s.name}>{s.emoji}</span>
           ))}
         </div>
 
@@ -110,8 +134,9 @@ function LeaderboardRow({ entry, rank, sortKey }: { entry: LeaderboardEntry; ran
   );
 }
 
-const CACHE_KEY = "sour_leaderboard_v1";
-const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+// New cache key to invalidate old v1 data
+const CACHE_KEY = "sour_leaderboard_v2";
+const CACHE_TTL_MS = 5 * 60 * 1000;
 
 interface LeaderboardCache {
   entries: LeaderboardEntry[];
@@ -120,6 +145,8 @@ interface LeaderboardCache {
 
 function loadCache(): LeaderboardCache | null {
   try {
+    // Clear old v1 cache
+    localStorage.removeItem("sour_leaderboard_v1");
     const raw = localStorage.getItem(CACHE_KEY);
     if (!raw) return null;
     const data: LeaderboardCache = JSON.parse(raw);
@@ -137,9 +164,7 @@ function saveCache(entries: LeaderboardEntry[]) {
   try {
     const data: LeaderboardCache = { entries, timestamp: Date.now() };
     localStorage.setItem(CACHE_KEY, JSON.stringify(data));
-  } catch {
-    // Storage full or unavailable — skip caching
-  }
+  } catch { /* Storage full or unavailable */ }
 }
 
 function LeaderboardClient() {
@@ -151,13 +176,13 @@ function LeaderboardClient() {
   const [cacheAge, setCacheAge] = useState<number | null>(null);
   const totalEntries = entries.length;
 
-  /** Build a LeaderboardEntry from holder data */
   const buildEntry = useCallback(
-    (address: string, balance: number, daysFermenting: number): LeaderboardEntry => {
+    (address: string, balance: number, daysInProtocol: number): LeaderboardEntry => {
       const input: CrustScoreInput = {
         balance,
-        daysFermenting,
-        handshakesCompleted: 0, // Handshake protocol not live yet
+        daysInProtocol,
+        loyaltyStreak: daysInProtocol,
+        handshakesCompleted: 0,
         disputesLost: 0,
         handshakesCancelled: 0,
         handshakesTotal: 0,
@@ -166,24 +191,24 @@ function LeaderboardClient() {
       return {
         address,
         displayName: address.slice(0, 4) + "..." + address.slice(-4),
-        avatar: "",
         crustScore: score.total,
         tier: score.tier,
-        daysFermenting,
+        overallGrade: score.overallGrade,
+        daysInProtocol,
+        loyaltyStreak: daysInProtocol,
         handshakesCompleted: 0,
         balance,
-        badges: score.badges,
+        stamps: score.stamps,
+        categories: score.categories,
       };
     },
     []
   );
 
-  /** Fetch top holders and build initial leaderboard */
   const fetchLeaderboard = useCallback(async (force = false) => {
     setError(null);
     setDaysLoaded(0);
 
-    // Try cache first (unless forced refresh)
     if (!force) {
       const cached = loadCache();
       if (cached) {
@@ -206,15 +231,13 @@ function LeaderboardClient() {
         return;
       }
 
-      // Initial render: balance-only scores (fast)
       const initial = holders.map((h) => buildEntry(h.address, h.balance, 0));
       setEntries(initial);
       setLoading(false);
 
-      // Progressive enrichment: fetch daysFermenting for each holder
       for (let i = 0; i < holders.length; i++) {
         try {
-          const days = await getDaysFermenting(holders[i].address);
+          const days = await getDaysInProtocol(holders[i].address);
           if (days > 0) {
             setEntries((prev) =>
               prev.map((e) =>
@@ -222,12 +245,9 @@ function LeaderboardClient() {
               )
             );
           }
-        } catch {
-          // Skip this holder's daysFermenting on error
-        }
+        } catch { /* Skip this holder */ }
         setDaysLoaded(i + 1);
       }
-      // Save fully-enriched data to cache
       setEntries((final) => {
         saveCache(final);
         return final;
@@ -250,7 +270,7 @@ function LeaderboardClient() {
         sorted.sort((a, b) => b.balance - a.balance);
         break;
       case "days":
-        sorted.sort((a, b) => b.daysFermenting - a.daysFermenting);
+        sorted.sort((a, b) => b.daysInProtocol - a.daysInProtocol);
         break;
       case "handshakes":
         sorted.sort((a, b) => b.handshakesCompleted - a.handshakesCompleted);
@@ -261,15 +281,11 @@ function LeaderboardClient() {
     return sorted;
   }, [entries, activeTab]);
 
-  // Tier distribution stats
+  // Tier distribution stats (5 tiers)
   const tierStats = useMemo(() => {
-    const stats = { Eternal: 0, Golden: 0, Rising: 0, Fresh: 0 };
-    entries.forEach((e) => {
-      if (e.tier.name === "Eternal Starter") stats.Eternal++;
-      else if (e.tier.name === "Golden Crust") stats.Golden++;
-      else if (e.tier.name === "Rising Dough") stats.Rising++;
-      else stats.Fresh++;
-    });
+    const stats: Record<string, number> = {};
+    for (const t of CRUST_TIERS) stats[t.name] = 0;
+    entries.forEach((e) => { stats[e.tier.name] = (stats[e.tier.name] || 0) + 1; });
     return stats;
   }, [entries]);
 
@@ -280,7 +296,6 @@ function LeaderboardClient() {
       </div>
 
       <div className="relative z-10 w-full max-w-3xl mx-auto">
-        {/* Back */}
         <Link
           href="/crust"
           className="inline-flex items-center gap-2 text-cream/30 text-sm hover:text-cream/50 transition-colors mb-8"
@@ -295,7 +310,7 @@ function LeaderboardClient() {
             🏆 Leaderboard
           </h1>
           <p className="text-cream/40 text-sm max-w-md mx-auto">
-            The most trusted Bakers in the SOUR ecosystem, ranked by Crust Score.
+            The most trusted citizens in the SOUR ecosystem, ranked by Civilization Score.
           </p>
           {cacheAge !== null && (
             <div className="flex items-center justify-center gap-2 mt-3">
@@ -311,22 +326,17 @@ function LeaderboardClient() {
           )}
         </motion.div>
 
-        {/* Tier Distribution */}
+        {/* Tier Distribution — 5 tiers */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="grid grid-cols-4 gap-3 mb-8"
+          className="grid grid-cols-5 gap-2 mb-8"
         >
-          {[
-            { label: "Eternal", count: tierStats.Eternal, color: "text-purple-400 border-purple-500/20 bg-purple-500/5" },
-            { label: "Golden", count: tierStats.Golden, color: "text-gold border-gold/20 bg-gold/5" },
-            { label: "Rising", count: tierStats.Rising, color: "text-blue-400 border-blue-500/20 bg-blue-500/5" },
-            { label: "Fresh", count: tierStats.Fresh, color: "text-cream/40 border-cream/10 bg-cream/[0.02]" },
-          ].map((t) => (
-            <div key={t.label} className={`p-3 rounded-xl border ${t.color} text-center`}>
-              <p className="font-bold text-lg font-mono">{t.count}</p>
-              <p className="text-[10px] uppercase tracking-wider opacity-60">{t.label}</p>
+          {CRUST_TIERS.map((t) => (
+            <div key={t.name} className={`p-2.5 rounded-xl border ${t.borderColor} ${t.bgColor} text-center`}>
+              <p className={`font-bold text-lg font-mono ${t.textColor}`}>{tierStats[t.name] || 0}</p>
+              <p className={`text-[9px] uppercase tracking-wider ${t.textColor} opacity-60`}>{t.emoji} {t.name}</p>
             </div>
           ))}
         </motion.div>
@@ -377,7 +387,6 @@ function LeaderboardClient() {
           </div>
         ) : (
           <>
-            {/* Progressive loading indicator */}
             {daysLoaded < totalEntries && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -398,7 +407,6 @@ function LeaderboardClient() {
           </>
         )}
 
-        {/* Footer note */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -406,7 +414,7 @@ function LeaderboardClient() {
           className="mt-10 text-center"
         >
           <p className="text-cream/20 text-xs">
-            Live on-chain data. Reputation scores will update once the Handshake protocol launches.
+            Live on-chain data · Scores {300}–{850} · Trade & Community categories unlock soon.
           </p>
         </motion.div>
       </div>

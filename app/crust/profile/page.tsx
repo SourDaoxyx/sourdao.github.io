@@ -3,16 +3,18 @@
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowLeft, ExternalLink, Copy, Check } from "lucide-react";
+import { ArrowLeft, ExternalLink, Copy, Check, Lock } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { PublicKey } from "@solana/web3.js";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import BadgeWall from "@/components/crust/BadgeWall";
+import StampWall from "@/components/crust/StampWall";
 import { getSourHolderInfo, type SourHolderInfo } from "@/lib/solana";
 import {
   calculateCrustScore,
+  BASE_SCORE,
+  MAX_SCORE,
+  ACTIVE_MAX_EARNED,
   type CrustScoreInput,
   type CrustScoreBreakdown,
 } from "@/lib/crust-score";
@@ -22,12 +24,13 @@ function shortenAddress(addr: string): string {
   return addr.slice(0, 6) + "..." + addr.slice(-4);
 }
 
-// Load profile from localStorage (same as CrustApp)
 function loadProfile(wallet: string): { name: string; bio: string; avatar: string } {
   if (typeof window === "undefined") return { name: "", bio: "", avatar: "/sour-logo.png" };
   try {
-    const stored = localStorage.getItem(`sour-baker-${wallet}`);
+    const stored = localStorage.getItem(`sour-citizen-${wallet}`);
+    const legacy = !stored ? localStorage.getItem(`sour-baker-${wallet}`) : null;
     if (stored) return JSON.parse(stored);
+    if (legacy) return JSON.parse(legacy);
   } catch { /* ignore */ }
   return { name: "", bio: "", avatar: "/sour-logo.png" };
 }
@@ -38,8 +41,15 @@ function formatBalance(balance: number): string {
   return balance.toLocaleString();
 }
 
-function ScoreRing({ score, tier }: { score: number; tier: CrustScoreBreakdown["tier"] }) {
-  const pct = (score / 1000) * 100;
+// Score Ring updated for 300–850
+function ScoreRing({ score, tier, overallGrade, overallGradeColor }: {
+  score: number;
+  tier: CrustScoreBreakdown["tier"];
+  overallGrade: string;
+  overallGradeColor: string;
+}) {
+  // Scale ring to active-category max so achievable scores fill the ring
+  const pct = Math.min(((score - BASE_SCORE) / ACTIVE_MAX_EARNED) * 100, 100);
   const circumference = 2 * Math.PI * 54;
   const strokeDash = (pct / 100) * circumference;
 
@@ -69,7 +79,8 @@ function ScoreRing({ score, tier }: { score: number; tier: CrustScoreBreakdown["
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className={`font-cinzel text-3xl font-bold ${tier.textColor}`}>{score}</span>
-        <span className="text-cream/30 text-[10px] uppercase tracking-wider">Crust Score</span>
+        <span className={`text-xs font-bold ${overallGradeColor}`}>{overallGrade}</span>
+        <span className="text-cream/30 text-[9px] uppercase tracking-wider">/ {MAX_SCORE}</span>
       </div>
     </div>
   );
@@ -87,11 +98,9 @@ function ProfileContent() {
   useEffect(() => {
     if (!address) return;
 
-    // Load saved profile from localStorage
     const savedProfile = loadProfile(address);
-    setProfileName(savedProfile.name || `Baker_${address.slice(0, 6)}`);
+    setProfileName(savedProfile.name || `Holder_${address.slice(0, 6)}`);
 
-    // Fetch real on-chain data
     const fetchData = async () => {
       setLoading(true);
       try {
@@ -101,28 +110,27 @@ function ProfileContent() {
 
         const input: CrustScoreInput = {
           balance: info.balance,
-          daysFermenting: info.daysFermenting,
+          daysInProtocol: info.daysInProtocol,
+          loyaltyStreak: info.daysInProtocol,
           handshakesCompleted: 0,
           disputesLost: 0,
           handshakesCancelled: 0,
           handshakesTotal: 0,
         };
-        const breakdown = calculateCrustScore(input);
-        setScoreBreakdown(breakdown);
+        setScoreBreakdown(calculateCrustScore(input));
       } catch (err) {
         console.error("[SOUR] Failed to fetch profile data:", err);
-        // Fallback to zero data
-        const fallbackInfo: SourHolderInfo = { balance: 0, firstTxDate: null, daysFermenting: 0 };
+        const fallbackInfo: SourHolderInfo = { balance: 0, firstTxDate: null, daysInProtocol: 0 };
         setHolderInfo(fallbackInfo);
-        const breakdown = calculateCrustScore({
+        setScoreBreakdown(calculateCrustScore({
           balance: 0,
-          daysFermenting: 0,
+          daysInProtocol: 0,
+          loyaltyStreak: 0,
           handshakesCompleted: 0,
           disputesLost: 0,
           handshakesCancelled: 0,
           handshakesTotal: 0,
-        });
-        setScoreBreakdown(breakdown);
+        }));
       } finally {
         setLoading(false);
       }
@@ -183,13 +191,13 @@ function ProfileContent() {
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-col sm:flex-row items-center gap-6 mb-10"
         >
-          {/* Avatar & Score Ring */}
-          <div className="relative">
-            <ScoreRing score={scoreBreakdown.total} tier={tier} />
-            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full overflow-hidden border-2 ${tier.borderColor}`}>
-              <Image src="/sour-logo.png" alt="Baker" width={80} height={80} className="w-full h-full object-cover" />
-            </div>
-          </div>
+          {/* Score Ring */}
+          <ScoreRing
+            score={scoreBreakdown.total}
+            tier={tier}
+            overallGrade={scoreBreakdown.overallGrade}
+            overallGradeColor={scoreBreakdown.overallGradeColor}
+          />
 
           {/* Info */}
           <div className="text-center sm:text-left">
@@ -212,37 +220,44 @@ function ProfileContent() {
               <span className="text-sm">{tier.emoji}</span>
               <span className={`text-xs font-bold tracking-wider ${tier.textColor}`}>{tier.name}</span>
             </div>
-            <p className="text-cream/30 text-xs mt-2">
-              Harvest Weight: <span className={`${tier.textColor} font-bold`}>{tier.harvestMultiplier}</span>
-            </p>
           </div>
         </motion.div>
 
-        {/* Score Breakdown */}
+        {/* 6-Category Breakdown with Grades */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="grid grid-cols-3 gap-4 mb-8"
+          className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8"
         >
-          {[
-            { label: "Reputation", value: scoreBreakdown.reputationScore, max: 400, desc: "Handshake history" },
-            { label: "Holding Power", value: scoreBreakdown.holdingScore, max: 300, desc: `${formatBalance(holderInfo.balance)} $SOUR` },
-            { label: "Diamond Hands", value: scoreBreakdown.diamondScore, max: 300, desc: `${holderInfo.daysFermenting} days` },
-          ].map((item) => (
-            <div key={item.label} className="p-4 rounded-xl border border-cream/10 bg-black/30">
-              <p className="text-cream/40 text-[10px] font-medium uppercase tracking-wider mb-1">{item.label}</p>
-              <p className="text-cream font-bold text-xl font-mono">{item.value}</p>
-              <p className="text-cream/25 text-[10px]">/ {item.max}</p>
-              <div className="h-1.5 rounded-full bg-cream/5 overflow-hidden mt-2">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: `${(item.value / item.max) * 100}%` }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                  className="h-full rounded-full bg-gradient-to-r from-gold to-amber-500"
-                />
+          {scoreBreakdown.categories.map((cat) => (
+            <div key={cat.key} className={`p-4 rounded-xl border ${cat.locked ? "border-cream/5 bg-cream/[0.01]" : "border-cream/10 bg-black/30"}`}>
+              <div className="flex items-center justify-between mb-1">
+                <p className="text-cream/40 text-[10px] font-medium uppercase tracking-wider">{cat.label}</p>
+                {cat.locked ? (
+                  <Lock className="w-3 h-3 text-cream/20" />
+                ) : (
+                  <span className={`text-sm font-bold ${cat.gradeColor}`}>{cat.grade}</span>
+                )}
               </div>
-              <p className="text-cream/20 text-[9px] mt-1">{item.desc}</p>
+              {cat.locked ? (
+                <div className="mt-2">
+                  <p className="text-cream/20 text-xs">🔒 {cat.lockReason}</p>
+                </div>
+              ) : (
+                <>
+                  <p className="text-cream font-bold text-xl font-mono">{cat.score}</p>
+                  <p className="text-cream/25 text-[10px]">/ {cat.max}</p>
+                  <div className="h-1.5 rounded-full bg-cream/5 overflow-hidden mt-2">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${cat.max > 0 ? (cat.score / cat.max) * 100 : 0}%` }}
+                      transition={{ duration: 1, ease: "easeOut" }}
+                      className="h-full rounded-full bg-gradient-to-r from-gold to-amber-500"
+                    />
+                  </div>
+                </>
+              )}
             </div>
           ))}
         </motion.div>
@@ -256,9 +271,9 @@ function ProfileContent() {
         >
           {[
             { label: "Holding", value: formatBalance(holderInfo.balance) },
-            { label: "Days", value: String(holderInfo.daysFermenting) },
-            { label: "Bakes", value: "0" },
-            { label: "Disputes", value: "0" },
+            { label: "Days", value: String(holderInfo.daysInProtocol) },
+            { label: "Deals", value: "0" },
+            { label: "Grade", value: scoreBreakdown.overallGrade },
           ].map((s) => (
             <div key={s.label} className="p-3 rounded-xl border border-cream/8 bg-cream/[0.02] text-center">
               <p className="text-cream/35 text-[9px] font-medium uppercase tracking-wider">{s.label}</p>
@@ -267,13 +282,18 @@ function ProfileContent() {
           ))}
         </motion.div>
 
-        {/* Badges */}
+        {/* Stamps */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35 }}
         >
-          <BadgeWall earnedBadges={scoreBreakdown.badges} />
+          <StampWall
+            earnedStamps={scoreBreakdown.stamps}
+            loyaltyStreak={holderInfo.daysInProtocol}
+            daysInProtocol={holderInfo.daysInProtocol}
+            handshakesCompleted={0}
+          />
         </motion.div>
       </div>
     </section>
