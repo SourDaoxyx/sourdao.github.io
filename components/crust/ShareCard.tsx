@@ -67,10 +67,11 @@ export default function ShareCard({
       return;
     }
 
+    const blob = await dataUrlToBlob(dataUrl);
+
     if (onMobile) {
-      // Mobile: try native share with file, fallback to preview modal
+      // Mobile: try native share with file first
       try {
-        const blob = await dataUrlToBlob(dataUrl);
         const file = new File([blob], "sour-civilization-id.png", { type: "image/png" });
         if (navigator.share && navigator.canShare?.({ files: [file] })) {
           await navigator.share({ files: [file] });
@@ -78,16 +79,44 @@ export default function ShareCard({
           return;
         }
       } catch {
-        // User cancelled or share not supported — show preview modal
+        // User cancelled or share not supported — fall through
       }
-      // Fallback: show image in modal for long-press save
-      setMobilePreview(dataUrl);
+
+      // Fallback: open image as standalone blob URL in new tab.
+      // In-app browsers show long-press "Save Image" when the tab
+      // contains only an image (not embedded in HTML).
+      const blobUrl = URL.createObjectURL(blob);
+      const newTab = window.open("", "_blank");
+      if (newTab) {
+        newTab.document.write(`
+          <!DOCTYPE html>
+          <html><head>
+            <meta name="viewport" content="width=device-width,initial-scale=1">
+            <title>Save Your Civilization ID</title>
+            <style>
+              body{margin:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:system-ui,sans-serif}
+              img{max-width:92%;border-radius:12px;box-shadow:0 0 40px rgba(212,175,55,.3)}
+              p{color:#aaa;font-size:14px;margin-top:20px;text-align:center}
+              small{color:#666;font-size:11px}
+            </style>
+          </head><body>
+            <img src="${blobUrl}" alt="Civilization ID" />
+            <p>📱 Long press the image → Save Image</p>
+            <small>Then upload it when posting on X</small>
+          </body></html>
+        `);
+        newTab.document.close();
+      } else {
+        // popup blocked — last resort: show in modal
+        setMobilePreview(dataUrl);
+      }
     } else {
       // Desktop: direct download
       const link = document.createElement("a");
       link.download = "sour-civilization-id.png";
-      link.href = dataUrl;
+      link.href = URL.createObjectURL(blob);
       link.click();
+      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
     }
     setDownloading(false);
   };
