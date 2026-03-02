@@ -24,15 +24,15 @@ function shortenAddress(addr: string): string {
   return addr.slice(0, 6) + "..." + addr.slice(-4);
 }
 
-function loadProfile(wallet: string): { name: string; bio: string; avatar: string } {
-  if (typeof window === "undefined") return { name: "", bio: "", avatar: "/sour-logo.png" };
+function loadProfile(wallet: string): { name: string; bio: string } {
+  if (typeof window === "undefined") return { name: "", bio: "" };
   try {
     const stored = localStorage.getItem(`sour-citizen-${wallet}`);
     const legacy = !stored ? localStorage.getItem(`sour-baker-${wallet}`) : null;
     if (stored) return JSON.parse(stored);
     if (legacy) return JSON.parse(legacy);
   } catch { /* ignore */ }
-  return { name: "", bio: "", avatar: "/sour-logo.png" };
+  return { name: "", bio: "" };
 }
 
 function formatBalance(balance: number): string {

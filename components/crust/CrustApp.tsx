@@ -32,11 +32,10 @@ import ShareCard from "./ShareCard";
 interface CitizenProfile {
   name: string;
   bio: string;
-  avatar: string;
 }
 
 function loadProfile(wallet: string): CitizenProfile {
-  if (typeof window === "undefined") return { name: "", bio: "", avatar: "/sour-logo.png" };
+  if (typeof window === "undefined") return { name: "", bio: "" };
   try {
     const stored = localStorage.getItem(`sour-citizen-${wallet}`);
     // Migration: also check old key
@@ -44,7 +43,7 @@ function loadProfile(wallet: string): CitizenProfile {
     if (stored) return JSON.parse(stored);
     if (legacy) return JSON.parse(legacy);
   } catch { /* ignore */ }
-  return { name: "", bio: "", avatar: "/sour-logo.png" };
+  return { name: "", bio: "" };
 }
 
 function saveProfile(wallet: string, profile: CitizenProfile) {
@@ -197,7 +196,7 @@ export default function CrustApp() {
   const [holderInfo, setHolderInfo] = useState<SourHolderInfo | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [profile, setProfile] = useState<CitizenProfile>({ name: "", bio: "", avatar: "/sour-logo.png" });
+  const [profile, setProfile] = useState<CitizenProfile>({ name: "", bio: "" });
   const [showStamps, setShowStamps] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -243,8 +242,8 @@ export default function CrustApp() {
   }, [publicKey]);
 
   const handleSaveProfile = useCallback(
-    (name: string, bio: string, avatar: string) => {
-      const newProfile = { name, bio, avatar };
+    (name: string, bio: string) => {
+      const newProfile = { name, bio };
       setProfile(newProfile);
       if (publicKey) saveProfile(publicKey.toBase58(), newProfile);
     },
@@ -670,7 +669,6 @@ export default function CrustApp() {
               <EditProfile
                 name={profile.name}
                 bio={profile.bio}
-                avatar={profile.avatar}
                 onSave={handleSaveProfile}
               />
               <ShareCard

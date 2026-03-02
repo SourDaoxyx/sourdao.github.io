@@ -3,35 +3,26 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Pencil, Check, X } from "lucide-react";
-import Image from "next/image";
 
 interface EditProfileProps {
   name: string;
   bio: string;
-  avatar: string;
-  onSave: (name: string, bio: string, avatar: string) => void;
+  onSave: (name: string, bio: string) => void;
 }
 
-const AVATARS = [
-  "/sour-logo.png",
-  "/mascot-sad.svg",
-];
-
-export default function EditProfile({ name, bio, avatar, onSave }: EditProfileProps) {
+export default function EditProfile({ name, bio, onSave }: EditProfileProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(name);
   const [editBio, setEditBio] = useState(bio);
-  const [editAvatar, setEditAvatar] = useState(avatar);
 
   const handleSave = () => {
-    onSave(editName.trim(), editBio.trim(), editAvatar);
+    onSave(editName.trim(), editBio.trim());
     setIsEditing(false);
   };
 
   const handleCancel = () => {
     setEditName(name);
     setEditBio(bio);
-    setEditAvatar(avatar);
     setIsEditing(false);
   };
 
@@ -56,28 +47,6 @@ export default function EditProfile({ name, bio, avatar, onSave }: EditProfilePr
       className="w-full max-w-sm mx-auto p-5 rounded-2xl glass-gold border border-gold/20"
     >
       <h4 className="font-cinzel text-sm font-bold text-gold mb-4">Edit Your Profile</h4>
-
-      {/* Avatar Selection */}
-      <div className="mb-4">
-        <label className="text-cream/40 text-xs font-medium uppercase tracking-wider mb-2 block">
-          Avatar
-        </label>
-        <div className="flex gap-2">
-          {AVATARS.map((av) => (
-            <button
-              key={av}
-              onClick={() => setEditAvatar(av)}
-              className={`w-12 h-12 rounded-full overflow-hidden border-2 transition-all ${
-                editAvatar === av
-                  ? "border-gold scale-110"
-                  : "border-cream/10 opacity-50 hover:opacity-80"
-              }`}
-            >
-              <Image src={av} alt="Avatar" width={48} height={48} className="w-full h-full object-cover" />
-            </button>
-          ))}
-        </div>
-      </div>
 
       {/* Name */}
       <div className="mb-3">
