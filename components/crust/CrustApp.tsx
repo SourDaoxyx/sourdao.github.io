@@ -20,6 +20,11 @@ import {
   type CategoryScore,
 } from "@/lib/crust-score";
 import { IS_TOKEN_LAUNCHED } from "@/lib/constants";
+import {
+  isMobileWithoutProvider,
+  getPhantomBrowseLink,
+  getSolflareBrowseLink,
+} from "@/lib/mobile-wallet";
 import CivilizationCard from "./CivilizationCard";
 import StampWall from "./StampWall";
 import EditProfile from "./EditProfile";
@@ -199,6 +204,12 @@ export default function CrustApp() {
   const [profile, setProfile] = useState<CitizenProfile>({ name: "", bio: "" });
   const [showStamps, setShowStamps] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  // Mobile detection (client-only)
+  const [mobileNoProvider, setMobileNoProvider] = useState(false);
+  useEffect(() => {
+    setMobileNoProvider(isMobileWithoutProvider());
+  }, []);
 
   // Load on-chain data
   useEffect(() => {
@@ -442,50 +453,90 @@ export default function CrustApp() {
 
             {/* Connect CTA */}
             <div className="text-center space-y-4">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setVisible(true)}
-                className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-xl overflow-hidden text-lg font-bold"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-gold via-amber to-gold" />
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 shimmer" />
-                <span className="relative text-black flex items-center gap-3">
-                  <Wallet className="w-5 h-5" />
-                  Connect Wallet &amp; See Your Score
-                </span>
-              </motion.button>
-
-              <p className="text-cream/30 text-xs">Supports Phantom &amp; Solflare</p>
-
-              <div className="p-4 rounded-xl border border-cream/8 bg-cream/[0.02] max-w-sm mx-auto">
-                <p className="text-cream/40 text-xs mb-3">
-                  Don&apos;t have a wallet? Install one first:
-                </p>
-                <div className="flex justify-center gap-3">
-                  <a
-                    href="https://phantom.app/download"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-medium hover:bg-purple-500/20 transition-colors"
+              {mobileNoProvider ? (
+                /* ---- MOBILE: deep-link to wallet in-app browser ---- */
+                <>
+                  <p className="text-cream/50 text-sm mb-2">
+                    Open this page inside your wallet app to connect:
+                  </p>
+                  <div className="flex flex-col sm:flex-row justify-center gap-3">
+                    <a
+                      href={getPhantomBrowseLink()}
+                      rel="noopener noreferrer"
+                      className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl overflow-hidden text-base font-bold"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-500" />
+                      <span className="relative text-white flex items-center gap-3">
+                        <Wallet className="w-5 h-5" />
+                        Open in Phantom
+                      </span>
+                    </a>
+                    <a
+                      href={getSolflareBrowseLink()}
+                      rel="noopener noreferrer"
+                      className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl overflow-hidden text-base font-bold"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-500" />
+                      <span className="relative text-white flex items-center gap-3">
+                        <Wallet className="w-5 h-5" />
+                        Open in Solflare
+                      </span>
+                    </a>
+                  </div>
+                  <p className="text-cream/25 text-[10px] mt-3 leading-relaxed max-w-sm mx-auto">
+                    Tapping a button above will open this page inside the wallet&apos;s built-in browser where you can connect securely.
+                    Don&apos;t have a wallet? Download <a href="https://phantom.app/download" target="_blank" rel="noopener noreferrer" className="text-purple-400 underline">Phantom</a> or <a href="https://solflare.com/download" target="_blank" rel="noopener noreferrer" className="text-orange-400 underline">Solflare</a> first.
+                  </p>
+                </>
+              ) : (
+                /* ---- DESKTOP / in-app browser: normal wallet modal ---- */
+                <>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setVisible(true)}
+                    className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-xl overflow-hidden text-lg font-bold"
                   >
-                    <ExternalLink className="w-3 h-3" />
-                    Phantom
-                  </a>
-                  <a
-                    href="https://solflare.com/download"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-300 text-xs font-medium hover:bg-orange-500/20 transition-colors"
-                  >
-                    <ExternalLink className="w-3 h-3" />
-                    Solflare
-                  </a>
-                </div>
-                <p className="text-cream/25 text-[10px] mt-3 leading-relaxed">
-                  Install the browser extension → refresh this page → click &quot;Connect Wallet&quot; → approve in wallet popup
-                </p>
-              </div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-gold via-amber to-gold" />
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 shimmer" />
+                    <span className="relative text-black flex items-center gap-3">
+                      <Wallet className="w-5 h-5" />
+                      Connect Wallet &amp; See Your Score
+                    </span>
+                  </motion.button>
+
+                  <p className="text-cream/30 text-xs">Supports Phantom &amp; Solflare</p>
+
+                  <div className="p-4 rounded-xl border border-cream/8 bg-cream/[0.02] max-w-sm mx-auto">
+                    <p className="text-cream/40 text-xs mb-3">
+                      Don&apos;t have a wallet? Install one first:
+                    </p>
+                    <div className="flex justify-center gap-3">
+                      <a
+                        href="https://phantom.app/download"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-medium hover:bg-purple-500/20 transition-colors"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        Phantom
+                      </a>
+                      <a
+                        href="https://solflare.com/download"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-300 text-xs font-medium hover:bg-orange-500/20 transition-colors"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        Solflare
+                      </a>
+                    </div>
+                    <p className="text-cream/25 text-[10px] mt-3 leading-relaxed">
+                      Install the browser extension → refresh this page → click &quot;Connect Wallet&quot; → approve in wallet popup
+                    </p>
+                  </div>
+                </>
+              )}
             </div>
           </motion.div>
         )}

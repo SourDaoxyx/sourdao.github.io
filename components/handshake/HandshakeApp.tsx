@@ -4,6 +4,11 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+import {
+  isMobileWithoutProvider,
+  getPhantomBrowseLink,
+  getSolflareBrowseLink,
+} from "@/lib/mobile-wallet";
 import { Transaction, PublicKey } from "@solana/web3.js";
 import { getAssociatedTokenAddress } from "@solana/spl-token";
 import {
@@ -128,6 +133,12 @@ export default function HandshakeApp() {
   const { publicKey, connected, sendTransaction } = useWallet();
   const { connection } = useConnection();
   const { setVisible } = useWalletModal();
+
+  // Mobile detection (client-only)
+  const [mobileNoProvider, setMobileNoProvider] = useState(false);
+  useEffect(() => {
+    setMobileNoProvider(isMobileWithoutProvider());
+  }, []);
 
   /* ---- Protocol config ---- */
   const [config, setConfig] = useState<ProtocolConfigAccount | null>(null);
@@ -581,12 +592,31 @@ export default function HandshakeApp() {
             <div className="flex items-center justify-between gap-4">
               <p className="text-cream/60 text-sm">Wallet</p>
               {!connected ? (
-                <button
-                  onClick={() => setVisible(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-gold to-amber text-black text-sm font-bold"
-                >
-                  <Wallet className="w-4 h-4" /> Connect
-                </button>
+                mobileNoProvider ? (
+                  <div className="flex gap-2">
+                    <a
+                      href={getPhantomBrowseLink()}
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-purple-600 text-white text-xs font-bold"
+                    >
+                      <Wallet className="w-3.5 h-3.5" /> Phantom
+                    </a>
+                    <a
+                      href={getSolflareBrowseLink()}
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-orange-600 text-white text-xs font-bold"
+                    >
+                      <Wallet className="w-3.5 h-3.5" /> Solflare
+                    </a>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setVisible(true)}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-gold to-amber text-black text-sm font-bold"
+                  >
+                    <Wallet className="w-4 h-4" /> Connect
+                  </button>
+                )
               ) : (
                 <span className="text-emerald-400 text-sm font-medium">
                   {walletLabel}
