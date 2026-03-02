@@ -1,11 +1,12 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { motion } from "framer-motion";
-import { Download, Share2, Copy, Check, Users, ArrowRight } from "lucide-react";
+import { useCallback, useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Download, Share2, Copy, Check, Users, ArrowRight, X } from "lucide-react";
 import { toPng } from "html-to-image";
 import Link from "next/link";
 import { MAX_SCORE } from "@/lib/crust-score";
+import { isMobile } from "@/lib/mobile-wallet";
 
 interface ShareCardProps {
   cardRef: React.RefObject<HTMLDivElement | null>;
@@ -25,6 +26,12 @@ export default function ShareCard({
   const [copied, setCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [imageCopied, setImageCopied] = useState(false);
+  const [mobilePreview, setMobilePreview] = useState<string | null>(null);
+  const [onMobile, setOnMobile] = useState(false);
+
+  useEffect(() => {
+    setOnMobile(isMobile());
+  }, []);
 
   const generateImage = useCallback(async (): Promise<string | null> => {
     if (!cardRef.current) return null;
@@ -55,7 +62,28 @@ export default function ShareCard({
   const handleDownload = async () => {
     setDownloading(true);
     const dataUrl = await generateImage();
-    if (dataUrl) {
+    if (!dataUrl) {
+      setDownloading(false);
+      return;
+    }
+
+    if (onMobile) {
+      // Mobile: try native share with file, fallback to preview modal
+      try {
+        const blob = await dataUrlToBlob(dataUrl);
+        const file = new File([blob], "sour-civilization-id.png", { type: "image/png" });
+        if (navigator.share && navigator.canShare?.({ files: [file] })) {
+          await navigator.share({ files: [file] });
+          setDownloading(false);
+          return;
+        }
+      } catch {
+        // User cancelled or share not supported — show preview modal
+      }
+      // Fallback: show image in modal for long-press save
+      setMobilePreview(dataUrl);
+    } else {
+      // Desktop: direct download
       const link = document.createElement("a");
       link.download = "sour-civilization-id.png";
       link.href = dataUrl;
@@ -126,9 +154,49 @@ export default function ShareCard({
 
   return (
     <div className="space-y-4">
+      {/* Mobile Preview Modal — long press to save */}
+      <AnimatePresence>
+        {mobilePreview && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/90 p-4"
+            onClick={() => setMobilePreview(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative w-full max-w-sm"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setMobilePreview(null)}
+                className="absolute -top-10 right-0 text-cream/50 hover:text-cream transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={mobilePreview}
+                alt="Your Civilization ID Card"
+                className="w-full rounded-xl border border-gold/30"
+              />
+              <p className="text-center text-cream/60 text-sm mt-4">
+                📱 Long press the image to save
+              </p>
+              <p className="text-center text-cream/30 text-[10px] mt-1">
+                Then upload it manually when posting on X
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Share Buttons */}
       <div className="flex flex-wrap justify-center gap-3">
-        {/* Download PNG */}
+        {/* Download / Save Card */}
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -137,19 +205,21 @@ export default function ShareCard({
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gold/10 border border-gold/20 text-gold text-sm font-medium hover:bg-gold/15 transition-colors disabled:opacity-50"
         >
           <Download className="w-4 h-4" />
-          {downloading ? "Generating..." : "Download Card"}
+          {downloading ? "Generating..." : onMobile ? "Save Card" : "Download Card"}
         </motion.button>
 
-        {/* Twitter Share */}
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={handleTwitterShare}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium hover:bg-blue-500/15 transition-colors"
-        >
-          <Share2 className="w-4 h-4" />
-          {imageCopied ? "Card Copied! Paste in tweet →" : "Share on X"}
-        </motion.button>
+        {/* Twitter Share — desktop only */}
+        {!onMobile && (
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleTwitterShare}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium hover:bg-blue-500/15 transition-colors"
+          >
+            <Share2 className="w-4 h-4" />
+            {imageCopied ? "Card Copied! Paste in tweet →" : "Share on X"}
+          </motion.button>
+        )}
 
         {/* Copy Link */}
         <motion.button
@@ -163,16 +233,18 @@ export default function ShareCard({
         </motion.button>
       </div>
 
-      {/* Tweet Preview */}
-      <div className="rounded-xl border border-cream/8 bg-cream/[0.02] p-3">
-        <p className="text-cream/30 text-[10px] mb-1.5">Tweet preview:</p>
-        <p className="text-cream/50 text-xs leading-relaxed italic">
-          &ldquo;I&apos;m {tierName} in the SOUR Civilization 🫙 — Score: {crustScore ?? 0}/{MAX_SCORE}
-          {overallGrade ? ` (${overallGrade})` : ""}
-          {daysInProtocol > 0 ? ` · ${daysInProtocol} days in protocol` : ""}
-          {"\n"}@sourdaoxyz #SOUR #CivilizationProtocol&rdquo;
-        </p>
-      </div>
+      {/* Tweet Preview — desktop only */}
+      {!onMobile && (
+        <div className="rounded-xl border border-cream/8 bg-cream/[0.02] p-3">
+          <p className="text-cream/30 text-[10px] mb-1.5">Tweet preview:</p>
+          <p className="text-cream/50 text-xs leading-relaxed italic">
+            &ldquo;I&apos;m {tierName} in the SOUR Civilization 🫙 — Score: {crustScore ?? 0}/{MAX_SCORE}
+            {overallGrade ? ` (${overallGrade})` : ""}
+            {daysInProtocol > 0 ? ` · ${daysInProtocol} days in protocol` : ""}
+            {"\n"}@sourdaoxyz #SOUR #CivilizationProtocol&rdquo;
+          </p>
+        </div>
+      )}
 
       {/* Compare With a Friend */}
       <CompareCard />
