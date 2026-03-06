@@ -90,6 +90,7 @@ export async function createHandshake(params: {
       creator_signature: params.creatorSignature,
       title: params.title,
       description: params.description || null,
+      token_mint: "2spRmiYSWyqFB5XhqnbSkAKH6b2sKpchjVgzYajmpump",
       total_amount: params.totalAmount,
       deadline: params.deadline,
       status: "created",
