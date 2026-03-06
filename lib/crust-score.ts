@@ -12,7 +12,7 @@
 //   Holding Power    15%  → Token balance vs supply
 //   Time in Protocol 15%  → How long in the ecosystem
 //   Loyalty          15%  → Consecutive hold streak
-//   Trade History    25%  → Handshake success (LOCKED until mainnet)
+//   Trade History    25%  → Handshake success (ACTIVE — Supabase Phase 1)
 //   Community        15%  → DAO participation   (LOCKED until DAO)
 //   Network Trust    15%  → Endorsements         (LOCKED until v4)
 //
@@ -50,11 +50,11 @@ export const CATEGORY_MAX: Record<CategoryKey, number> = {
 };
 
 /** Categories currently locked (no on-chain data source yet) */
-export const LOCKED_CATEGORIES = new Set<CategoryKey>(["trade", "community", "network"]);
+export const LOCKED_CATEGORIES = new Set<CategoryKey>(["community", "network"]);
 
 /** Max earned points from currently-active (unlocked) categories.
  *  Used for grade scaling so grades reflect achievable performance.
- *  Phase 1 = holding + time + loyalty = 249 */
+ *  Phase 1.5 = holding + time + loyalty + trade = 387 */
 export const ACTIVE_MAX_EARNED = (Object.entries(CATEGORY_MAX) as [CategoryKey, number][])
   .filter(([key]) => !LOCKED_CATEGORIES.has(key))
   .reduce((sum, [, max]) => sum + max, 0);
@@ -132,12 +132,12 @@ export interface CrustTier {
 // ---------------------------------------------------------------------------
 
 export const CRUST_TIERS: CrustTier[] = [
-  // Phase 1 thresholds — 3 of 6 categories active (max achievable ≈ 549)
-  // These will be raised as Trade, Community, and Network categories unlock
+  // Phase 1.5 thresholds — 4 of 6 categories active (max achievable ≈ 687)
+  // These will be raised as Community and Network categories unlock
   {
     name: "Sovereign",
     emoji: "💎",
-    minScore: 535,
+    minScore: 560,
     color: "from-purple-500 via-fuchsia-500 to-violet-500",
     textColor: "text-purple-400",
     bgColor: "bg-purple-500/10",
@@ -150,7 +150,7 @@ export const CRUST_TIERS: CrustTier[] = [
   {
     name: "Established",
     emoji: "🥇",
-    minScore: 500,
+    minScore: 510,
     color: "from-gold via-amber-500 to-yellow-500",
     textColor: "text-gold",
     bgColor: "bg-gold/10",
@@ -163,7 +163,7 @@ export const CRUST_TIERS: CrustTier[] = [
   {
     name: "Trusted",
     emoji: "🥈",
-    minScore: 430,
+    minScore: 440,
     color: "from-slate-300 via-gray-300 to-slate-400",
     textColor: "text-slate-300",
     bgColor: "bg-slate-400/10",
@@ -392,13 +392,14 @@ export function calculateCrustScore(input: CrustScoreInput): CrustScoreBreakdown
   const holdingGrade = getGrade(CATEGORY_MAX.holding > 0 ? holdingScore / CATEGORY_MAX.holding : 0);
   const timeGrade = getGrade(CATEGORY_MAX.time > 0 ? timeScore / CATEGORY_MAX.time : 0);
   const loyaltyGrade = getGrade(CATEGORY_MAX.loyalty > 0 ? loyaltyScore / CATEGORY_MAX.loyalty : 0);
+  const tradeGrade = getGrade(CATEGORY_MAX.trade > 0 ? tradeScore / CATEGORY_MAX.trade : 0);
   const lockedGrade: GradeInfo = { grade: "—", color: "text-cream/30" };
 
   const categories: CategoryScore[] = [
     { key: "holding", label: "HLD", score: holdingScore, max: CATEGORY_MAX.holding, grade: holdingGrade.grade, gradeColor: holdingGrade.color, locked: false },
     { key: "time", label: "TIM", score: timeScore, max: CATEGORY_MAX.time, grade: timeGrade.grade, gradeColor: timeGrade.color, locked: false },
     { key: "loyalty", label: "LOY", score: loyaltyScore, max: CATEGORY_MAX.loyalty, grade: loyaltyGrade.grade, gradeColor: loyaltyGrade.color, locked: false },
-    { key: "trade", label: "TRD", score: tradeScore, max: CATEGORY_MAX.trade, grade: lockedGrade.grade, gradeColor: lockedGrade.color, locked: true, lockReason: "Handshake mainnet" },
+    { key: "trade", label: "TRD", score: tradeScore, max: CATEGORY_MAX.trade, grade: tradeGrade.grade, gradeColor: tradeGrade.color, locked: false },
     { key: "community", label: "COM", score: communityScore, max: CATEGORY_MAX.community, grade: lockedGrade.grade, gradeColor: lockedGrade.color, locked: true, lockReason: "DAO launch" },
     { key: "network", label: "NET", score: networkScore, max: CATEGORY_MAX.network, grade: lockedGrade.grade, gradeColor: lockedGrade.color, locked: true, lockReason: "Endorsements v4" },
   ];

@@ -20,6 +20,7 @@ import {
   type CategoryScore,
 } from "@/lib/crust-score";
 import { IS_TOKEN_LAUNCHED } from "@/lib/constants";
+import { getHandshakeStatsForCrust } from "@/lib/handshake-store";
 import {
   isMobileWithoutProvider,
   getPhantomBrowseLink,
@@ -89,10 +90,10 @@ function ScoreBreakdownDetail({ breakdown }: { breakdown: CrustScoreBreakdown })
       ],
     },
     trade: {
-      tip: "Based on Handshake deals completed, disputes, and deal quality.",
+      tip: "Based on Handshake agreements completed, disputes, and deal quality.",
       improve: [
-        "Complete your first Handshake deal",
-        "Reach 5 deals for ⭐ 5-Star Baker stamp",
+        "Complete your first Handshake → 🤝 First Shake stamp",
+        "Reach 5 deals for ⭐ 5-Star Citizen stamp",
         "20+ deals with 0 disputes → 🏆 Perfect Record",
       ],
     },
@@ -199,6 +200,7 @@ export default function CrustApp() {
   const { publicKey, connected, disconnect } = useWallet();
   const { setVisible } = useWalletModal();
   const [holderInfo, setHolderInfo] = useState<SourHolderInfo | null>(null);
+  const [hsStats, setHsStats] = useState<{ totalCompleted: number; totalHandshakes: number; uniquePartners: number; successRate: number } | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [profile, setProfile] = useState<CitizenProfile>({ name: "", bio: "" });
@@ -225,13 +227,19 @@ export default function CrustApp() {
       setLoading(true);
       setError(null);
       try {
-        const info = await Promise.race([
-          getSourHolderInfo(publicKey),
-          new Promise<never>((_, reject) =>
-            setTimeout(() => reject(new Error("timeout")), 15_000)
-          ),
+        const [info, handshakeStats] = await Promise.all([
+          Promise.race([
+            getSourHolderInfo(publicKey),
+            new Promise<never>((_, reject) =>
+              setTimeout(() => reject(new Error("timeout")), 15_000)
+            ),
+          ]),
+          getHandshakeStatsForCrust(publicKey.toBase58()).catch(() => null),
         ]);
-        if (!cancelled) setHolderInfo(info);
+        if (!cancelled) {
+          setHolderInfo(info);
+          if (handshakeStats) setHsStats(handshakeStats);
+        }
       } catch (err) {
         console.error("[SOUR] Failed to fetch holder info:", err);
         if (!cancelled) {
@@ -268,13 +276,13 @@ export default function CrustApp() {
       balance: holderInfo.balance,
       daysInProtocol: holderInfo.daysInProtocol,
       loyaltyStreak: holderInfo.daysInProtocol, // Same as daysInProtocol for now (no sell detection)
-      handshakesCompleted: 0,
-      disputesLost: 0,
-      handshakesCancelled: 0,
-      handshakesTotal: 0,
+      handshakesCompleted: hsStats?.totalCompleted ?? 0,
+      disputesLost: 0, // No dispute system in Phase 1
+      handshakesCancelled: (hsStats?.totalHandshakes ?? 0) - (hsStats?.totalCompleted ?? 0),
+      handshakesTotal: hsStats?.totalHandshakes ?? 0,
     };
     return calculateCrustScore(input);
-  }, [holderInfo]);
+  }, [holderInfo, hsStats]);
 
   return (
     <section className="min-h-[80vh] flex flex-col items-center justify-center px-4 py-20 relative">

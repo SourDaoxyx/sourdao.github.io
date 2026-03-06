@@ -8,7 +8,7 @@ import {
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-phantom";
 import { SolflareWalletAdapter } from "@solana/wallet-adapter-solflare";
-import { DEVNET_RPC_ENDPOINT } from "@/lib/constants";
+import { SOLANA_RPC_ENDPOINT } from "@/lib/constants";
 import HandshakeApp from "./HandshakeApp";
 
 import "@solana/wallet-adapter-react-ui/styles.css";
@@ -20,7 +20,7 @@ export default function HandshakeContent() {
   );
 
   return (
-    <ConnectionProvider endpoint={DEVNET_RPC_ENDPOINT}>
+    <ConnectionProvider endpoint={SOLANA_RPC_ENDPOINT}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
           <HandshakeApp />

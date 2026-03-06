@@ -1,16 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import {
   isMobileWithoutProvider,
   getPhantomBrowseLink,
   getSolflareBrowseLink,
 } from "@/lib/mobile-wallet";
-import { Transaction, PublicKey } from "@solana/web3.js";
-import { getAssociatedTokenAddress } from "@solana/spl-token";
 import {
   Wallet,
   Handshake as HandshakeIcon,
@@ -21,392 +19,507 @@ import {
   Search,
   Plus,
   Loader2,
-  ExternalLink,
   Code,
   Palette,
   GraduationCap,
   Globe,
   ShoppingCart,
   FileText,
-  DollarSign,
-  Lock,
-  Zap,
+  ChevronRight,
+  List,
+  X,
+  Clock,
+  CheckCircle2,
+  XCircle,
+  CircleDot,
+  Trash2,
+  Share2,
+  ArrowLeft,
 } from "lucide-react";
 
 import {
-  SOUR_HANDSHAKE_PROGRAM_ID,
-  calculatePinch,
-  formatSourAmount,
-  getConfigPda,
-  getHandshakePda,
-  getVaultPda,
-  getVaultAuthorityPda,
-  getStatusColor,
-  getStatusLabel,
-  HandshakeStatus,
-  shortenAddress,
-  buildCreateHandshakeIx,
-  buildAcceptIx,
-  buildDeliverIx,
-  buildApproveIx,
-  buildDisputeIx,
-  buildCancelIx,
-  fetchConfig,
-  fetchHandshake,
-  type HandshakeAccount,
-  type ProtocolConfigAccount,
-} from "@/lib/handshake-client";
+  createHandshake,
+  acceptHandshake,
+  approveMilestone,
+  cancelHandshake,
+  getHandshake,
+  getHandshakesForWallet,
+  type Handshake,
+  type HandshakeWithMilestones,
+  type Milestone,
+} from "@/lib/handshake-store";
+import {
+  buildCreateMessage,
+  buildAcceptMessage,
+  buildMilestoneApproveMessage,
+  buildCancelMessage,
+  signMessage,
+} from "@/lib/handshake-signing";
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
-function parseSourToUnits(value: string, decimals = 6): bigint {
-  if (!value.trim()) return BigInt(0);
-  const [wholePart, fracPart = ""] = value.split(".");
-  const whole = BigInt(wholePart || "0");
-  const frac = BigInt((fracPart + "0".repeat(decimals)).slice(0, decimals));
-  return whole * BigInt(10 ** decimals) + frac;
+function shortenAddress(addr: string, chars = 4): string {
+  return `${addr.slice(0, chars)}...${addr.slice(-chars)}`;
 }
 
-function tsToDate(ts: bigint): string {
-  if (ts === BigInt(0)) return "—";
-  return new Date(Number(ts) * 1000).toLocaleDateString("en-US", {
+function statusConfig(status: string) {
+  switch (status) {
+    case "created":
+      return { label: "Pending", color: "text-amber-300", bg: "bg-amber-500/15 border-amber-500/30", icon: Clock };
+    case "active":
+      return { label: "Active", color: "text-blue-300", bg: "bg-blue-500/15 border-blue-500/30", icon: CircleDot };
+    case "completed":
+      return { label: "Completed", color: "text-emerald-300", bg: "bg-emerald-500/15 border-emerald-500/30", icon: CheckCircle2 };
+    case "cancelled":
+      return { label: "Cancelled", color: "text-red-300", bg: "bg-red-500/15 border-red-500/30", icon: XCircle };
+    case "expired":
+      return { label: "Expired", color: "text-cream/40", bg: "bg-cream/5 border-cream/10", icon: Clock };
+    default:
+      return { label: status, color: "text-cream/50", bg: "bg-cream/5 border-cream/10", icon: CircleDot };
+  }
+}
+
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
   });
+}
+
+function daysUntil(iso: string): number {
+  return Math.ceil((new Date(iso).getTime() - Date.now()) / 86_400_000);
 }
 
 // ---------------------------------------------------------------------------
 // Sub-components
 // ---------------------------------------------------------------------------
 
-function CopyRow({ label, value }: { label: string; value: string }) {
+function CopyButton({ value, label }: { value: string; label?: string }) {
   const [copied, setCopied] = useState(false);
   return (
-    <div className="rounded-xl border border-gold/15 bg-black/30 px-4 py-3 flex items-center justify-between gap-3">
-      <div className="min-w-0">
-        <p className="text-cream/40 text-xs">{label}</p>
-        <p className="text-cream text-sm break-all">{value}</p>
+    <button
+      onClick={async () => {
+        try {
+          await navigator.clipboard.writeText(value);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1200);
+        } catch {
+          /* noop */
+        }
+      }}
+      className="shrink-0 p-2 rounded-lg border border-gold/20 hover:border-gold/50 hover:bg-gold/10 transition-colors"
+      aria-label={label ?? "Copy"}
+    >
+      {copied ? (
+        <Check className="w-4 h-4 text-emerald-400" />
+      ) : (
+        <Copy className="w-4 h-4 text-gold" />
+      )}
+    </button>
+  );
+}
+
+// Milestone row in create form
+function MilestoneFormRow({
+  index,
+  title,
+  amount,
+  onUpdate,
+  onRemove,
+  canRemove,
+}: {
+  index: number;
+  title: string;
+  amount: string;
+  onUpdate: (field: "title" | "amount", val: string) => void;
+  onRemove: () => void;
+  canRemove: boolean;
+}) {
+  return (
+    <div className="flex items-start gap-2">
+      <div className="w-7 h-7 rounded-full bg-gold/20 flex items-center justify-center text-gold text-xs font-bold shrink-0 mt-1">
+        {index + 1}
       </div>
-      <button
-        onClick={async () => {
-          try {
-            await navigator.clipboard.writeText(value);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 1200);
-          } catch {
-            /* noop */
-          }
-        }}
-        className="shrink-0 p-2 rounded-lg border border-gold/20 hover:border-gold/50 hover:bg-gold/10 transition-colors"
-        aria-label={`Copy ${label}`}
-      >
-        {copied ? (
-          <Check className="w-4 h-4 text-emerald-400" />
-        ) : (
-          <Copy className="w-4 h-4 text-gold" />
-        )}
-      </button>
+      <div className="flex-1 grid sm:grid-cols-3 gap-2">
+        <input
+          value={title}
+          onChange={(e) => onUpdate("title", e.target.value)}
+          placeholder={`Milestone ${index + 1}`}
+          className="sm:col-span-2 rounded-lg border border-gold/20 bg-black/40 px-3 py-2 text-cream text-sm placeholder:text-cream/30 focus:outline-none focus:border-gold/50"
+        />
+        <input
+          value={amount}
+          onChange={(e) => onUpdate("amount", e.target.value)}
+          placeholder="Amount"
+          inputMode="decimal"
+          className="rounded-lg border border-gold/20 bg-black/40 px-3 py-2 text-cream text-sm placeholder:text-cream/30 focus:outline-none focus:border-gold/50"
+        />
+      </div>
+      {canRemove && (
+        <button
+          onClick={onRemove}
+          className="p-2 text-cream/30 hover:text-red-400 transition-colors mt-0.5"
+        >
+          <Trash2 className="w-4 h-4" />
+        </button>
+      )}
     </div>
   );
 }
 
-type Tab = "create" | "lookup";
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
 
-const ACTION_META: Record<string, { label: string; color: string }> = {
-  accept: { label: "Accept Deal", color: "from-blue-500 to-cyan-500" },
-  deliver: { label: "Mark Delivered", color: "from-purple-500 to-pink-500" },
-  approve: { label: "Approve & Pay", color: "from-emerald-500 to-green-500" },
-  dispute: { label: "Dispute", color: "from-red-500 to-orange-500" },
-  cancel: { label: "Cancel", color: "from-cream/30 to-cream/20" },
-};
+type Tab = "my-deals" | "create" | "lookup";
+
+interface MilestoneInput {
+  title: string;
+  amount: string;
+}
 
 // ---------------------------------------------------------------------------
 // Main Component
 // ---------------------------------------------------------------------------
 
 export default function HandshakeApp() {
-  const { publicKey, connected, sendTransaction } = useWallet();
-  const { connection } = useConnection();
+  const { publicKey, connected, signMessage: walletSignMessage } = useWallet();
   const { setVisible } = useWalletModal();
 
-  // Mobile detection (client-only)
+  // Mobile detection
   const [mobileNoProvider, setMobileNoProvider] = useState(false);
   useEffect(() => {
     setMobileNoProvider(isMobileWithoutProvider());
   }, []);
 
-  /* ---- Protocol config ---- */
-  const [config, setConfig] = useState<ProtocolConfigAccount | null>(null);
-  const [configLoading, setConfigLoading] = useState(true);
-  const [configError, setConfigError] = useState<string | null>(null);
+  /* ---- Navigation ---- */
+  const [tab, setTab] = useState<Tab>("my-deals");
+  const [detailId, setDetailId] = useState<string | null>(null);
 
-  /* ---- Tab ---- */
-  const [tab, setTab] = useState<Tab>("create");
+  /* ---- List ---- */
+  const [deals, setDeals] = useState<Handshake[]>([]);
+  const [listLoading, setListLoading] = useState(false);
+
+  /* ---- Detail ---- */
+  const [detail, setDetail] = useState<HandshakeWithMilestones | null>(null);
+  const [detailLoading, setDetailLoading] = useState(false);
 
   /* ---- Create form ---- */
-  const [workerAddr, setWorkerAddr] = useState("");
+  const [counterpartyAddr, setCounterpartyAddr] = useState("");
+  const [formTitle, setFormTitle] = useState("");
   const [desc, setDesc] = useState("");
-  const [amtStr, setAmtStr] = useState("");
-  const [dlDays, setDlDays] = useState("7");
+  const [deadlineDays, setDeadlineDays] = useState("7");
+  const [milestones, setMilestones] = useState<MilestoneInput[]>([
+    { title: "", amount: "" },
+  ]);
 
   /* ---- Lookup ---- */
   const [lookupId, setLookupId] = useState("");
-  const [handshake, setHandshake] = useState<HandshakeAccount | null>(null);
-  const [lookupLoading, setLookupLoading] = useState(false);
   const [lookupError, setLookupError] = useState<string | null>(null);
 
-  /* ---- Transaction ---- */
-  const [txBusy, setTxBusy] = useState(false);
-  const [txResult, setTxResult] = useState<{
-    ok: boolean;
-    sig?: string;
-    err?: string;
-  } | null>(null);
+  /* ---- Busy/Toast ---- */
+  const [busy, setBusy] = useState(false);
+  const [toast, setToast] = useState<{ ok: boolean; msg: string } | null>(
+    null,
+  );
 
-  /* ---- Fetch config on mount ---- */
+  // Check if page was loaded with ?id= query param
   useEffect(() => {
-    let dead = false;
-    (async () => {
-      try {
-        setConfigLoading(true);
-        setConfigError(null);
-        const c = await fetchConfig(connection);
-        if (!dead) setConfig(c);
-      } catch (e: unknown) {
-        if (!dead)
-          setConfigError(
-            e instanceof Error ? e.message : "Network error"
-          );
-      } finally {
-        if (!dead) setConfigLoading(false);
-      }
-    })();
-    return () => {
-      dead = true;
-    };
-  }, [connection]);
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    if (id) {
+      setDetailId(id);
+      setTab("my-deals");
+    }
+  }, []);
 
   /* ---- Auto-clear toast ---- */
   useEffect(() => {
-    if (!txResult) return;
-    const t = setTimeout(() => setTxResult(null), 12_000);
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 8000);
     return () => clearTimeout(t);
-  }, [txResult]);
+  }, [toast]);
+
+  /* ---- Load deals when wallet connects ---- */
+  const loadDeals = useCallback(async () => {
+    if (!publicKey) return;
+    try {
+      setListLoading(true);
+      const data = await getHandshakesForWallet(publicKey.toBase58());
+      setDeals(data);
+    } catch {
+      /* silent */
+    } finally {
+      setListLoading(false);
+    }
+  }, [publicKey]);
+
+  useEffect(() => {
+    if (connected && tab === "my-deals" && !detailId) loadDeals();
+  }, [connected, tab, detailId, loadDeals]);
+
+  /* ---- Load detail ---- */
+  const loadDetail = useCallback(async (id: string) => {
+    try {
+      setDetailLoading(true);
+      const data = await getHandshake(id);
+      setDetail(data);
+    } catch {
+      setDetail(null);
+    } finally {
+      setDetailLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (detailId) loadDetail(detailId);
+  }, [detailId, loadDetail]);
 
   /* ---- Computed ---- */
-  const amountUnits = useMemo(() => parseSourToUnits(amtStr), [amtStr]);
-  const pinch = useMemo(
-    () =>
-      calculatePinch(
-        amountUnits,
-        config?.pinchBps,
-        config?.burnShareBps,
-        config?.keepersShareBps,
-      ),
-    [amountUnits, config],
+  const walletAddr = publicKey?.toBase58() ?? "";
+  const walletLabel = publicKey ? shortenAddress(walletAddr) : "Not connected";
+
+  const totalAmount = useMemo(
+    () => milestones.reduce((sum, m) => sum + (parseFloat(m.amount) || 0), 0),
+    [milestones],
   );
-  const [configPda] = useMemo(() => getConfigPda(), []);
-
-  const userRole = useMemo(() => {
-    if (!publicKey || !handshake) return null;
-    const pk = publicKey.toBase58();
-    if (handshake.creator.toBase58() === pk) return "creator" as const;
-    if (handshake.worker.toBase58() === pk) return "worker" as const;
-    return null;
-  }, [publicKey, handshake]);
-
-  const actions = useMemo(() => {
-    if (!userRole || !handshake) return [] as string[];
-    const s = handshake.status;
-    const a: string[] = [];
-    if (userRole === "creator") {
-      if (s === HandshakeStatus.Created) a.push("cancel");
-      if (s === HandshakeStatus.Delivered) a.push("approve", "dispute");
-    }
-    if (userRole === "worker") {
-      if (s === HandshakeStatus.Created) a.push("accept");
-      if (s === HandshakeStatus.Accepted) a.push("deliver");
-    }
-    if (
-      (s === HandshakeStatus.Accepted || s === HandshakeStatus.Delivered) &&
-      !a.includes("dispute")
-    ) {
-      a.push("dispute");
-    }
-    return a;
-  }, [userRole, handshake]);
 
   const canCreate =
     connected &&
-    !!config &&
-    workerAddr.trim().length >= 32 &&
-    desc.trim().length > 0 &&
-    amountUnits > BigInt(0) &&
-    !txBusy;
+    !!walletSignMessage &&
+    counterpartyAddr.trim().length >= 32 &&
+    formTitle.trim().length > 0 &&
+    milestones.every((m) => m.title.trim() && parseFloat(m.amount) > 0) &&
+    totalAmount > 0 &&
+    !busy;
 
-  /* ---- Handlers ---- */
-  const doCreate = useCallback(async () => {
-    if (!publicKey || !config || !sendTransaction) return;
+  const userRole = useMemo(() => {
+    if (!publicKey || !detail) return null;
+    const pk = publicKey.toBase58();
+    if (detail.creator_wallet === pk) return "creator" as const;
+    if (detail.counterparty_wallet === pk) return "counterparty" as const;
+    return null;
+  }, [publicKey, detail]);
+
+  // ---------------------------------------------------------------------------
+  // Handlers
+  // ---------------------------------------------------------------------------
+
+  const handleCreate = useCallback(async () => {
+    if (!publicKey || !walletSignMessage) return;
     try {
-      setTxBusy(true);
-      setTxResult(null);
-      const worker = new PublicKey(workerAddr.trim());
-      const hsId = config.handshakeCount;
-      const [hsPda] = getHandshakePda(hsId);
-      const [vault] = getVaultPda(hsId);
-      const [vaultAuth] = getVaultAuthorityPda(hsId);
-      const creatorAta = await getAssociatedTokenAddress(
-        config.sourMint,
-        publicKey,
-      );
-      const deadline = BigInt(
-        Math.floor(Date.now() / 1000) + Number(dlDays) * 86400,
-      );
-      const ix = buildCreateHandshakeIx({
-        config: configPda,
-        handshakePda: hsPda,
-        vault,
-        vaultAuthority: vaultAuth,
-        creatorTokenAccount: creatorAta,
-        worker,
-        sourMint: config.sourMint,
-        creator: publicKey,
-        description: desc.trim(),
-        amount: amountUnits,
-        deadlineTs: deadline,
+      setBusy(true);
+      const deadlineDate = new Date(
+        Date.now() + Number(deadlineDays) * 86_400_000,
+      ).toISOString();
+      const tempId = crypto.randomUUID();
+
+      // Build and sign message
+      const msg = buildCreateMessage({
+        handshakeId: tempId,
+        creator: walletAddr,
+        counterparty: counterpartyAddr.trim(),
+        title: formTitle.trim(),
+        totalAmount,
+        deadline: deadlineDate,
       });
-      const tx = new Transaction().add(ix);
-      const sig = await sendTransaction(tx, connection);
-      await connection.confirmTransaction(sig, "confirmed");
-      setTxResult({ ok: true, sig });
-      const fresh = await fetchConfig(connection);
-      if (fresh) setConfig(fresh);
+      const sig = await signMessage(msg, walletSignMessage);
+
+      // Store in Supabase
+      const hs = await createHandshake({
+        creatorWallet: walletAddr,
+        counterpartyWallet: counterpartyAddr.trim(),
+        creatorSignature: sig,
+        title: formTitle.trim(),
+        description: desc.trim() || undefined,
+        totalAmount,
+        deadline: deadlineDate,
+        milestones: milestones.map((m) => ({
+          title: m.title.trim(),
+          amount: parseFloat(m.amount),
+        })),
+      });
+
+      setToast({
+        ok: true,
+        msg: "Handshake created! Share the link with your counterparty.",
+      });
+      // Reset form
+      setCounterpartyAddr("");
+      setFormTitle("");
       setDesc("");
-      setWorkerAddr("");
-      setAmtStr("");
+      setMilestones([{ title: "", amount: "" }]);
+      setDeadlineDays("7");
+      // Navigate to detail
+      setDetailId(hs.id);
     } catch (e: unknown) {
-      setTxResult({
+      setToast({
         ok: false,
-        err: e instanceof Error ? e.message : "Transaction failed",
+        msg: e instanceof Error ? e.message : "Failed to create handshake",
       });
     } finally {
-      setTxBusy(false);
+      setBusy(false);
     }
   }, [
     publicKey,
-    config,
-    sendTransaction,
-    connection,
-    workerAddr,
+    walletSignMessage,
+    walletAddr,
+    counterpartyAddr,
+    formTitle,
     desc,
-    amountUnits,
-    dlDays,
-    configPda,
+    totalAmount,
+    deadlineDays,
+    milestones,
   ]);
 
-  const doLookup = useCallback(async () => {
+  const handleAccept = useCallback(async () => {
+    if (!publicKey || !walletSignMessage || !detail) return;
     try {
-      setLookupLoading(true);
-      setLookupError(null);
-      setHandshake(null);
-      const hs = await fetchHandshake(connection, Number(lookupId));
-      if (!hs) setLookupError("Handshake not found");
-      else setHandshake(hs);
+      setBusy(true);
+      const msg = buildAcceptMessage({
+        handshakeId: detail.id,
+        counterparty: walletAddr,
+      });
+      const sig = await signMessage(msg, walletSignMessage);
+      await acceptHandshake(detail.id, sig);
+      setToast({
+        ok: true,
+        msg: "Agreement accepted! The handshake is now active.",
+      });
+      await loadDetail(detail.id);
     } catch (e: unknown) {
-      setLookupError(e instanceof Error ? e.message : "Fetch failed");
+      setToast({
+        ok: false,
+        msg: e instanceof Error ? e.message : "Failed to accept",
+      });
     } finally {
-      setLookupLoading(false);
+      setBusy(false);
     }
-  }, [connection, lookupId]);
+  }, [publicKey, walletSignMessage, detail, walletAddr, loadDetail]);
 
-  const doAction = useCallback(
-    async (action: string) => {
-      if (!publicKey || !handshake || !sendTransaction || !config) return;
+  const handleApproveMilestone = useCallback(
+    async (milestone: Milestone) => {
+      if (!publicKey || !walletSignMessage || !detail || !userRole) return;
       try {
-        setTxBusy(true);
-        setTxResult(null);
-        const hsId = handshake.id;
-        const [hsPda] = getHandshakePda(hsId);
-        const tx = new Transaction();
-
-        if (action === "accept") {
-          tx.add(buildAcceptIx(hsPda, publicKey));
-        } else if (action === "deliver") {
-          tx.add(buildDeliverIx(hsPda, publicKey));
-        } else if (action === "approve") {
-          const [vault] = getVaultPda(hsId);
-          const [vaultAuth] = getVaultAuthorityPda(hsId);
-          const workerAta = await getAssociatedTokenAddress(
-            config.sourMint,
-            handshake.worker,
-          );
-          tx.add(
-            buildApproveIx({
-              config: configPda,
-              handshakePda: hsPda,
-              vault,
-              vaultAuthority: vaultAuth,
-              workerTokenAccount: workerAta,
-              keepersPool: config.keepersPool,
-              commonsTreasury: config.commonsTreasury,
-              sourMint: config.sourMint,
-              creator: publicKey,
-            }),
-          );
-        } else if (action === "dispute") {
-          tx.add(buildDisputeIx(configPda, hsPda, publicKey));
-        } else if (action === "cancel") {
-          const [vault] = getVaultPda(hsId);
-          const [vaultAuth] = getVaultAuthorityPda(hsId);
-          const creatorAta = await getAssociatedTokenAddress(
-            config.sourMint,
-            publicKey,
-          );
-          tx.add(
-            buildCancelIx({
-              config: configPda,
-              handshakePda: hsPda,
-              vault,
-              vaultAuthority: vaultAuth,
-              creatorTokenAccount: creatorAta,
-              creator: publicKey,
-            }),
-          );
+        setBusy(true);
+        const msg = buildMilestoneApproveMessage({
+          handshakeId: detail.id,
+          milestoneIndex: milestone.index,
+          milestoneTitle: milestone.title,
+          approver: walletAddr,
+        });
+        const sig = await signMessage(msg, walletSignMessage);
+        const { allApproved } = await approveMilestone({
+          milestoneId: milestone.id,
+          handshakeId: detail.id,
+          role: userRole,
+          signature: sig,
+        });
+        if (allApproved) {
+          setToast({
+            ok: true,
+            msg: "All milestones approved — Handshake completed! 🤝",
+          });
+        } else {
+          setToast({
+            ok: true,
+            msg: `Milestone "${milestone.title}" approved.`,
+          });
         }
-
-        const sig = await sendTransaction(tx, connection);
-        await connection.confirmTransaction(sig, "confirmed");
-        setTxResult({ ok: true, sig });
-        const fresh = await fetchHandshake(connection, Number(hsId));
-        if (fresh) setHandshake(fresh);
+        await loadDetail(detail.id);
       } catch (e: unknown) {
-        setTxResult({
+        setToast({
           ok: false,
-          err: e instanceof Error ? e.message : "Transaction failed",
+          msg:
+            e instanceof Error ? e.message : "Failed to approve milestone",
         });
       } finally {
-        setTxBusy(false);
+        setBusy(false);
       }
     },
-    [publicKey, handshake, sendTransaction, connection, config, configPda],
+    [publicKey, walletSignMessage, detail, walletAddr, userRole, loadDetail],
   );
 
-  const walletLabel = publicKey
-    ? shortenAddress(publicKey.toBase58())
-    : "Not connected";
+  const handleCancel = useCallback(async () => {
+    if (!publicKey || !walletSignMessage || !detail) return;
+    if (!confirm("Cancel this handshake? This cannot be undone.")) return;
+    try {
+      setBusy(true);
+      const msg = buildCancelMessage({
+        handshakeId: detail.id,
+        wallet: walletAddr,
+      });
+      await signMessage(msg, walletSignMessage);
+      await cancelHandshake(detail.id, walletAddr);
+      setToast({ ok: true, msg: "Handshake cancelled." });
+      await loadDetail(detail.id);
+    } catch (e: unknown) {
+      setToast({
+        ok: false,
+        msg: e instanceof Error ? e.message : "Failed to cancel",
+      });
+    } finally {
+      setBusy(false);
+    }
+  }, [publicKey, walletSignMessage, detail, walletAddr, loadDetail]);
 
-  const statusPreview = [
-    HandshakeStatus.Created,
-    HandshakeStatus.Accepted,
-    HandshakeStatus.Delivered,
-    HandshakeStatus.Approved,
-    HandshakeStatus.Disputed,
-  ];
+  const handleLookup = useCallback(async () => {
+    if (!lookupId.trim()) return;
+    setLookupError(null);
+    try {
+      setDetailLoading(true);
+      const data = await getHandshake(lookupId.trim());
+      if (!data) {
+        setLookupError("Handshake not found");
+        return;
+      }
+      setDetailId(data.id);
+    } catch {
+      setLookupError("Lookup failed");
+    } finally {
+      setDetailLoading(false);
+    }
+  }, [lookupId]);
+
+  const shareLink = useMemo(() => {
+    if (!detail) return "";
+    return `${typeof window !== "undefined" ? window.location.origin : ""}/handshake?id=${detail.id}`;
+  }, [detail]);
+
+  const handleShareLink = useCallback(async () => {
+    if (!shareLink) return;
+    try {
+      await navigator.clipboard.writeText(shareLink);
+      setToast({
+        ok: true,
+        msg: "Link copied! Send it to your counterparty.",
+      });
+    } catch {
+      /* noop */
+    }
+  }, [shareLink]);
+
+  // Milestone form helpers
+  const updateMilestone = (
+    idx: number,
+    field: "title" | "amount",
+    val: string,
+  ) => {
+    setMilestones((prev) =>
+      prev.map((m, i) => (i === idx ? { ...m, [field]: val } : m)),
+    );
+  };
+  const addMilestone = () => {
+    if (milestones.length < 10)
+      setMilestones((prev) => [...prev, { title: "", amount: "" }]);
+  };
+  const removeMilestone = (idx: number) => {
+    setMilestones((prev) => prev.filter((_, i) => i !== idx));
+  };
 
   // =========================================================================
   // Render
@@ -431,25 +544,25 @@ export default function HandshakeApp() {
               <HandshakeIcon className="w-4 h-4" />
               THE HANDSHAKE
             </span>
-            <span className="px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold tracking-wider animate-pulse">
-              DEVNET
-            </span>
           </div>
           <h1 className="font-cinzel text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cream via-gold to-cream mb-4">
-            P2P Escrow Protocol
+            P2P Agreement Protocol
           </h1>
           <p className="text-cream/60 max-w-2xl mx-auto mb-3 text-lg">
-            Hire a freelancer. Sell a service. Close a deal — with no middleman.
-            $SOUR is locked in a smart contract until both sides agree the work is done.
+            Create milestone-based agreements with anyone. Both parties sign
+            with their wallet — no middlemen, no escrow (yet). Your reputation
+            is your collateral.
           </p>
           <div className="flex flex-wrap justify-center gap-4 mt-4">
             {[
-              { icon: Lock, text: "Funds locked on-chain" },
-              { icon: Zap, text: "Instant settlement" },
-              { icon: DollarSign, text: "Only 2% fee" },
-              { icon: Globe, text: "Borderless" },
+              { icon: ShieldCheck, text: "Wallet-signed agreements" },
+              { icon: CheckCircle2, text: "Milestone tracking" },
+              { icon: Globe, text: "Borderless & permissionless" },
             ].map((item, i) => (
-              <div key={i} className="flex items-center gap-1.5 text-cream/50 text-sm">
+              <div
+                key={i}
+                className="flex items-center gap-1.5 text-cream/50 text-sm"
+              >
                 <item.icon className="w-3.5 h-3.5 text-gold/70" />
                 <span>{item.text}</span>
               </div>
@@ -463,32 +576,34 @@ export default function HandshakeApp() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.05 }}
         >
-          <h2 className="font-cinzel text-xl font-bold text-cream mb-4 text-center">How It Works</h2>
+          <h2 className="font-cinzel text-xl font-bold text-cream mb-4 text-center">
+            How It Works
+          </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-2">
             {[
               {
                 step: "1",
                 title: "Create",
-                desc: "Define what needs to be done, set a deadline, and lock your $SOUR payment.",
-                example: "\"Design a logo — 500 $SOUR, 7 days\"",
+                desc: "Define the scope, set milestones with amounts, choose a deadline, and sign with your wallet.",
+                example: '"Logo design — 3 milestones, 7 days"',
               },
               {
                 step: "2",
-                title: "Accept",
-                desc: "The worker reviews the deal and accepts. Funds are locked — no one can touch them.",
-                example: "Worker sees the scope and clicks Accept",
+                title: "Share",
+                desc: "Send the agreement link to your counterparty. They review the terms and sign to accept.",
+                example: "sourdao.xyz/handshake?id=abc123",
               },
               {
                 step: "3",
                 title: "Deliver",
-                desc: "Worker marks the job delivered. Creator reviews the work and approves.",
-                example: "Logo delivered → Creator approves → funds released",
+                desc: "As each milestone is completed, both parties sign to approve. Progress is tracked.",
+                example: "Milestone 1 ✓ → Milestone 2 ✓ → Milestone 3...",
               },
               {
                 step: "4",
-                title: "Resolve",
-                desc: "Not satisfied? Open a dispute. An arbiter reviews. 2% Pinch feeds the ecosystem.",
-                example: "50% buyback · 30% Keepers · 20% Commons",
+                title: "Complete",
+                desc: "When all milestones are approved by both sides, the handshake is complete. Your Crust Score rises.",
+                example: "+138 Trade Score · First Shake stamp 🤝",
               },
             ].map((it) => (
               <div
@@ -518,44 +633,46 @@ export default function HandshakeApp() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <h2 className="font-cinzel text-xl font-bold text-cream mb-4 text-center">Who Is This For?</h2>
+          <h2 className="font-cinzel text-xl font-bold text-cream mb-4 text-center">
+            Who Is This For?
+          </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-2">
             {[
               {
                 icon: Code,
                 title: "Freelance Development",
-                desc: "Smart contracts, bots, dApps — pay a developer with escrow protection. Both sides are covered.",
-                example: "\"Build a Telegram bot — 2,000 $SOUR\"",
+                desc: "Smart contracts, bots, dApps — agree on milestones and track delivery.",
+                example: '"Build a Telegram bot — 3 milestones"',
               },
               {
                 icon: Palette,
                 title: "Design & Creative Work",
-                desc: "Logos, branding, NFT art, illustrations. Lock payment, get the deliverable, release funds.",
-                example: "\"Brand identity package — 1,500 $SOUR\"",
+                desc: "Logos, branding, NFT art. Define deliverables, sign, and approve step by step.",
+                example: '"Brand identity — concept → revision → final"',
               },
               {
                 icon: FileText,
                 title: "Content & Marketing",
-                desc: "Articles, threads, video scripts. Define the scope, lock the payment, approve on delivery.",
-                example: "\"10 Twitter threads — 800 $SOUR\"",
+                desc: "Articles, threads, video scripts. Set scope, deadlines, milestone approvals.",
+                example: '"10 Twitter threads — draft → publish"',
               },
               {
                 icon: GraduationCap,
                 title: "Consulting & Tutoring",
-                desc: "1-on-1 Sessions, code reviews, strategy calls. Pay per session with on-chain guarantees.",
-                example: "\"Solana smart contract audit — 3,000 $SOUR\"",
+                desc: "Sessions, code reviews, strategy calls. Track per-session agreements.",
+                example: '"Solana audit — review → report → fix"',
               },
               {
                 icon: ShoppingCart,
-                title: "OTC & P2P Trades",
-                desc: "Token swaps, NFT deals, bulk purchases. No trust needed — the smart contract is the escrow.",
-                example: "\"OTC: 50K $SOUR for 2 SOL\"",
+                title: "P2P Trades & OTC",
+                desc: "Token swaps, NFT deals. Record the agreement with wallet signatures.",
+                example: '"OTC: 50K SOUR ↔ 2 SOL"',
               },
               {
                 icon: Globe,
                 title: "Cross-Border Services",
-                desc: "Work with anyone, anywhere. No banks, no Swift delays. Settle in seconds on Solana.",
-                example: "\"Translation: EN→TR — 600 $SOUR\"",
+                desc: "Work with anyone, anywhere. Wallet signatures prove commitment.",
+                example: '"Translation: EN→TR — draft → final"',
               },
             ].map((uc, i) => (
               <div
@@ -571,467 +688,635 @@ export default function HandshakeApp() {
                 <p className="text-cream/50 text-xs leading-relaxed mb-2">
                   {uc.desc}
                 </p>
-                <p className="text-gold/40 text-[11px] italic">
-                  {uc.example}
-                </p>
+                <p className="text-gold/40 text-[11px] italic">{uc.example}</p>
               </div>
             ))}
           </div>
         </motion.div>
 
-        {/* ---- Main Grid ---- */}
-        <div className="grid lg:grid-cols-2 gap-6">
-          {/* LEFT — Create / Lookup */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="rounded-2xl border border-gold/20 bg-black/40 backdrop-blur-sm p-6 space-y-5"
-          >
-            {/* Wallet */}
-            <div className="flex items-center justify-between gap-4">
+        {/* ================================================================ */}
+        {/* Main Panel                                                       */}
+        {/* ================================================================ */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="rounded-2xl border border-gold/20 bg-black/40 backdrop-blur-sm p-6 space-y-5"
+        >
+          {/* Wallet Row */}
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <Wallet className="w-4 h-4 text-gold/60" />
               <p className="text-cream/60 text-sm">Wallet</p>
-              {!connected ? (
-                mobileNoProvider ? (
-                  <div className="flex gap-2">
-                    <a
-                      href={getPhantomBrowseLink()}
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-purple-600 text-white text-xs font-bold"
-                    >
-                      <Wallet className="w-3.5 h-3.5" /> Phantom
-                    </a>
-                    <a
-                      href={getSolflareBrowseLink()}
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-orange-600 text-white text-xs font-bold"
-                    >
-                      <Wallet className="w-3.5 h-3.5" /> Solflare
-                    </a>
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => setVisible(true)}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-gold to-amber text-black text-sm font-bold"
-                  >
-                    <Wallet className="w-4 h-4" /> Connect
-                  </button>
-                )
-              ) : (
-                <span className="text-emerald-400 text-sm font-medium">
-                  {walletLabel}
-                </span>
-              )}
             </div>
-
-            {/* Tabs */}
-            <div className="flex gap-2">
-              {(["create", "lookup"] as Tab[]).map((t) => (
+            {!connected ? (
+              mobileNoProvider ? (
+                <div className="flex gap-2">
+                  <a
+                    href={getPhantomBrowseLink()}
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-purple-600 text-white text-xs font-bold"
+                  >
+                    <Wallet className="w-3.5 h-3.5" /> Phantom
+                  </a>
+                  <a
+                    href={getSolflareBrowseLink()}
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-orange-600 text-white text-xs font-bold"
+                  >
+                    <Wallet className="w-3.5 h-3.5" /> Solflare
+                  </a>
+                </div>
+              ) : (
                 <button
-                  key={t}
-                  onClick={() => setTab(t)}
+                  onClick={() => setVisible(true)}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-gold to-amber text-black text-sm font-bold"
+                >
+                  <Wallet className="w-4 h-4" /> Connect
+                </button>
+              )
+            ) : (
+              <span className="text-emerald-400 text-sm font-medium">
+                {walletLabel}
+              </span>
+            )}
+          </div>
+
+          {/* Tabs — only when NOT in detail view */}
+          {!detailId && (
+            <div className="flex gap-2">
+              {(
+                [
+                  { key: "my-deals" as Tab, icon: List, label: "My Deals" },
+                  { key: "create" as Tab, icon: Plus, label: "Create" },
+                  { key: "lookup" as Tab, icon: Search, label: "Lookup" },
+                ] as const
+              ).map((t) => (
+                <button
+                  key={t.key}
+                  onClick={() => setTab(t.key)}
                   className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                    tab === t
+                    tab === t.key
                       ? "bg-gold/15 border border-gold/40 text-gold"
                       : "border border-gold/10 text-cream/40 hover:text-cream/60 hover:border-gold/20"
                   }`}
                 >
-                  {t === "create" ? (
-                    <Plus className="w-4 h-4" />
-                  ) : (
-                    <Search className="w-4 h-4" />
-                  )}
-                  {t === "create" ? "Create" : "Lookup"}
+                  <t.icon className="w-4 h-4" />
+                  {t.label}
                 </button>
               ))}
             </div>
+          )}
 
-            {/* ---- Create Tab ---- */}
-            {tab === "create" && (
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-cream/70 text-sm mb-2">
-                    Worker Address
-                  </label>
-                  <input
-                    value={workerAddr}
-                    onChange={(e) => setWorkerAddr(e.target.value)}
-                    placeholder="Solana public key"
-                    className="w-full rounded-xl border border-gold/20 bg-black/40 px-4 py-3 text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold/50"
-                  />
+          {/* ============================================================= */}
+          {/* DETAIL VIEW                                                    */}
+          {/* ============================================================= */}
+          {detailId && (
+            <div className="space-y-4">
+              <button
+                onClick={() => {
+                  setDetailId(null);
+                  setDetail(null);
+                  setTab("my-deals");
+                  // Clear URL param
+                  if (typeof window !== "undefined") {
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete("id");
+                    window.history.replaceState({}, "", url.pathname);
+                  }
+                }}
+                className="flex items-center gap-1.5 text-cream/40 hover:text-cream text-sm transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" /> Back to deals
+              </button>
+
+              {detailLoading ? (
+                <div className="flex items-center justify-center py-12">
+                  <Loader2 className="w-6 h-6 text-gold animate-spin" />
                 </div>
-
-                <div>
-                  <label className="block text-cream/70 text-sm mb-2">
-                    Description{" "}
-                    <span className="text-cream/30">(max 280)</span>
-                  </label>
-                  <input
-                    value={desc}
-                    onChange={(e) => setDesc(e.target.value.slice(0, 280))}
-                    placeholder="What needs to be delivered?"
-                    className="w-full rounded-xl border border-gold/20 bg-black/40 px-4 py-3 text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold/50"
-                  />
+              ) : !detail ? (
+                <div className="text-center py-12">
+                  <AlertTriangle className="w-8 h-8 text-amber-300 mx-auto mb-2" />
+                  <p className="text-cream/50">Handshake not found</p>
                 </div>
-
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-cream/70 text-sm mb-2">
-                      Amount ($SOUR)
-                    </label>
-                    <input
-                      value={amtStr}
-                      onChange={(e) => setAmtStr(e.target.value)}
-                      inputMode="decimal"
-                      placeholder="0.00"
-                      className="w-full rounded-xl border border-gold/20 bg-black/40 px-4 py-3 text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold/50"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-cream/70 text-sm mb-2">
-                      Deadline (days)
-                    </label>
-                    <input
-                      value={dlDays}
-                      onChange={(e) =>
-                        setDlDays(e.target.value.replace(/[^0-9]/g, ""))
-                      }
-                      inputMode="numeric"
-                      className="w-full rounded-xl border border-gold/20 bg-black/40 px-4 py-3 text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold/50"
-                    />
-                  </div>
-                </div>
-
-                {/* Pinch Preview */}
-                {amountUnits > BigInt(0) && (
-                  <div className="rounded-xl border border-gold/15 bg-black/20 p-4 space-y-1 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-cream/50">Pinch (2%)</span>
-                      <span className="text-gold">
-                        {formatSourAmount(pinch.pinchTotal)} $SOUR
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-cream/50">Worker receives</span>
-                      <span className="text-emerald-400">
-                        {formatSourAmount(pinch.workerAmount)} $SOUR
-                      </span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Not-initialized warning */}
-                {!config && !configLoading && (
-                  <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 flex items-start gap-3">
-                    <AlertTriangle className="w-4 h-4 text-amber-300 mt-0.5 shrink-0" />
-                    <p className="text-amber-100/90 text-xs leading-relaxed">
-                      Protocol not initialized on devnet. Deploy the program
-                      and run initialize_config before creating handshakes.
-                    </p>
-                  </div>
-                )}
-
-                <button
-                  onClick={doCreate}
-                  disabled={!canCreate}
-                  className="w-full py-3 rounded-xl font-bold text-sm bg-gradient-to-r from-gold to-amber text-black disabled:opacity-30 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-gold/20 transition-all flex items-center justify-center gap-2"
-                >
-                  {txBusy ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <HandshakeIcon className="w-4 h-4" />
-                  )}
-                  {txBusy ? "Sending..." : "Create Handshake"}
-                </button>
-              </div>
-            )}
-
-            {/* ---- Lookup Tab ---- */}
-            {tab === "lookup" && (
-              <div className="space-y-4">
-                <div className="flex gap-2">
-                  <input
-                    value={lookupId}
-                    onChange={(e) =>
-                      setLookupId(e.target.value.replace(/[^0-9]/g, ""))
-                    }
-                    placeholder="Handshake ID"
-                    inputMode="numeric"
-                    className="flex-1 rounded-xl border border-gold/20 bg-black/40 px-4 py-3 text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold/50"
-                  />
-                  <button
-                    onClick={doLookup}
-                    disabled={!lookupId || lookupLoading}
-                    className="px-5 py-3 rounded-xl bg-gradient-to-r from-gold to-amber text-black font-bold text-sm disabled:opacity-30 disabled:cursor-not-allowed"
-                  >
-                    {lookupLoading ? (
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                    ) : (
-                      <Search className="w-4 h-4" />
-                    )}
-                  </button>
-                </div>
-
-                {lookupError && (
-                  <p className="text-red-400 text-sm">{lookupError}</p>
-                )}
-
-                {/* Fetched Handshake Card */}
-                {handshake && (
-                  <div className="rounded-xl border border-gold/20 bg-black/30 p-5 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-cinzel text-cream font-bold">
-                        Handshake #{handshake.id.toString()}
+              ) : (
+                <>
+                  {/* Header */}
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="font-cinzel text-cream text-lg font-bold">
+                        {detail.title}
                       </h3>
-                      <span
-                        className={`text-xs px-2.5 py-1 rounded-full border border-current/20 ${getStatusColor(handshake.status)}`}
-                      >
-                        {getStatusLabel(handshake.status)}
-                      </span>
-                    </div>
-
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-cream/50">Creator</span>
-                        <span className="text-cream">
-                          {shortenAddress(handshake.creator.toBase58(), 6)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-cream/50">Worker</span>
-                        <span className="text-cream">
-                          {shortenAddress(handshake.worker.toBase58(), 6)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-cream/50">Amount</span>
-                        <span className="text-gold">
-                          {formatSourAmount(handshake.amount)} $SOUR
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-cream/50">Created</span>
-                        <span className="text-cream">
-                          {tsToDate(handshake.createdAt)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-cream/50">Deadline</span>
-                        <span className="text-cream">
-                          {tsToDate(handshake.deadlineTs)}
-                        </span>
-                      </div>
-                      {handshake.description && (
-                        <div className="pt-2 border-t border-gold/10">
-                          <p className="text-cream/50 text-xs mb-1">
-                            Description
-                          </p>
-                          <p className="text-cream text-sm">
-                            {handshake.description}
-                          </p>
-                        </div>
+                      {detail.description && (
+                        <p className="text-cream/50 text-sm mt-1">
+                          {detail.description}
+                        </p>
                       )}
                     </div>
+                    <div
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium ${statusConfig(detail.status).bg} ${statusConfig(detail.status).color}`}
+                    >
+                      {(() => {
+                        const Icon = statusConfig(detail.status).icon;
+                        return <Icon className="w-3.5 h-3.5" />;
+                      })()}
+                      {statusConfig(detail.status).label}
+                    </div>
+                  </div>
 
-                    {userRole && (
-                      <p className="text-xs text-cream/40">
-                        You are the{" "}
-                        <span className="text-gold font-semibold">
-                          {userRole}
-                        </span>{" "}
-                        in this deal.
-                      </p>
-                    )}
-
-                    {actions.length > 0 && (
-                      <div className="flex flex-wrap gap-2 pt-2">
-                        {actions.map((a) => {
-                          const m = ACTION_META[a];
-                          return (
-                            <button
-                              key={a}
-                              onClick={() => doAction(a)}
-                              disabled={txBusy}
-                              className={`px-4 py-2 rounded-lg text-sm font-bold bg-gradient-to-r ${m?.color ?? "from-gold to-amber"} text-black disabled:opacity-30 flex items-center gap-2`}
-                            >
-                              {txBusy && (
-                                <Loader2 className="w-3 h-3 animate-spin" />
-                              )}
-                              {m?.label ?? a}
-                            </button>
-                          );
-                        })}
+                  {/* Info Grid */}
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <div className="rounded-xl border border-gold/15 bg-black/20 p-3">
+                      <p className="text-cream/40 text-xs mb-1">Creator</p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-cream text-sm break-all flex-1">
+                          {detail.creator_wallet}
+                        </p>
+                        <CopyButton value={detail.creator_wallet} />
                       </div>
+                    </div>
+                    <div className="rounded-xl border border-gold/15 bg-black/20 p-3">
+                      <p className="text-cream/40 text-xs mb-1">
+                        Counterparty
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-cream text-sm break-all flex-1">
+                          {detail.counterparty_wallet}
+                        </p>
+                        <CopyButton value={detail.counterparty_wallet} />
+                      </div>
+                    </div>
+                    <div className="rounded-xl border border-gold/15 bg-black/20 p-3">
+                      <p className="text-cream/40 text-xs mb-1">
+                        Total Amount
+                      </p>
+                      <p className="text-gold font-bold">
+                        {detail.total_amount.toLocaleString()} $SOUR
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-gold/15 bg-black/20 p-3">
+                      <p className="text-cream/40 text-xs mb-1">Deadline</p>
+                      <p className="text-cream text-sm">
+                        {formatDate(detail.deadline)}
+                        {detail.status === "active" && (
+                          <span
+                            className={`ml-2 ${daysUntil(detail.deadline) <= 2 ? "text-red-400" : "text-cream/40"}`}
+                          >
+                            ({daysUntil(detail.deadline)}d left)
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Share Link */}
+                  <div className="rounded-xl border border-gold/15 bg-black/20 p-3">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-cream/40 text-xs mb-1">
+                          Share Link
+                        </p>
+                        <p className="text-cream/70 text-xs truncate">
+                          {shareLink}
+                        </p>
+                      </div>
+                      <button
+                        onClick={handleShareLink}
+                        className="shrink-0 inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-gold/15 border border-gold/30 text-gold text-xs font-medium hover:bg-gold/25 transition-colors"
+                      >
+                        <Share2 className="w-3.5 h-3.5" /> Copy Link
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Milestones */}
+                  {detail.milestones.length > 0 && (
+                    <div className="space-y-3">
+                      <h4 className="font-cinzel text-cream text-sm font-bold flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-gold" />{" "}
+                        Milestones
+                      </h4>
+                      {detail.milestones.map((ms) => {
+                        const bothApproved =
+                          ms.creator_approved && ms.counterparty_approved;
+                        const myApproval =
+                          userRole === "creator"
+                            ? ms.creator_approved
+                            : userRole === "counterparty"
+                              ? ms.counterparty_approved
+                              : false;
+                        const otherApproval =
+                          userRole === "creator"
+                            ? ms.counterparty_approved
+                            : userRole === "counterparty"
+                              ? ms.creator_approved
+                              : false;
+                        const canApprove =
+                          detail.status === "active" &&
+                          userRole &&
+                          !myApproval &&
+                          !bothApproved;
+
+                        return (
+                          <div
+                            key={ms.id}
+                            className={`rounded-xl border p-4 transition-colors ${
+                              bothApproved
+                                ? "border-emerald-500/30 bg-emerald-500/5"
+                                : "border-gold/15 bg-black/20"
+                            }`}
+                          >
+                            <div className="flex items-center justify-between gap-3">
+                              <div className="flex items-center gap-3 min-w-0">
+                                <div
+                                  className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
+                                    bothApproved
+                                      ? "bg-emerald-500/20 text-emerald-400"
+                                      : "bg-gold/20 text-gold"
+                                  }`}
+                                >
+                                  {bothApproved ? (
+                                    <Check className="w-4 h-4" />
+                                  ) : (
+                                    ms.index + 1
+                                  )}
+                                </div>
+                                <div className="min-w-0">
+                                  <p
+                                    className={`text-sm font-medium ${bothApproved ? "text-emerald-300" : "text-cream"}`}
+                                  >
+                                    {ms.title}
+                                  </p>
+                                  <p className="text-gold/60 text-xs">
+                                    {ms.amount.toLocaleString()} $SOUR
+                                  </p>
+                                </div>
+                              </div>
+
+                              <div className="flex items-center gap-2 shrink-0">
+                                {/* Approval dots */}
+                                <div className="flex gap-1" title="Creator / Counterparty approval">
+                                  <span
+                                    className={`w-2 h-2 rounded-full ${ms.creator_approved ? "bg-emerald-400" : "bg-cream/20"}`}
+                                  />
+                                  <span
+                                    className={`w-2 h-2 rounded-full ${ms.counterparty_approved ? "bg-emerald-400" : "bg-cream/20"}`}
+                                  />
+                                </div>
+
+                                {canApprove && (
+                                  <button
+                                    onClick={() =>
+                                      handleApproveMilestone(ms)
+                                    }
+                                    disabled={busy}
+                                    className="px-3 py-1.5 rounded-lg text-xs font-bold bg-gradient-to-r from-emerald-500 to-green-500 text-black disabled:opacity-30 flex items-center gap-1"
+                                  >
+                                    {busy ? (
+                                      <Loader2 className="w-3 h-3 animate-spin" />
+                                    ) : (
+                                      <Check className="w-3 h-3" />
+                                    )}
+                                    Approve
+                                  </button>
+                                )}
+                                {bothApproved && (
+                                  <span className="text-emerald-400 text-xs font-medium">
+                                    Done
+                                  </span>
+                                )}
+                                {!bothApproved && !canApprove && (
+                                  <span className="text-cream/30 text-xs">
+                                    {myApproval
+                                      ? "Waiting for other"
+                                      : otherApproval
+                                        ? "Your turn"
+                                        : "Pending"}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {/* Actions */}
+                  <div className="flex flex-wrap gap-3 pt-2">
+                    {/* Accept (counterparty only, status=created) */}
+                    {detail.status === "created" &&
+                      userRole === "counterparty" && (
+                        <button
+                          onClick={handleAccept}
+                          disabled={busy}
+                          className="px-5 py-3 rounded-xl text-sm font-bold bg-gradient-to-r from-blue-500 to-cyan-500 text-black disabled:opacity-30 flex items-center gap-2"
+                        >
+                          {busy ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <HandshakeIcon className="w-4 h-4" />
+                          )}
+                          Accept Agreement
+                        </button>
+                      )}
+
+                    {/* Cancel (either party, status=created or active) */}
+                    {(detail.status === "created" ||
+                      detail.status === "active") &&
+                      userRole && (
+                        <button
+                          onClick={handleCancel}
+                          disabled={busy}
+                          className="px-5 py-3 rounded-xl text-sm font-bold border border-red-500/30 text-red-300 hover:bg-red-500/10 disabled:opacity-30 flex items-center gap-2 transition-colors"
+                        >
+                          {busy ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <XCircle className="w-4 h-4" />
+                          )}
+                          Cancel
+                        </button>
+                      )}
+
+                    {/* Waiting notice for creator when status=created */}
+                    {detail.status === "created" &&
+                      userRole === "creator" && (
+                        <div className="flex items-center gap-2 text-cream/40 text-sm">
+                          <Clock className="w-4 h-4" /> Waiting for
+                          counterparty to accept...
+                        </div>
+                      )}
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+
+          {/* ============================================================= */}
+          {/* MY DEALS TAB                                                   */}
+          {/* ============================================================= */}
+          {!detailId && tab === "my-deals" && (
+            <div className="space-y-3">
+              {!connected ? (
+                <p className="text-center text-cream/40 py-8">
+                  Connect your wallet to see your deals.
+                </p>
+              ) : listLoading ? (
+                <div className="flex items-center justify-center py-12">
+                  <Loader2 className="w-6 h-6 text-gold animate-spin" />
+                </div>
+              ) : deals.length === 0 ? (
+                <div className="text-center py-12">
+                  <HandshakeIcon className="w-10 h-10 text-cream/20 mx-auto mb-3" />
+                  <p className="text-cream/40 mb-3">No handshakes yet</p>
+                  <button
+                    onClick={() => setTab("create")}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-gold to-amber text-black text-sm font-bold"
+                  >
+                    <Plus className="w-4 h-4" /> Create Your First
+                  </button>
+                </div>
+              ) : (
+                deals.map((deal) => {
+                  const sc = statusConfig(deal.status);
+                  const isCreator = deal.creator_wallet === walletAddr;
+                  const otherParty = isCreator
+                    ? deal.counterparty_wallet
+                    : deal.creator_wallet;
+                  return (
+                    <button
+                      key={deal.id}
+                      onClick={() => setDetailId(deal.id)}
+                      className="w-full rounded-xl border border-gold/15 bg-black/20 p-4 hover:border-gold/30 transition-colors text-left group"
+                    >
+                      <div className="flex items-center justify-between gap-4">
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <p className="text-cream font-medium text-sm truncate">
+                              {deal.title}
+                            </p>
+                            <span
+                              className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10px] font-medium ${sc.bg} ${sc.color}`}
+                            >
+                              {sc.label}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-3 text-xs text-cream/40">
+                            <span>
+                              {isCreator ? "→" : "←"}{" "}
+                              {shortenAddress(otherParty, 6)}
+                            </span>
+                            <span>
+                              {deal.total_amount.toLocaleString()} $SOUR
+                            </span>
+                            <span>{formatDate(deal.created_at)}</span>
+                          </div>
+                        </div>
+                        <ChevronRight className="w-4 h-4 text-cream/20 group-hover:text-gold transition-colors shrink-0" />
+                      </div>
+                    </button>
+                  );
+                })
+              )}
+            </div>
+          )}
+
+          {/* ============================================================= */}
+          {/* CREATE TAB                                                     */}
+          {/* ============================================================= */}
+          {!detailId && tab === "create" && (
+            <div className="space-y-4">
+              {!connected ? (
+                <p className="text-center text-cream/40 py-8">
+                  Connect your wallet to create a handshake.
+                </p>
+              ) : (
+                <>
+                  <div>
+                    <label className="block text-cream/70 text-sm mb-2">
+                      Counterparty Wallet
+                    </label>
+                    <input
+                      value={counterpartyAddr}
+                      onChange={(e) => setCounterpartyAddr(e.target.value)}
+                      placeholder="Solana public key"
+                      className="w-full rounded-xl border border-gold/20 bg-black/40 px-4 py-3 text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold/50"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-cream/70 text-sm mb-2">
+                      Title
+                    </label>
+                    <input
+                      value={formTitle}
+                      onChange={(e) =>
+                        setFormTitle(e.target.value.slice(0, 100))
+                      }
+                      placeholder="e.g. Logo design for SOUR Protocol"
+                      className="w-full rounded-xl border border-gold/20 bg-black/40 px-4 py-3 text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold/50"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-cream/70 text-sm mb-2">
+                      Description{" "}
+                      <span className="text-cream/30">(optional, max 500)</span>
+                    </label>
+                    <textarea
+                      value={desc}
+                      onChange={(e) => setDesc(e.target.value.slice(0, 500))}
+                      placeholder="Detailed scope, requirements, deliverables..."
+                      rows={3}
+                      className="w-full rounded-xl border border-gold/20 bg-black/40 px-4 py-3 text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold/50 resize-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-cream/70 text-sm mb-2">
+                      Deadline{" "}
+                      <span className="text-cream/30">(days from now)</span>
+                    </label>
+                    <input
+                      value={deadlineDays}
+                      onChange={(e) =>
+                        setDeadlineDays(e.target.value.replace(/[^0-9]/g, ""))
+                      }
+                      inputMode="numeric"
+                      placeholder="7"
+                      className="w-full sm:w-32 rounded-xl border border-gold/20 bg-black/40 px-4 py-3 text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold/50"
+                    />
+                  </div>
+
+                  {/* Milestones */}
+                  <div>
+                    <label className="block text-cream/70 text-sm mb-3">
+                      Milestones
+                    </label>
+                    <div className="space-y-3">
+                      {milestones.map((m, i) => (
+                        <MilestoneFormRow
+                          key={i}
+                          index={i}
+                          title={m.title}
+                          amount={m.amount}
+                          onUpdate={(f, v) => updateMilestone(i, f, v)}
+                          onRemove={() => removeMilestone(i)}
+                          canRemove={milestones.length > 1}
+                        />
+                      ))}
+                    </div>
+                    {milestones.length < 10 && (
+                      <button
+                        onClick={addMilestone}
+                        className="mt-3 flex items-center gap-1.5 text-gold/60 text-xs hover:text-gold transition-colors"
+                      >
+                        <Plus className="w-3.5 h-3.5" /> Add milestone
+                      </button>
                     )}
                   </div>
-                )}
-              </div>
-            )}
-          </motion.div>
 
-          {/* RIGHT — Protocol Info */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="rounded-2xl border border-gold/20 bg-black/40 backdrop-blur-sm p-6 space-y-4"
-          >
-            <div className="flex items-center gap-2 text-gold">
-              <ShieldCheck className="w-4 h-4" />
-              <p className="font-semibold">Protocol Info</p>
-              <span className="ml-auto px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 border border-amber-500/40 text-amber-300">
-                DEVNET
-              </span>
-            </div>
+                  {/* Total Preview */}
+                  {totalAmount > 0 && (
+                    <div className="rounded-xl border border-gold/15 bg-black/20 p-4 flex items-center justify-between">
+                      <span className="text-cream/50 text-sm">
+                        Total Agreement
+                      </span>
+                      <span className="text-gold font-bold">
+                        {totalAmount.toLocaleString()} $SOUR
+                      </span>
+                    </div>
+                  )}
 
-            <CopyRow
-              label="Program ID"
-              value={SOUR_HANDSHAKE_PROGRAM_ID.toBase58()}
-            />
-            <CopyRow label="Config PDA" value={configPda.toBase58()} />
-
-            {configLoading ? (
-              <div className="flex items-center gap-2 text-cream/40 text-sm">
-                <Loader2 className="w-4 h-4 animate-spin" /> Loading config...
-              </div>
-            ) : configError ? (
-              <p className="text-red-400 text-sm">{configError}</p>
-            ) : config ? (
-              <div className="space-y-3">
-                <div className="rounded-xl border border-gold/15 bg-black/20 p-4 space-y-2">
-                  <p className="text-sm text-cream/50">On-Chain Stats</p>
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
-                    <p className="text-cream/60">Total Handshakes</p>
-                    <p className="text-right text-cream">
-                      {config.handshakeCount.toString()}
-                    </p>
-                    <p className="text-cream/60">Completed</p>
-                    <p className="text-right text-emerald-400">
-                      {config.totalCompleted.toString()}
-                    </p>
-                    <p className="text-cream/60">Disputed</p>
-                    <p className="text-right text-red-400">
-                      {config.totalDisputed.toString()}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="rounded-xl border border-gold/15 bg-black/20 p-4 space-y-2">
-                  <p className="text-sm text-cream/50">
-                    Pinch Config ({(config.pinchBps / 100).toFixed(1)}%)
-                  </p>
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
-                    <p className="text-cream/60">Buyback+LP</p>
-                    <p className="text-right text-red-400">
-                      {(config.burnShareBps / 100).toFixed(0)}%
-                    </p>
-                    <p className="text-cream/60">Keepers</p>
-                    <p className="text-right text-blue-400">
-                      {(config.keepersShareBps / 100).toFixed(0)}%
-                    </p>
-                    <p className="text-cream/60">Commons</p>
-                    <p className="text-right text-purple-400">
-                      {(config.commonsShareBps / 100).toFixed(0)}%
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 flex items-start gap-3">
-                <AlertTriangle className="w-4 h-4 text-amber-300 mt-0.5 shrink-0" />
-                <p className="text-amber-100/90 text-xs leading-relaxed">
-                  Protocol not yet initialized on devnet. Deploy the program
-                  and run{" "}
-                  <code className="text-gold">initialize_config</code> to
-                  activate.
-                </p>
-              </div>
-            )}
-
-            {/* Pinch Breakdown */}
-            <div className="rounded-xl border border-gold/15 bg-black/20 p-4 space-y-2">
-              <p className="text-sm text-cream/50">
-                Pinch Breakdown (2% · 50/30/20)
-              </p>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
-                <p className="text-cream/60">Amount</p>
-                <p className="text-right text-cream">
-                  {formatSourAmount(amountUnits)} $SOUR
-                </p>
-                <p className="text-cream/60">Pinch Total</p>
-                <p className="text-right text-gold">
-                  {formatSourAmount(pinch.pinchTotal)} $SOUR
-                </p>
-                <p className="text-cream/60">Buyback+LP</p>
-                <p className="text-right text-red-400">
-                  {formatSourAmount(pinch.burnAmount)} $SOUR
-                </p>
-                <p className="text-cream/60">Keepers</p>
-                <p className="text-right text-blue-400">
-                  {formatSourAmount(pinch.keepersAmount)} $SOUR
-                </p>
-                <p className="text-cream/60">Commons</p>
-                <p className="text-right text-purple-400">
-                  {formatSourAmount(pinch.commonsAmount)} $SOUR
-                </p>
-                <p className="text-cream/60">Worker Receives</p>
-                <p className="text-right text-emerald-400">
-                  {formatSourAmount(pinch.workerAmount)} $SOUR
-                </p>
-              </div>
-            </div>
-
-            {/* Lifecycle */}
-            <div className="rounded-xl border border-gold/15 bg-black/20 p-4">
-              <p className="text-sm text-cream/50 mb-2">Lifecycle</p>
-              <div className="flex flex-wrap gap-2">
-                {statusPreview.map((s) => (
-                  <span
-                    key={s}
-                    className={`text-xs px-2.5 py-1 rounded-full border border-current/20 ${getStatusColor(s)}`}
+                  <button
+                    onClick={handleCreate}
+                    disabled={!canCreate}
+                    className="w-full py-3 rounded-xl font-bold text-sm bg-gradient-to-r from-gold to-amber text-black disabled:opacity-30 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-gold/20 transition-all flex items-center justify-center gap-2"
                   >
-                    {getStatusLabel(s)}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
+                    {busy ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <HandshakeIcon className="w-4 h-4" />
+                    )}
+                    {busy ? "Signing..." : "Create & Sign Handshake"}
+                  </button>
 
-      {/* ---- Transaction Toast ---- */}
-      {txResult && (
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50 max-w-md w-full px-5 py-4 rounded-2xl border backdrop-blur-md ${
-            txResult.ok
-              ? "border-emerald-500/40 bg-emerald-500/10"
-              : "border-red-500/40 bg-red-500/10"
-          }`}
-        >
-          <p
-            className={`text-sm font-medium ${txResult.ok ? "text-emerald-300" : "text-red-300"}`}
-          >
-            {txResult.ok ? "Transaction confirmed!" : "Transaction failed"}
-          </p>
-          {txResult.sig && (
-            <a
-              href={`https://solscan.io/tx/${txResult.sig}?cluster=devnet`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-gold hover:underline mt-1"
-            >
-              View on Solscan <ExternalLink className="w-3 h-3" />
-            </a>
+                  <p className="text-cream/30 text-xs text-center leading-relaxed">
+                    Creating a handshake will prompt your wallet to sign a
+                    message proving your intent. No tokens are transferred in
+                    Phase 1 — your reputation is your collateral.
+                  </p>
+                </>
+              )}
+            </div>
           )}
-          {txResult.err && (
-            <p className="text-red-300/70 text-xs mt-1 break-all">
-              {txResult.err}
-            </p>
+
+          {/* ============================================================= */}
+          {/* LOOKUP TAB                                                     */}
+          {/* ============================================================= */}
+          {!detailId && tab === "lookup" && (
+            <div className="space-y-4">
+              <p className="text-cream/50 text-sm">
+                Received a handshake link? Paste the ID below, or just visit
+                the shared link directly.
+              </p>
+              <div className="flex gap-2">
+                <input
+                  value={lookupId}
+                  onChange={(e) => setLookupId(e.target.value)}
+                  placeholder="Handshake ID (UUID)"
+                  className="flex-1 rounded-xl border border-gold/20 bg-black/40 px-4 py-3 text-cream placeholder:text-cream/30 focus:outline-none focus:border-gold/50"
+                />
+                <button
+                  onClick={handleLookup}
+                  disabled={!lookupId.trim() || detailLoading}
+                  className="px-5 py-3 rounded-xl bg-gradient-to-r from-gold to-amber text-black font-bold text-sm disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  {detailLoading ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Search className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
+              {lookupError && (
+                <p className="text-red-400 text-sm">{lookupError}</p>
+              )}
+            </div>
           )}
         </motion.div>
-      )}
+      </div>
+
+      {/* ---- Toast ---- */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 40 }}
+            className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50 max-w-md w-full mx-4 px-5 py-4 rounded-2xl border backdrop-blur-md ${
+              toast.ok
+                ? "border-emerald-500/40 bg-emerald-500/10"
+                : "border-red-500/40 bg-red-500/10"
+            }`}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <p
+                className={`text-sm font-medium ${toast.ok ? "text-emerald-300" : "text-red-300"}`}
+              >
+                {toast.msg}
+              </p>
+              <button
+                onClick={() => setToast(null)}
+                className="text-cream/30 hover:text-cream shrink-0"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
