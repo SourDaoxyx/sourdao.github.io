@@ -6,7 +6,22 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const HandshakeContent = dynamic(
-  () => import("@/components/handshake/HandshakeContent"),
+  () =>
+    import("@/components/handshake/HandshakeContent").catch((err) => {
+      // Surface the actual import/module error as a component
+      const ErrorFallback = () => (
+        <div className="min-h-[60vh] flex items-center justify-center p-8">
+          <div className="max-w-lg text-center space-y-4">
+            <p className="text-red-400 font-bold text-lg">Module Load Error</p>
+            <p className="text-cream/60 text-sm font-mono break-all">
+              {err?.message ?? String(err)}
+            </p>
+          </div>
+        </div>
+      );
+      ErrorFallback.displayName = "HandshakeLoadError";
+      return { default: ErrorFallback };
+    }),
   {
     ssr: false,
     loading: () => (
