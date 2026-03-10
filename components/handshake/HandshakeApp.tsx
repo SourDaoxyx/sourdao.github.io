@@ -38,10 +38,6 @@ import {
 } from "lucide-react";
 
 import {
-  createHandshake,
-  acceptHandshake,
-  approveMilestone,
-  cancelHandshake,
   getHandshake,
   getHandshakesForWallet,
   type Handshake,
@@ -49,12 +45,18 @@ import {
   type Milestone,
 } from "@/lib/handshake-store";
 import {
-  buildCreateMessage,
-  buildAcceptMessage,
-  buildMilestoneApproveMessage,
-  buildCancelMessage,
   signMessage,
 } from "@/lib/handshake-signing";
+import {
+  prepareCancelHandshakeForSigning,
+  prepareCreateHandshakeForSigning,
+  prepareAcceptHandshakeForSigning,
+  prepareApproveMilestoneForSigning,
+  submitPreparedApproveMilestone,
+  submitPreparedAcceptHandshake,
+  submitPreparedCancelHandshake,
+  submitPreparedCreateHandshake,
+} from "@/lib/handshake-service";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -316,32 +318,21 @@ export default function HandshakeApp() {
       const deadlineDate = new Date(
         Date.now() + Number(deadlineDays) * 86_400_000,
       ).toISOString();
-      const tempId = crypto.randomUUID();
 
-      // Build and sign message
-      const msg = buildCreateMessage({
-        handshakeId: tempId,
-        creator: walletAddr,
-        counterparty: counterpartyAddr.trim(),
-        title: formTitle.trim(),
-        totalAmount,
-        deadline: deadlineDate,
-      });
-      const sig = await signMessage(msg, walletSignMessage);
-
-      // Store in Supabase
-      const hs = await createHandshake({
+      const prepared = await prepareCreateHandshakeForSigning({
         creatorWallet: walletAddr,
-        counterpartyWallet: counterpartyAddr.trim(),
-        creatorSignature: sig,
-        title: formTitle.trim(),
-        description: desc.trim() || undefined,
-        totalAmount,
+        counterpartyWallet: counterpartyAddr,
+        title: formTitle,
+        description: desc,
         deadline: deadlineDate,
-        milestones: milestones.map((m) => ({
-          title: m.title.trim(),
-          amount: parseFloat(m.amount),
-        })),
+        milestones,
+      });
+      const sig = await signMessage(prepared.canonicalMessage, walletSignMessage);
+
+      const hs = await submitPreparedCreateHandshake({
+        prepared,
+        creatorSignature: sig,
+        signedMessage: prepared.canonicalMessage,
       });
 
       setToast({
@@ -371,7 +362,6 @@ export default function HandshakeApp() {
     counterpartyAddr,
     formTitle,
     desc,
-    totalAmount,
     deadlineDays,
     milestones,
   ]);
@@ -380,12 +370,17 @@ export default function HandshakeApp() {
     if (!publicKey || !walletSignMessage || !detail) return;
     try {
       setBusy(true);
-      const msg = buildAcceptMessage({
+      const { prepared, handshake } = await prepareAcceptHandshakeForSigning({
         handshakeId: detail.id,
-        counterparty: walletAddr,
+        counterpartyWallet: walletAddr,
       });
-      const sig = await signMessage(msg, walletSignMessage);
-      await acceptHandshake(detail.id, sig);
+      const sig = await signMessage(prepared.canonicalMessage, walletSignMessage);
+      await submitPreparedAcceptHandshake({
+        prepared,
+        handshake,
+        counterpartySignature: sig,
+        signedMessage: prepared.canonicalMessage,
+      });
       setToast({
         ok: true,
         msg: "Agreement accepted! The handshake is now active.",
@@ -406,18 +401,19 @@ export default function HandshakeApp() {
       if (!publicKey || !walletSignMessage || !detail || !userRole) return;
       try {
         setBusy(true);
-        const msg = buildMilestoneApproveMessage({
+        const { prepared, handshake, milestone: currentMilestone } = await prepareApproveMilestoneForSigning({
           handshakeId: detail.id,
-          milestoneIndex: milestone.index,
-          milestoneTitle: milestone.title,
-          approver: walletAddr,
-        });
-        const sig = await signMessage(msg, walletSignMessage);
-        const { allApproved } = await approveMilestone({
           milestoneId: milestone.id,
-          handshakeId: detail.id,
-          role: userRole,
-          signature: sig,
+          signerRole: userRole,
+          approverWallet: walletAddr,
+        });
+        const sig = await signMessage(prepared.canonicalMessage, walletSignMessage);
+        const { allApproved } = await submitPreparedApproveMilestone({
+          prepared,
+          handshake,
+          milestone: currentMilestone,
+          approverSignature: sig,
+          signedMessage: prepared.canonicalMessage,
         });
         if (allApproved) {
           setToast({
@@ -449,12 +445,17 @@ export default function HandshakeApp() {
     if (!confirm("Cancel this handshake? This cannot be undone.")) return;
     try {
       setBusy(true);
-      const msg = buildCancelMessage({
+      const { prepared, handshake } = await prepareCancelHandshakeForSigning({
         handshakeId: detail.id,
-        wallet: walletAddr,
+        signerWallet: walletAddr,
       });
-      await signMessage(msg, walletSignMessage);
-      await cancelHandshake(detail.id, walletAddr);
+      const sig = await signMessage(prepared.canonicalMessage, walletSignMessage);
+      await submitPreparedCancelHandshake({
+        prepared,
+        handshake,
+        signerSignature: sig,
+        signedMessage: prepared.canonicalMessage,
+      });
       setToast({ ok: true, msg: "Handshake cancelled." });
       await loadDetail(detail.id);
     } catch (e: unknown) {

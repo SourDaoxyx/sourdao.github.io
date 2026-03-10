@@ -46,9 +46,12 @@ https://sourdao.xyz/crust
 
 ## 🤝 MVP 2: The Handshake (Beta)
 
-P2P Escrow Agreement System — trustless deals between two wallets, powered by Anchor.
+P2P Agreement Beta — wallet-signed, milestone-based agreements between two wallets.
 
-### Smart Contract
+> **Current live state:** the production Handshake experience is an off-chain beta using wallet signatures + Supabase persistence.
+> The Anchor escrow programs in this repo represent the future enforcement path, not the current live enforcement layer.
+
+### On-Chain Program Track
 
 | Detail | Value |
 |--------|-------|
@@ -57,7 +60,7 @@ P2P Escrow Agreement System — trustless deals between two wallets, powered by 
 | Network | Solana (localnet tested, devnet next) |
 | Tests | 9/9 passing |
 
-### Instructions
+### Program Instructions
 
 1. `init_config` — Initialize protocol config (admin, fee rate, treasury)
 2. `create_handshake` — Create escrow with SOL deposit + terms
@@ -78,6 +81,20 @@ P2P Escrow Agreement System — trustless deals between two wallets, powered by 
 ```
 https://sourdao.xyz/handshake
 ```
+
+### Current Beta Capabilities
+
+- Wallet-signed agreement creation
+- Off-chain milestone tracking
+- Counterparty acceptance by signature
+- Milestone approval flow
+- Crust score trade-history integration
+
+### Not Yet Enforced Live
+
+- On-chain escrow settlement
+- Anchor-based production enforcement
+- Fully authoritative server/edge-side signature verification
 
 ---
 
@@ -150,7 +167,7 @@ Earn $SOUR by contributing:
 | Smart Contracts | Anchor 0.30.1 (Rust), @coral-xyz/anchor 0.32.1 |
 | Wallets | wallet-adapter-react (Phantom + Solflare) |
 | Export | html-to-image (PNG card) |
-| Deploy | Vercel (static export) |
+| Deploy | GitHub Pages (Next.js static export) |
 
 ---
 
@@ -165,9 +182,27 @@ npm run dev
 
 # Production build
 npm run build
+
+# Handshake signing + verifier tests
+npm run test:handshake
 ```
 
 > **Note:** `--legacy-peer-deps` is required due to React 19 peer dependency conflicts.
+
+### Handshake test commands
+
+- `npm run test:handshake` — runs the Handshake helper and verifier test suite
+- `npm run test:handshake:signing` — runs canonical payload/signing helper tests only
+- `npm run test:handshake:verifier` — runs local verifier and audit helper tests only
+
+## 🧭 Implementation Reality
+
+The repo contains both:
+
+- a **live static web app** deployed through GitHub Pages
+- a **future on-chain protocol track** implemented in Anchor
+
+Today, `Crust` is live as a wallet-connected reputation interface, and `Handshake` is live as a signed-agreement beta. The Anchor programs are real and tested locally, but they do **not** currently enforce the production Handshake UI flow.
 
 ---
 

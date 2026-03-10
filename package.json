@@ -7,6 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test:handshake": "ts-mocha -p tsconfig.test.json tests/handshake-*.ts",
+    "test:handshake:signing": "ts-mocha -p tsconfig.test.json tests/handshake-signing.ts",
+    "test:handshake:verifier": "ts-mocha -p tsconfig.test.json tests/handshake-verifier.ts",
     "export": "next build && next export",
     "generate-og": "node scripts/generate-og.mjs"
   },

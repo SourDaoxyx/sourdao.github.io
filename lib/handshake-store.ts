@@ -66,12 +66,17 @@ export interface HandshakeWithMilestones extends Handshake {
   milestones: Milestone[];
 }
 
+export interface ApprovalMilestoneResult {
+  allApproved: boolean;
+}
+
 // ---------------------------------------------------------------------------
 // Handshake CRUD
 // ---------------------------------------------------------------------------
 
 /** Create a new handshake + milestones in one go */
 export async function createHandshake(params: {
+  handshakeId?: string;
   creatorWallet: string;
   counterpartyWallet: string;
   creatorSignature: string;
@@ -85,6 +90,7 @@ export async function createHandshake(params: {
   const { data: hs, error: hsErr } = await supabase
     .from("handshakes")
     .insert({
+      ...(params.handshakeId ? { id: params.handshakeId } : {}),
       creator_wallet: params.creatorWallet,
       counterparty_wallet: params.counterpartyWallet,
       creator_signature: params.creatorSignature,
@@ -122,18 +128,21 @@ export async function createHandshake(params: {
 export async function acceptHandshake(
   handshakeId: string,
   counterpartySignature: string,
-): Promise<void> {
-  const { error } = await supabase
+): Promise<Handshake> {
+  const { data, error } = await supabase
     .from("handshakes")
     .update({
       counterparty_signature: counterpartySignature,
       status: "active",
     })
     .eq("id", handshakeId)
-    .eq("status", "created");
+    .eq("status", "created")
+    .select()
+    .single();
 
   if (error) throw new Error(error.message);
   await addSystemMessage(handshakeId, "Agreement accepted — handshake is now active!");
+  return data as Handshake;
 }
 
 /** Approve a milestone (either party) */
@@ -142,7 +151,7 @@ export async function approveMilestone(params: {
   handshakeId: string;
   role: "creator" | "counterparty";
   signature: string;
-}): Promise<{ allApproved: boolean }> {
+}): Promise<ApprovalMilestoneResult> {
   const approveCol = params.role === "creator" ? "creator_approved" : "counterparty_approved";
   const sigCol = params.role === "creator" ? "creator_approve_sig" : "counterparty_approve_sig";
 
@@ -194,15 +203,18 @@ export async function approveMilestone(params: {
 }
 
 /** Cancel a handshake (only if created or active, both parties can cancel) */
-export async function cancelHandshake(handshakeId: string, wallet: string): Promise<void> {
-  const { error } = await supabase
+export async function cancelHandshake(handshakeId: string, wallet: string): Promise<Handshake> {
+  const { data, error } = await supabase
     .from("handshakes")
     .update({ status: "cancelled" })
     .eq("id", handshakeId)
-    .or(`status.eq.created,status.eq.active`);
+    .or(`status.eq.created,status.eq.active`)
+    .select()
+    .single();
 
   if (error) throw new Error(error.message);
   await addSystemMessage(handshakeId, `Handshake cancelled by ${wallet.slice(0, 6)}...`);
+  return data as Handshake;
 }
 
 // ---------------------------------------------------------------------------
